@@ -34,6 +34,9 @@ public:
 
     void setLogLevel(ofLogLevel level);
 
+    void setKey_MODE_App(int k);
+    int key_MODE_App = OF_KEY_TAB;//default key to switch MODE_App
+
 private:
 
     int screenW, screenH;
@@ -42,7 +45,9 @@ private:
 
     //params
     ofParameterGroup params;
-    ofParameter<bool> isActive;
+    ofParameter<bool> MODE_Active;
+    ofParameter<bool> ENABLE_keys;
+    ofParameter<bool> ENABLE_Debug;
     ofParameter<bool> SHOW_Gui;
     ofParameter<glm::vec2> Gui_Position;
     ofParameter<bool> SHOW_Help;
