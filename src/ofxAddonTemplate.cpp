@@ -3,22 +3,28 @@
 #pragma mark - OF
 
 //--------------------------------------------------------------
+ofxAddonTemplate::ofxAddonTemplate()
+{
+    //path for settings
+    setPathGlobal("ofxAddonTemplate/");
+    path_Params = "params.xml";
+    
+    setActive(true);//add listeners
+}
+
+//--------------------------------------------------------------
 ofxAddonTemplate::~ofxAddonTemplate()
 {
     setActive(false);//remove listeners
 
     ofRemoveListener(params.parameterChangedE(), this, &ofxAddonTemplate::Changed_params);
 
+    //get gui position before save
+    Gui_Position = glm::vec2 (gui.getPosition());
+
     saveParams(params, path_GLOBAL + path_Params);
 
     exit();
-}
-
-//--------------------------------------------------------------
-ofxAddonTemplate::ofxAddonTemplate()
-{
-    setPathGlobal("ofxAddonTemplate/");
-    setActive(true);//add listeners
 }
 
 //--------------------------------------------------------------
@@ -33,15 +39,15 @@ void ofxAddonTemplate::setup()
     screenH = ofGetHeight();
 
     //params
-    isActive.set("isActive", true);
-    SHOW_Gui.set("SHOW_Gui", true);
-    Gui_Position.set("Gui_Position",
+    isActive.set("ACTIVE", true);
+    SHOW_Gui.set("GUI", true);
+    Gui_Position.set("GUI POSITION",
         glm::vec2(screenW * 0.5, screenH * 0.5),
         glm::vec2(0, 0),
         glm::vec2(screenW, screenH)
     );
-    SHOW_Help.set("SHOW_Help", false);
-    MODE_App.set("MODE_App", 0, 0, NUM_MODES_APP - 1);
+    SHOW_Help.set("HELP", false);
+    MODE_App.set("APP MODE", 0, 0, NUM_MODES_APP - 1);
 
     params.setName("ofxAddonTemplate");
     params.add(SHOW_Gui);
@@ -89,6 +95,12 @@ void ofxAddonTemplate::draw()
 void ofxAddonTemplate::exit()
 {
 
+}
+
+//--------------------------------------------------------------
+void ofxAddonTemplate::setLogLevel(ofLogLevel level)
+{
+    ofSetLogLevel("ofxAddonTemplate", level);
 }
 
 
@@ -273,11 +285,11 @@ void ofxAddonTemplate::Changed_params(ofAbstractParameter &e)
     if (name == "")
     {
     }
-    else if (name == "isActive")
+    else if (name == "ACTIVE")
     {
         setActive(isActive);
     }
-    else if (name == "SHOW_Gui")
+    else if (name == "GUI")
     {
     }
 

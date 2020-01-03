@@ -32,7 +32,7 @@ public:
     void setGuiVisible(bool b);
     void setPathGlobal(string s);//must call before setup. disabled by default
 
-    //--
+    void setLogLevel(ofLogLevel level);
 
 private:
 
