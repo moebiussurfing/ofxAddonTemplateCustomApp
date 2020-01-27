@@ -13,13 +13,14 @@ Then you can forgot to add the typical stuff to handle key/mouse listeneres and 
 ![Alt text](/screenshot.JPG?raw=true "MoebiusSurfing")
 
 ## Features
-- can have some app modes  (2 by default). So it can have multiple behaviour modes. (Edit/use).
+- can have some app modes  (2 by default). So it can have multiple behaviour modes. (Edit/Use).
 - active mode: handles key and mouse listeners to (enable or avoid) feed to your addon.
-- can set active or inactive mode to the addon, to enable adjust/control or just using "like is"
-- can enable help toggle to display info: shortcuts, usage... Need to customize by you.
-- can enable a debug mode to debug stuff. Need to customize by you.
+- can set Active or inactive mode to the addon, to enable Edit the addon from your ofApp or just Use "like it is".
+- can enable Help toggle to display info: shortcuts, usage... (Need to be implemented by you.)
+- can enable a Debug Mode to debug/print stuff. (Need to be implemented by you.)
 - all this settings are stored and recalled when app closes and next session opens.
-- auto save timer to aurtosave control settings.
+- auto save timer to autosave control settings.
+- it includes the typical snippets to get and filter ofParameterGroup callbacks.
 
 ## Usage
 - copy the folder '/ofxAddonTemplate'.
