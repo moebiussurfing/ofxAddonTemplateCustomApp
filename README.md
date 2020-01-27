@@ -9,6 +9,9 @@ You can use this as template and add your addon methods/classes inside.
 
 Then you can forgot to add the typical stuff to handle key/mouse listeneres and some other features.
 
+## Screenshot
+![Alt text](/screenshot.JPG?raw=true "MoebiusSurfing")
+
 ## Features
 - can have some app modes  (2 by default). So it can have multiple behaviour modes. (Edit/use).
 - active mode: handles key and mouse listeners to (enable or avoid) feed to your addon.
@@ -18,10 +21,17 @@ Then you can forgot to add the typical stuff to handle key/mouse listeneres and 
 - all this settings are stored and recalled when app closes and next session opens.
 - auto save timer to aurtosave control settings.
 
-## Screenshot
-![Alt text](/screenshot.JPG?raw=true "MoebiusSurfing")
+## Usage
+- copy the folder '/ofxAddonTemplate'.
+- rename the folder to the name of your addon
+- open a good text editor. I use Sublime Text for this kind of edits.
+- rename all 'ofxAddonTemplate' appearances inside all the files to tha name of your addon. ('ofxPhotoFilter')
+- remember to save all files.
+- now you can use the addon as usual. create a project with Project Generator. 
+- try to build the included example to start from it.
 
 ### TODO
+- rename all name and tittle
 - add some typical debug and help features.
 - add some addon with key listeners management.
 
