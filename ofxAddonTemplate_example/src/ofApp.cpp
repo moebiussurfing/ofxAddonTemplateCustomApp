@@ -6,6 +6,7 @@ void ofApp::setup()
 {
     AddonTemplate.setup();
 
+	//AddonTemplate.setLogLevel(OF_LOG_NOTICE);
     //AddonTemplate.setKey_MODE_App('*');
 }
 
@@ -24,7 +25,7 @@ void ofApp::draw()
 //--------------------------------------------------------------
 void ofApp::exit()
 {
-    //AddonTemplate.exit();
+    AddonTemplate.exit();
 }
 
 //--------------------------------------------------------------
