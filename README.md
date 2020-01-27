@@ -26,7 +26,8 @@ Then you can forgot to add the typical stuff to handle key/mouse listeneres and 
 - copy the folder '/ofxAddonTemplate'.
 - rename the folder to the name of your addon
 - open a good text editor. I use Sublime Text for this kind of edits.
-- rename all 'ofxAddonTemplate' appearances inside all the files to tha name of your addon. ('ofxPhotoFilter')
+- rename all 'ofxAddonTemplate' appearances inside the text content in all the files to the name of your addon. ('ofxPhotoFilter')
+- dp the same rename to required file names.
 - remember to save all files.
 - now you can use the addon as usual. create a project with Project Generator. 
 - try to build the included example to start from it.
