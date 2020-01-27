@@ -1,7 +1,7 @@
-# ofxAddonTemplate from MoebiusSurfing
+# ofxAddonTemplateCustomApp from MoebiusSurfing
 
 ## Overview
-ofxAddonTemplate is an addon template for openFrameworks to make other addons.
+ofxAddonTemplateCustomApp is an addon template for openFrameworks to make other addons.
 
 It's a kind of "typical app behaviour" helper that I usually reuse to start from my custom addons.
 
@@ -23,10 +23,10 @@ Then you can forgot to add the typical stuff to handle key/mouse listeneres and 
 - it includes the typical snippets to get and filter ofParameterGroup callbacks.
 
 ## Usage
-- copy the folder '/ofxAddonTemplate'.
+- copy the folder '/ofxAddonTemplateCustomApp'.
 - rename the folder to the name of your addon
 - open a good text editor. I use Sublime Text for this kind of edits.
-- rename all 'ofxAddonTemplate' appearances inside the text content in all the files to the name of your addon. ('ofxPhotoFilter')
+- rename all 'ofxAddonTemplateCustomApp' appearances inside the text content in all the files to the name of your addon. ('ofxPhotoFilter')
 - dp the same rename to required file names.
 - remember to save all files.
 - now you can use the addon as usual. create a project with Project Generator. 

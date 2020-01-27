@@ -1,0 +1,2 @@
+ofxAddonTemplateCustomApp
+ofxGui

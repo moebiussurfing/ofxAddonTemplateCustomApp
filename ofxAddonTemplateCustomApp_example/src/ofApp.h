@@ -2,7 +2,7 @@
 
 
 #include "ofMain.h"
-#include "ofxAddonTemplate.h"
+#include "ofxAddonTemplateCustomApp.h"
 
 class ofApp: public ofBaseApp{
 	public:
@@ -21,6 +21,6 @@ class ofApp: public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
 		
-		ofxAddonTemplate AddonTemplate;
+		ofxAddonTemplateCustomApp AddonTemplate;
 
 };

@@ -1,2 +1,0 @@
-ofxAddonTemplate
-ofxGui
