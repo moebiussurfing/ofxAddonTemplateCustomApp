@@ -1,13 +1,13 @@
 # ofxAddonTemplateCustomApp from MoebiusSurfing
 
 ## Overview
-ofxAddonTemplateCustomApp is an addon template for openFrameworks to make other addons.
+ofxAddonTemplateCustomApp is a template addon for openFrameworks to make other 'like app' addons.
 
 It's a kind of "typical app behaviour" helper that I usually reuse to start from my custom addons.
 
-You can use this as template and add your addon methods/classes inside.
+You can use this as template and add your custom addon methods/classes inside.
 
-Then you can forgot to add the typical stuff to handle key/mouse listeneres and some other features.
+So you can forgot to add the typical stuff to handle key/mouse listeneres and some other features.
 
 ## Screenshot
 ![Alt text](/screenshot.JPG?raw=true "MoebiusSurfing")
