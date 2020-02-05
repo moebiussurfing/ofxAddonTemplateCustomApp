@@ -9,7 +9,7 @@
 //dependencies
 #include "ofxGui.h"
 
-class ofxAddonTemplateCustomApp
+class ofxFboFxHelper
 {
 
 public:
@@ -30,8 +30,8 @@ public:
 
 #pragma mark - OF
 
-    ofxAddonTemplateCustomApp();
-    ~ofxAddonTemplateCustomApp();
+    ofxFboFxHelper();
+    ~ofxFboFxHelper();
 
     void setup();
     void update();
@@ -115,7 +115,7 @@ private:
 
 #pragma mark - FILE SETTINGS
 
-    string path_GLOBAL = "ofxAddonTemplateCustomApp/";//this is to folder all files to avoid mixing with other addons data
+    string path_GLOBAL = "ofxFboFxHelper/";//this is to folder all files to avoid mixing with other addons data
     string path_Params_Control = "params_Control.xml";
     void loadParams(ofParameterGroup &g, string path);
     void saveParams(ofParameterGroup &g, string path);

@@ -1,23 +1,23 @@
-#include "ofxAddonTemplateCustomApp.h"
+#include "ofxFboFxHelper.h"
 
 #pragma mark - OF
 
 //--------------------------------------------------------------
-ofxAddonTemplateCustomApp::ofxAddonTemplateCustomApp()
+ofxFboFxHelper::ofxFboFxHelper()
 {
 	//path for settings
-	setPathGlobal("ofxAddonTemplateCustomApp/");
+	setPathGlobal("ofxFboFxHelper/");
 	path_Params_Control = "params_Control.xml";
 
 	setActive(true);//add key and mouse listeners
 }
 
 //--------------------------------------------------------------
-void ofxAddonTemplateCustomApp::setup()
+void ofxFboFxHelper::setup()
 {
 	//log mode
-	ofSetLogLevel("ofxAddonTemplateCustomApp", OF_LOG_NOTICE);
-	//ofSetLogLevel("ofxAddonTemplateCustomApp", OF_LOG_SILENT);
+	ofSetLogLevel("ofxFboFxHelper", OF_LOG_NOTICE);
+	//ofSetLogLevel("ofxFboFxHelper", OF_LOG_SILENT);
 
 	//--
 
@@ -36,7 +36,7 @@ void ofxAddonTemplateCustomApp::setup()
 	params_Addon.add(Addon_Float);
 
 	//callback
-	ofAddListener(params_Addon.parameterChangedE(), this, &ofxAddonTemplateCustomApp::Changed_params_Addon);
+	ofAddListener(params_Addon.parameterChangedE(), this, &ofxFboFxHelper::Changed_params_Addon);
 
 	//-
 
@@ -71,7 +71,7 @@ void ofxAddonTemplateCustomApp::setup()
 	params_Control.add(Gui_Position);
 
 	//callback
-	ofAddListener(params_Control.parameterChangedE(), this, &ofxAddonTemplateCustomApp::Changed_params_Control);
+	ofAddListener(params_Control.parameterChangedE(), this, &ofxFboFxHelper::Changed_params_Control);
 
 	//-
 
@@ -81,7 +81,7 @@ void ofxAddonTemplateCustomApp::setup()
 	params.add(params_Control);
 
 	//callback
-	ofAddListener(params.parameterChangedE(), this, &ofxAddonTemplateCustomApp::Changed_params);
+	ofAddListener(params.parameterChangedE(), this, &ofxFboFxHelper::Changed_params);
 
 	//--
 
@@ -98,7 +98,7 @@ void ofxAddonTemplateCustomApp::setup()
 	//ofxGuiSetBackgroundColor(ofColor::black);
 
 	//setup gui
-	gui_Control.setup("ofxAddonTemplateCustomApp");
+	gui_Control.setup("ofxFboFxHelper");
 	gui_Control.add(params);//add control (internal) and addon params
 
 	//collapse groups
@@ -123,7 +123,7 @@ void ofxAddonTemplateCustomApp::setup()
 
 	//startup
 
-	ofLogNotice("ofxAddonTemplateCustomApp") << "STARTUP INIT";
+	ofLogNotice("ofxFboFxHelper") << "STARTUP INIT";
 
 	DISABLE_Callbacks = false;
 	MODE_Active = true;
@@ -135,7 +135,7 @@ void ofxAddonTemplateCustomApp::setup()
 }
 
 //--------------------------------------------------------------
-void ofxAddonTemplateCustomApp::update()
+void ofxFboFxHelper::update()
 {
 	//--
 
@@ -155,7 +155,7 @@ void ofxAddonTemplateCustomApp::update()
 }
 
 //--------------------------------------------------------------
-void ofxAddonTemplateCustomApp::draw()
+void ofxFboFxHelper::draw()
 {
 	if (SHOW_Gui)
 	{
@@ -170,20 +170,20 @@ void ofxAddonTemplateCustomApp::draw()
 }
 
 //--------------------------------------------------------------
-void ofxAddonTemplateCustomApp::exit()
+void ofxFboFxHelper::exit()
 {
 
 }
 
 //--------------------------------------------------------------
-ofxAddonTemplateCustomApp::~ofxAddonTemplateCustomApp()
+ofxFboFxHelper::~ofxFboFxHelper()
 {
 	setActive(false);//remove keys and mouse listeners
 
 	//remove params callbacks listeners
-	ofRemoveListener(params.parameterChangedE(), this, &ofxAddonTemplateCustomApp::Changed_params);
-	ofRemoveListener(params_Control.parameterChangedE(), this, &ofxAddonTemplateCustomApp::Changed_params_Control);
-	ofRemoveListener(params_Addon.parameterChangedE(), this, &ofxAddonTemplateCustomApp::Changed_params_Addon);
+	ofRemoveListener(params.parameterChangedE(), this, &ofxFboFxHelper::Changed_params);
+	ofRemoveListener(params_Control.parameterChangedE(), this, &ofxFboFxHelper::Changed_params_Control);
+	ofRemoveListener(params_Addon.parameterChangedE(), this, &ofxFboFxHelper::Changed_params_Addon);
 
 	//get gui position before save
 	Gui_Position = glm::vec2(gui_Control.getPosition());
@@ -194,16 +194,16 @@ ofxAddonTemplateCustomApp::~ofxAddonTemplateCustomApp()
 }
 
 //--------------------------------------------------------------
-void ofxAddonTemplateCustomApp::setLogLevel(ofLogLevel level)
+void ofxFboFxHelper::setLogLevel(ofLogLevel level)
 {
-	ofSetLogLevel("ofxAddonTemplateCustomApp", level);
+	ofSetLogLevel("ofxFboFxHelper", level);
 }
 
 
 #pragma mark - OF LISTENERS
 
 //--------------------------------------------------------------
-void ofxAddonTemplateCustomApp::windowResized(int w, int h)
+void ofxFboFxHelper::windowResized(int w, int h)
 {
 	screenW = w;
 	screenH = h;
@@ -216,10 +216,10 @@ void ofxAddonTemplateCustomApp::windowResized(int w, int h)
 
 //keys
 //--------------------------------------------------------------
-void ofxAddonTemplateCustomApp::keyPressed(ofKeyEventArgs &eventArgs)
+void ofxFboFxHelper::keyPressed(ofKeyEventArgs &eventArgs)
 {
 	const int &key = eventArgs.key;
-	ofLogNotice("ofxAddonTemplateCustomApp") << "keyPressed: " << (char)key << " [" << key << "]";
+	ofLogNotice("ofxFboFxHelper") << "keyPressed: " << (char)key << " [" << key << "]";
 
 	//modifiers
 	bool mod_COMMAND = eventArgs.hasModifier(OF_KEY_COMMAND);
@@ -230,10 +230,10 @@ void ofxAddonTemplateCustomApp::keyPressed(ofKeyEventArgs &eventArgs)
 	bool debug = false;
 	if (debug)
 	{
-		ofLogNotice("ofxAddonTemplateCustomApp") << "mod_COMMAND: " << (mod_COMMAND ? "ON" : "OFF");
-		ofLogNotice("ofxAddonTemplateCustomApp") << "mod_CONTROL: " << (mod_CONTROL ? "ON" : "OFF");
-		ofLogNotice("ofxAddonTemplateCustomApp") << "mod_ALT: " << (mod_ALT ? "ON" : "OFF");
-		ofLogNotice("ofxAddonTemplateCustomApp") << "mod_SHIFT: " << (mod_SHIFT ? "ON" : "OFF");
+		ofLogNotice("ofxFboFxHelper") << "mod_COMMAND: " << (mod_COMMAND ? "ON" : "OFF");
+		ofLogNotice("ofxFboFxHelper") << "mod_CONTROL: " << (mod_CONTROL ? "ON" : "OFF");
+		ofLogNotice("ofxFboFxHelper") << "mod_ALT: " << (mod_ALT ? "ON" : "OFF");
+		ofLogNotice("ofxFboFxHelper") << "mod_SHIFT: " << (mod_SHIFT ? "ON" : "OFF");
 	}
 
 	//-
@@ -252,11 +252,11 @@ void ofxAddonTemplateCustomApp::keyPressed(ofKeyEventArgs &eventArgs)
 		//custom with modifiers
 		if (key == OF_KEY_UP && mod_ALT)
 		{
-			ofLogNotice("ofxAddonTemplateCustomApp") << "";
+			ofLogNotice("ofxFboFxHelper") << "";
 		}
 		else if (key == OF_KEY_UP)
 		{
-			ofLogNotice("ofxAddonTemplateCustomApp") << "";
+			ofLogNotice("ofxFboFxHelper") << "";
 		}
 
 		//general
@@ -288,24 +288,24 @@ void ofxAddonTemplateCustomApp::keyPressed(ofKeyEventArgs &eventArgs)
 	if (key == 'k')
 	{
 		ENABLE_keys = !ENABLE_keys;
-		ofLogNotice("ofxAddonTemplateCustomApp") << "KEYS: " << (ENABLE_keys ? "ON" : "OFF");
+		ofLogNotice("ofxFboFxHelper") << "KEYS: " << (ENABLE_keys ? "ON" : "OFF");
 
 		if (!ENABLE_keys)
 		{
-			ofLogNotice("ofxAddonTemplateCustomApp") << "ALL KEYS DISABLED. PRESS 'k' TO ENABLE GAIN!";
+			ofLogNotice("ofxFboFxHelper") << "ALL KEYS DISABLED. PRESS 'k' TO ENABLE GAIN!";
 		}
 		else
 		{
-			ofLogNotice("ofxAddonTemplateCustomApp") << "KEYS ENABLED BACK";
+			ofLogNotice("ofxFboFxHelper") << "KEYS ENABLED BACK";
 		}
 	}
 }
 
 //--------------------------------------------------------------
-void ofxAddonTemplateCustomApp::keyReleased(ofKeyEventArgs &eventArgs)
+void ofxFboFxHelper::keyReleased(ofKeyEventArgs &eventArgs)
 {
 	const int &key = eventArgs.key;
-	ofLogNotice("ofxAddonTemplateCustomApp") << "keyPressed: " << (char)key << " [" << key << "]";
+	ofLogNotice("ofxFboFxHelper") << "keyPressed: " << (char)key << " [" << key << "]";
 
 	bool mod_COMMAND = eventArgs.hasModifier(OF_KEY_COMMAND);
 	bool mod_CONTROL = eventArgs.hasModifier(OF_KEY_CONTROL);
@@ -314,64 +314,64 @@ void ofxAddonTemplateCustomApp::keyReleased(ofKeyEventArgs &eventArgs)
 }
 
 //--------------------------------------------------------------
-void ofxAddonTemplateCustomApp::addKeysListeners()
+void ofxFboFxHelper::addKeysListeners()
 {
-	ofAddListener(ofEvents().keyPressed, this, &ofxAddonTemplateCustomApp::keyPressed);
+	ofAddListener(ofEvents().keyPressed, this, &ofxFboFxHelper::keyPressed);
 }
 
 //--------------------------------------------------------------
-void ofxAddonTemplateCustomApp::removeKeysListeners()
+void ofxFboFxHelper::removeKeysListeners()
 {
-	ofRemoveListener(ofEvents().keyPressed, this, &ofxAddonTemplateCustomApp::keyPressed);
+	ofRemoveListener(ofEvents().keyPressed, this, &ofxFboFxHelper::keyPressed);
 }
 
 //mouse
 //--------------------------------------------------------------
-void ofxAddonTemplateCustomApp::mouseDragged(ofMouseEventArgs &eventArgs)
+void ofxFboFxHelper::mouseDragged(ofMouseEventArgs &eventArgs)
 {
 	const int &x = eventArgs.x;
 	const int &y = eventArgs.y;
 	const int &button = eventArgs.button;
-	//ofLogNotice("ofxAddonTemplateCustomApp") << "mouseDragged " << x << ", " << y << ", " << button;
+	//ofLogNotice("ofxFboFxHelper") << "mouseDragged " << x << ", " << y << ", " << button;
 }
 
 //--------------------------------------------------------------
-void ofxAddonTemplateCustomApp::mousePressed(ofMouseEventArgs &eventArgs)
+void ofxFboFxHelper::mousePressed(ofMouseEventArgs &eventArgs)
 {
 	const int &x = eventArgs.x;
 	const int &y = eventArgs.y;
 	const int &button = eventArgs.button;
-	//ofLogNotice("ofxAddonTemplateCustomApp") << "mousePressed " << x << ", " << y << ", " << button;
+	//ofLogNotice("ofxFboFxHelper") << "mousePressed " << x << ", " << y << ", " << button;
 }
 
 //--------------------------------------------------------------
-void ofxAddonTemplateCustomApp::mouseReleased(ofMouseEventArgs &eventArgs)
+void ofxFboFxHelper::mouseReleased(ofMouseEventArgs &eventArgs)
 {
 	const int &x = eventArgs.x;
 	const int &y = eventArgs.y;
 	const int &button = eventArgs.button;
-	//ofLogNotice("ofxAddonTemplateCustomApp") << "mouseReleased " << x << ", " << y << ", " << button;
+	//ofLogNotice("ofxFboFxHelper") << "mouseReleased " << x << ", " << y << ", " << button;
 }
 
 //--------------------------------------------------------------
-void ofxAddonTemplateCustomApp::addMouseListeners()
+void ofxFboFxHelper::addMouseListeners()
 {
-	ofAddListener(ofEvents().mouseDragged, this, &ofxAddonTemplateCustomApp::mouseDragged);
-	ofAddListener(ofEvents().mousePressed, this, &ofxAddonTemplateCustomApp::mousePressed);
-	ofAddListener(ofEvents().mouseReleased, this, &ofxAddonTemplateCustomApp::mouseReleased);
+	ofAddListener(ofEvents().mouseDragged, this, &ofxFboFxHelper::mouseDragged);
+	ofAddListener(ofEvents().mousePressed, this, &ofxFboFxHelper::mousePressed);
+	ofAddListener(ofEvents().mouseReleased, this, &ofxFboFxHelper::mouseReleased);
 }
 
 //--------------------------------------------------------------
-void ofxAddonTemplateCustomApp::removeMouseListeners()
+void ofxFboFxHelper::removeMouseListeners()
 {
-	ofRemoveListener(ofEvents().keyPressed, this, &ofxAddonTemplateCustomApp::keyPressed);
+	ofRemoveListener(ofEvents().keyPressed, this, &ofxFboFxHelper::keyPressed);
 }
 
 
 #pragma mark - API
 
 //--------------------------------------------------------------
-void ofxAddonTemplateCustomApp::setActive(bool b)
+void ofxFboFxHelper::setActive(bool b)
 {
 	//* disables all keys and mouse interaction listeners from the addon
 
@@ -389,7 +389,7 @@ void ofxAddonTemplateCustomApp::setActive(bool b)
 }
 
 //--------------------------------------------------------------
-void ofxAddonTemplateCustomApp::setGuiVisible(bool b)
+void ofxFboFxHelper::setGuiVisible(bool b)
 {
 	SHOW_Gui = b;
 }
@@ -399,7 +399,7 @@ void ofxAddonTemplateCustomApp::setGuiVisible(bool b)
 
 //all params
 //--------------------------------------------------------------
-void ofxAddonTemplateCustomApp::Changed_params(ofAbstractParameter &e)
+void ofxFboFxHelper::Changed_params(ofAbstractParameter &e)
 {
 	//if (!DISABLE_Callbacks)
 	//{
@@ -409,7 +409,7 @@ void ofxAddonTemplateCustomApp::Changed_params(ofAbstractParameter &e)
 	//	if (name != "exclude"
 	//		&& name != "exclude")
 	//	{
-	//		ofLogNotice("ofxAddonTemplateCustomApp") << "Changed_params: " << name << " : " << e;
+	//		ofLogNotice("ofxFboFxHelper") << "Changed_params: " << name << " : " << e;
 
 	//	}
 
@@ -422,7 +422,7 @@ void ofxAddonTemplateCustomApp::Changed_params(ofAbstractParameter &e)
 
 //addon engine params
 //--------------------------------------------------------------
-void ofxAddonTemplateCustomApp::Changed_params_Addon(ofAbstractParameter &e)
+void ofxFboFxHelper::Changed_params_Addon(ofAbstractParameter &e)
 {
 	if (!DISABLE_Callbacks)
 	{
@@ -432,7 +432,7 @@ void ofxAddonTemplateCustomApp::Changed_params_Addon(ofAbstractParameter &e)
 		if (name != "exclude"
 			&& name != "exclude")
 		{
-			ofLogNotice("ofxAddonTemplateCustomApp") << "Changed_params_Addon: " << name << " : " << e;
+			ofLogNotice("ofxFboFxHelper") << "Changed_params_Addon: " << name << " : " << e;
 
 		}
 
@@ -445,7 +445,7 @@ void ofxAddonTemplateCustomApp::Changed_params_Addon(ofAbstractParameter &e)
 
 //addon control (internal) params
 //--------------------------------------------------------------
-void ofxAddonTemplateCustomApp::Changed_params_Control(ofAbstractParameter &e)
+void ofxFboFxHelper::Changed_params_Control(ofAbstractParameter &e)
 {
 	if (!DISABLE_Callbacks)
 	{
@@ -455,7 +455,7 @@ void ofxAddonTemplateCustomApp::Changed_params_Control(ofAbstractParameter &e)
 		if (name != "exclude"
 			&& name != "exclude")
 		{
-			ofLogNotice("ofxAddonTemplateCustomApp") << "Changed_params_Control: " << name << " : " << e;
+			ofLogNotice("ofxFboFxHelper") << "Changed_params_Control: " << name << " : " << e;
 
 		}
 
@@ -507,7 +507,7 @@ void ofxAddonTemplateCustomApp::Changed_params_Control(ofAbstractParameter &e)
 }
 
 //--------------------------------------------------------------
-void ofxAddonTemplateCustomApp::setKey_MODE_App(int k)
+void ofxFboFxHelper::setKey_MODE_App(int k)
 {
 	key_MODE_App = k;
 }
@@ -516,24 +516,24 @@ void ofxAddonTemplateCustomApp::setKey_MODE_App(int k)
 #pragma mark - FILE SETTINGS
 
 //--------------------------------------------------------------
-void ofxAddonTemplateCustomApp::setPathGlobal(string s)//must call before setup. disabled by default
+void ofxFboFxHelper::setPathGlobal(string s)//must call before setup. disabled by default
 {
 	path_GLOBAL = s;
 }
 
 //--------------------------------------------------------------
-void ofxAddonTemplateCustomApp::loadParams(ofParameterGroup &g, string path)
+void ofxFboFxHelper::loadParams(ofParameterGroup &g, string path)
 {
-	ofLogNotice("ofxAddonTemplateCustomApp") << "loadParams: " << path;
+	ofLogNotice("ofxFboFxHelper") << "loadParams: " << path;
 	ofXml settings;
 	settings.load(path);
 	ofDeserialize(settings, g);
 }
 
 //--------------------------------------------------------------
-void ofxAddonTemplateCustomApp::saveParams(ofParameterGroup &g, string path)
+void ofxFboFxHelper::saveParams(ofParameterGroup &g, string path)
 {
-	ofLogNotice("ofxAddonTemplateCustomApp") << "saveParams: " << path;
+	ofLogNotice("ofxFboFxHelper") << "saveParams: " << path;
 	ofXml settings;
 	ofSerialize(settings, g);
 	settings.save(path);
