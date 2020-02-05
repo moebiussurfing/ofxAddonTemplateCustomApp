@@ -49,7 +49,7 @@ public:
     void setLogLevel(ofLogLevel level);
 	void setAutoSave(bool b)
 	{
-		bAutosave = b;
+		ENABLE_AutoSave = b;
 	}
 
     void setKey_MODE_App(int k);
@@ -62,7 +62,7 @@ private:
     int screenW, screenH;
 
     //autosave
-    bool bAutosave = true;
+    ofParameter<bool> ENABLE_AutoSave;
     uint64_t timerLast_Autosave = 0;
     int timeToAutosave = 5000;
 

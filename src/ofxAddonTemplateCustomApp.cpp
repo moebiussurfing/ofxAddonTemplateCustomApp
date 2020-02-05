@@ -50,6 +50,7 @@ void ofxAddonTemplateCustomApp::setup()
 	MODE_App_Name.set("", "");
 	MODE_App_Name.setSerializable(false);
 	ENABLE_Debug.set("DEBUG", true);
+	ENABLE_AutoSave.set("AUTO SAVE", true);
 	SHOW_Gui.set("GUI", true);
 	Gui_Position.set("GUI POSITION",
 		glm::vec2(screenW * 0.5, screenH * 0.5),
@@ -65,6 +66,7 @@ void ofxAddonTemplateCustomApp::setup()
 	params_Control.add(ENABLE_keys);
 	params_Control.add(SHOW_Help);
 	params_Control.add(ENABLE_Debug);
+	params_Control.add(ENABLE_AutoSave);
 	params_Control.add(SHOW_Gui);
 	params_Control.add(Gui_Position);
 
@@ -138,8 +140,8 @@ void ofxAddonTemplateCustomApp::update()
 	//--
 
 //autosave
-//bAutosave = false;
-	if (bAutosave && ofGetElapsedTimeMillis() - timerLast_Autosave > timeToAutosave)
+//ENABLE_AutoSave = false;
+	if (ENABLE_AutoSave && ofGetElapsedTimeMillis() - timerLast_Autosave > timeToAutosave)
 	{
 		DISABLE_Callbacks = true;
 		//get gui position before save
