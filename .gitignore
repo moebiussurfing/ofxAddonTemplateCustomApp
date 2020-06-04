@@ -49,6 +49,7 @@ icon.rc
 *.sln
 *.filters
 *.user
+*.exp
 
 #vs2017
 *.sln
