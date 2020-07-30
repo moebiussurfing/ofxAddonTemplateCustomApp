@@ -23,3 +23,6 @@ ofxSoundDevicesManager is an addon for openFrameworks to
 
 ## Author
 MoebiusSurfing, May 2020 
+
+## License
+MIT License.
