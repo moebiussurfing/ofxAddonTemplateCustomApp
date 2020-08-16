@@ -1,28 +1,54 @@
-# ofxSoundDevicesManager from MoebiusSurfing
+ofxAddonTemplateCustomApp
+=============================
 
-## Overview
-ofxSoundDevicesManager is an addon for openFrameworks to
+# Overview
+**ofxAddonTemplateCustomApp** is an **openFrameworks** addon to
 
 ## Screenshot
-![Alt text](/screenshot.JPG?raw=true "MoebiusSurfing")
+![image](/readme_images/Capture.PNG?raw=true "Capture1.PNG")
 
 ## Features
 - 
 
 ## Usage
-- 
+ 
+### ofApp.h
+```.cpp
+#include "ofxAddonTemplateCustomApp.h"
+ofxAddonTemplateCustomApp myAddon;
+```
 
-### TODO
--
+### ofApp.cpp
+```.cpp
+ofApp::setup(){
+	ofxAddonTemplateCustomApp.setup();
+}
+
+ofApp::update(){
+	ofxAddonTemplateCustomApp.update();
+}
+
+ofApp::draw(){
+	ofxAddonTemplateCustomApp.draw();
+	ofxAddonTemplateCustomApp.drawGui();
+}
+```
 
 ## Dependencies
 - 
 
 ## Tested systems
-- Windows 10 / VS2017 / OF 0.11.0
+- **Windows10** / **VS2017** / **OF 0.11**
+
+### TODO/IDEAS
+* 
+
+### Notes
+*
 
 ## Author
-MoebiusSurfing, May 2020 
+Addon by **@moebiusSurfing**  
+*(ManuMolina). 2020.*
 
 ## License
-MIT License.
+*MIT License.*

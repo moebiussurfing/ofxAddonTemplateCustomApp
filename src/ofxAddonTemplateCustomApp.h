@@ -8,6 +8,7 @@
 
 //dependencies
 #include "ofxGui.h"
+#include "ofxSurfingHelpers.h"
 
 class ofxAddonTemplateCustomApp
 {
@@ -37,6 +38,7 @@ public:
     void update();
     void draw();
     void exit();
+    void startup();
 
 	//public
 	void windowResized(int w, int h);
@@ -117,9 +119,6 @@ private:
 
     string path_GLOBAL = "ofxAddonTemplateCustomApp/";//this is to folder all files to avoid mixing with other addons data
     string path_Params_Control = "params_Control.xml";
-    void loadParams(ofParameterGroup &g, string path);
-    void saveParams(ofParameterGroup &g, string path);
-
 };
 
 //}

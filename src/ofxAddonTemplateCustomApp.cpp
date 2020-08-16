@@ -8,7 +8,7 @@ ofxAddonTemplateCustomApp::ofxAddonTemplateCustomApp()
 	//path for settings
 	setPathGlobal("ofxAddonTemplateCustomApp/");
 	path_Params_Control = "params_Control.xml";
-
+	DISABLE_Callbacks = true;
 	setActive(true);//add key and mouse listeners
 }
 
@@ -88,8 +88,20 @@ void ofxAddonTemplateCustomApp::setup()
 	//gui
 
 	//theme
-	string str = "fonts/overpass-mono-bold.otf";
-	ofxGuiSetFont(path_GLOBAL + str, 9);
+	string _path = "assets/fonts/";
+	_path += "Orbitron-Bold.ttf";
+	//_path += "overpass-mono-bold.otf";
+	float _size = 7;
+	ofFile file(_path);
+	if (file.exists())
+	{
+		ofxGuiSetFont(_path, _size);
+	}
+	else
+	{
+		ofLogError(__FUNCTION__) << "ofxGui theme '" << _path << "' NOT FOUND!";
+	}
+
 	ofxGuiSetDefaultHeight(20);
 	ofxGuiSetBorderColor(32);
 	ofxGuiSetFillColor(ofColor(48));
@@ -111,27 +123,32 @@ void ofxAddonTemplateCustomApp::setup()
 	g3.minimize();
 	g31.minimize();
 
-	//-
-
-	//settings
-	DISABLE_Callbacks = true;
-	loadParams(params_Control, path_GLOBAL + path_Params_Control);
-
-	
-
 	//--
 
 	//startup
+	startup();
 
-	ofLogNotice("ofxAddonTemplateCustomApp") << "STARTUP INIT";
+	//-
+}
+
+//--------------------------------------------------------------
+void ofxAddonTemplateCustomApp::startup()
+{
+	ofLogNotice(__FUNCTION__) << "STARTUP INIT";
 
 	DISABLE_Callbacks = false;
+
+	//-
+
+	//settings
+	ofxSurfingHelpers::loadGroup(params_Control, path_GLOBAL + path_Params_Control);
+
 	MODE_Active = true;
 
 	//set gui position after window setup/resizing
 	windowResized(screenW, screenH);
 
-	//-
+	ofxSurfingHelpers::CheckFolder(path_GLOBAL);
 }
 
 //--------------------------------------------------------------
@@ -139,14 +156,14 @@ void ofxAddonTemplateCustomApp::update()
 {
 	//--
 
-//autosave
-//ENABLE_AutoSave = false;
+	//autosave
+	//ENABLE_AutoSave = false;
 	if (ENABLE_AutoSave && ofGetElapsedTimeMillis() - timerLast_Autosave > timeToAutosave)
 	{
 		DISABLE_Callbacks = true;
 		//get gui position before save
 		Gui_Position = glm::vec2(gui_Control.getPosition());
-		saveParams(params_Control, path_GLOBAL + path_Params_Control);
+		ofxSurfingHelpers::saveGroup(params_Control, path_GLOBAL + path_Params_Control);
 		DISABLE_Callbacks = false;
 
 		timerLast_Autosave = ofGetElapsedTimeMillis();
@@ -188,7 +205,7 @@ ofxAddonTemplateCustomApp::~ofxAddonTemplateCustomApp()
 	//get gui position before save
 	Gui_Position = glm::vec2(gui_Control.getPosition());
 
-	saveParams(params_Control, path_GLOBAL + path_Params_Control);
+	ofxSurfingHelpers::saveGroup(params_Control, path_GLOBAL + path_Params_Control);
 
 	//exit();
 }
@@ -196,7 +213,7 @@ ofxAddonTemplateCustomApp::~ofxAddonTemplateCustomApp()
 //--------------------------------------------------------------
 void ofxAddonTemplateCustomApp::setLogLevel(ofLogLevel level)
 {
-	ofSetLogLevel("ofxAddonTemplateCustomApp", level);
+	ofSetLogLevel(__FUNCTION__, level);
 }
 
 
@@ -219,7 +236,7 @@ void ofxAddonTemplateCustomApp::windowResized(int w, int h)
 void ofxAddonTemplateCustomApp::keyPressed(ofKeyEventArgs &eventArgs)
 {
 	const int &key = eventArgs.key;
-	ofLogNotice("ofxAddonTemplateCustomApp") << "keyPressed: " << (char)key << " [" << key << "]";
+	ofLogNotice(__FUNCTION__) << (char)key << " [" << key << "]";
 
 	//modifiers
 	bool mod_COMMAND = eventArgs.hasModifier(OF_KEY_COMMAND);
@@ -230,10 +247,10 @@ void ofxAddonTemplateCustomApp::keyPressed(ofKeyEventArgs &eventArgs)
 	bool debug = false;
 	if (debug)
 	{
-		ofLogNotice("ofxAddonTemplateCustomApp") << "mod_COMMAND: " << (mod_COMMAND ? "ON" : "OFF");
-		ofLogNotice("ofxAddonTemplateCustomApp") << "mod_CONTROL: " << (mod_CONTROL ? "ON" : "OFF");
-		ofLogNotice("ofxAddonTemplateCustomApp") << "mod_ALT: " << (mod_ALT ? "ON" : "OFF");
-		ofLogNotice("ofxAddonTemplateCustomApp") << "mod_SHIFT: " << (mod_SHIFT ? "ON" : "OFF");
+		ofLogNotice(__FUNCTION__) << "mod_COMMAND: " << (mod_COMMAND ? "ON" : "OFF");
+		ofLogNotice(__FUNCTION__) << "mod_CONTROL: " << (mod_CONTROL ? "ON" : "OFF");
+		ofLogNotice(__FUNCTION__) << "mod_ALT: " << (mod_ALT ? "ON" : "OFF");
+		ofLogNotice(__FUNCTION__) << "mod_SHIFT: " << (mod_SHIFT ? "ON" : "OFF");
 	}
 
 	//-
@@ -252,11 +269,11 @@ void ofxAddonTemplateCustomApp::keyPressed(ofKeyEventArgs &eventArgs)
 		//custom with modifiers
 		if (key == OF_KEY_UP && mod_ALT)
 		{
-			ofLogNotice("ofxAddonTemplateCustomApp") << "";
+			ofLogNotice(__FUNCTION__) << "";
 		}
 		else if (key == OF_KEY_UP)
 		{
-			ofLogNotice("ofxAddonTemplateCustomApp") << "";
+			ofLogNotice(__FUNCTION__) << "";
 		}
 
 		//general
@@ -288,15 +305,15 @@ void ofxAddonTemplateCustomApp::keyPressed(ofKeyEventArgs &eventArgs)
 	if (key == 'k')
 	{
 		ENABLE_keys = !ENABLE_keys;
-		ofLogNotice("ofxAddonTemplateCustomApp") << "KEYS: " << (ENABLE_keys ? "ON" : "OFF");
+		ofLogNotice(__FUNCTION__) << "KEYS: " << (ENABLE_keys ? "ON" : "OFF");
 
 		if (!ENABLE_keys)
 		{
-			ofLogNotice("ofxAddonTemplateCustomApp") << "ALL KEYS DISABLED. PRESS 'k' TO ENABLE GAIN!";
+			ofLogNotice(__FUNCTION__) << "ALL KEYS DISABLED. PRESS 'k' TO ENABLE GAIN!";
 		}
 		else
 		{
-			ofLogNotice("ofxAddonTemplateCustomApp") << "KEYS ENABLED BACK";
+			ofLogNotice(__FUNCTION__) << "KEYS ENABLED BACK";
 		}
 	}
 }
@@ -305,7 +322,7 @@ void ofxAddonTemplateCustomApp::keyPressed(ofKeyEventArgs &eventArgs)
 void ofxAddonTemplateCustomApp::keyReleased(ofKeyEventArgs &eventArgs)
 {
 	const int &key = eventArgs.key;
-	ofLogNotice("ofxAddonTemplateCustomApp") << "keyPressed: " << (char)key << " [" << key << "]";
+	ofLogNotice(__FUNCTION__) << (char)key << " [" << key << "]";
 
 	bool mod_COMMAND = eventArgs.hasModifier(OF_KEY_COMMAND);
 	bool mod_CONTROL = eventArgs.hasModifier(OF_KEY_CONTROL);
@@ -332,7 +349,7 @@ void ofxAddonTemplateCustomApp::mouseDragged(ofMouseEventArgs &eventArgs)
 	const int &x = eventArgs.x;
 	const int &y = eventArgs.y;
 	const int &button = eventArgs.button;
-	//ofLogNotice("ofxAddonTemplateCustomApp") << "mouseDragged " << x << ", " << y << ", " << button;
+	//ofLogNotice(__FUNCTION__) << "mouseDragged " << x << ", " << y << ", " << button;
 }
 
 //--------------------------------------------------------------
@@ -341,7 +358,7 @@ void ofxAddonTemplateCustomApp::mousePressed(ofMouseEventArgs &eventArgs)
 	const int &x = eventArgs.x;
 	const int &y = eventArgs.y;
 	const int &button = eventArgs.button;
-	//ofLogNotice("ofxAddonTemplateCustomApp") << "mousePressed " << x << ", " << y << ", " << button;
+	//ofLogNotice(__FUNCTION__) << "mousePressed " << x << ", " << y << ", " << button;
 }
 
 //--------------------------------------------------------------
@@ -350,7 +367,7 @@ void ofxAddonTemplateCustomApp::mouseReleased(ofMouseEventArgs &eventArgs)
 	const int &x = eventArgs.x;
 	const int &y = eventArgs.y;
 	const int &button = eventArgs.button;
-	//ofLogNotice("ofxAddonTemplateCustomApp") << "mouseReleased " << x << ", " << y << ", " << button;
+	//ofLogNotice(__FUNCTION__) << "mouseReleased " << x << ", " << y << ", " << button;
 }
 
 //--------------------------------------------------------------
@@ -409,7 +426,7 @@ void ofxAddonTemplateCustomApp::Changed_params(ofAbstractParameter &e)
 	//	if (name != "exclude"
 	//		&& name != "exclude")
 	//	{
-	//		ofLogNotice("ofxAddonTemplateCustomApp") << "Changed_params: " << name << " : " << e;
+	//		ofLogNotice(__FUNCTION__) << "Changed_params: " << name << " : " << e;
 
 	//	}
 
@@ -432,7 +449,7 @@ void ofxAddonTemplateCustomApp::Changed_params_Addon(ofAbstractParameter &e)
 		if (name != "exclude"
 			&& name != "exclude")
 		{
-			ofLogNotice("ofxAddonTemplateCustomApp") << "Changed_params_Addon: " << name << " : " << e;
+			ofLogNotice(__FUNCTION__) << name << " : " << e;
 
 		}
 
@@ -455,7 +472,7 @@ void ofxAddonTemplateCustomApp::Changed_params_Control(ofAbstractParameter &e)
 		if (name != "exclude"
 			&& name != "exclude")
 		{
-			ofLogNotice("ofxAddonTemplateCustomApp") << "Changed_params_Control: " << name << " : " << e;
+			ofLogNotice(__FUNCTION__) << name << " : " << e;
 
 		}
 
@@ -519,23 +536,7 @@ void ofxAddonTemplateCustomApp::setKey_MODE_App(int k)
 void ofxAddonTemplateCustomApp::setPathGlobal(string s)//must call before setup. disabled by default
 {
 	path_GLOBAL = s;
-}
 
-//--------------------------------------------------------------
-void ofxAddonTemplateCustomApp::loadParams(ofParameterGroup &g, string path)
-{
-	ofLogNotice("ofxAddonTemplateCustomApp") << "loadParams: " << path;
-	ofXml settings;
-	settings.load(path);
-	ofDeserialize(settings, g);
-}
+	ofxSurfingHelpers::CheckFolder(path_GLOBAL);
 
-//--------------------------------------------------------------
-void ofxAddonTemplateCustomApp::saveParams(ofParameterGroup &g, string path)
-{
-	ofLogNotice("ofxAddonTemplateCustomApp") << "saveParams: " << path;
-	ofXml settings;
-	ofSerialize(settings, g);
-	settings.save(path);
 }
-
