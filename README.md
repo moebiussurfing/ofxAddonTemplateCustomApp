@@ -8,7 +8,7 @@ ofxAddonTemplateCustomApp
 ![image](/readme_images/Capture1.PNG?raw=true "image")
 
 ## Features
-- Customize gui.
+- Customize GUI.
 - Basic parameters and app modes.
 - Store/Recall settings.
 - 
@@ -39,12 +39,17 @@ ofApp::draw(){
 ```
 
 ## Dependencies
-- 
+* [ofxSurfingHelpers](https://github.com/moebiussurfing/ofxSurfingHelpers)  
+* ofxGui
+
+Already included into **OF_ADDON/libs**. No need to add them manually.
+Look into folders to authorship, original forks, or licenses.
 
 ## Tested systems
-- **Windows10** / **VS2017** / **OF 0.11**
+- **Windows10** / **VS2017** / **OF ~0.11**
+- **macOS High Sierra** / **Xcode 9/10** / **OF ~0.11**
 
-### TODO/IDEAS
+### TODO
 * 
 
 ### Notes
