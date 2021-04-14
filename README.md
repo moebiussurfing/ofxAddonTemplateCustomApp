@@ -13,16 +13,32 @@ ofxAddonTemplateCustomApp
 - Store/Recall settings.
 - 
 
+The first step is to create texture just like every texture using threejs.
+
+    const texturePath =  'https://i.imgur.com/Oj6RJV9.png';
+    const spriteTexture = new  THREE.TextureLoader().load(texturePath)
+
+   
+Next step is about creating the animator object:
+
+     const animator =  new  PlainAnimator(spriteTexture, 4, 4, 10, 15);
+These magic numbers are the follows:
+|value| description |
+|--|--|
+| 4 | number of frames horizontally |
+| 4 | number of frames vertically |
+| 10 | total number of frames |
+| 15 | frames per second (fps) |
 
 ## Usage
  
-### ofApp.h
+** ofApp.h **
 ```.cpp
 #include "ofxAddonTemplateCustomApp.h"
 ofxAddonTemplateCustomApp myAddon;
 ```
 
-### ofApp.cpp
+** ofApp.cpp **
 ```.cpp
 ofApp::setup(){
 	ofxAddonTemplateCustomApp.setup();
@@ -38,16 +54,35 @@ ofApp::draw(){
 }
 ```
 
-## Dependencies
+details>
+  <summary>Dependencies</summary>
+  <p>
+
+Clone these add-ons and include into the **OF Project Generator** to allow compile your projects or the examples:
+* [ofxColorClient](https://github.com/moebiussurfing/ofxColorClient)
 * [ofxSurfingHelpers](https://github.com/moebiussurfing/ofxSurfingHelpers)  
-* ofxGui
+* [ofxScaleDragRect](https://github.com/moebiussurfing/ofxScaleDragRect)
+* ofxGui  [ **OF** ]
+* ofxXmlSettings [ **OF** ]
+* [ofxWindowApp](https://github.com/moebiussurfing/ofxWindowApp)  [ Only for the example ]
 
-Already included into **OF_ADDON/libs**. No need to add them manually.
-Look into folders to authorship, original forks, or licenses.
+Above add-ons already packed into **OF_ADDON/libs**. No need to add them manually with the **OF Project Generator**:  
+* [ofxColorQuantizerHelper](https://github.com/moebiussurfing/ofxColorQuantizerHelper)
 
-## Tested systems
-- **Windows10** / **VS2017** / **OF ~0.11**
-- **macOS High Sierra** / **Xcode 9/10** / **OF ~0.11**
+*Thanks a lot to all these ofxAddons coders. Look into each folder for authoring credits, original forks, and license info.*  
+  </p>
+</details>
+
+<details>
+  <summary>Tested Systems</summary>
+  <p>
+
+  - **Windows 10** / **VS 2017** / **OF ~0.11**
+  - **macOS**. **High Sierra** / **Xcode9** & **Xcode10** / **OF ~0.11**
+  </p>
+</details>
+
+<br/>
 
 ### TODO
 * 
@@ -56,8 +91,13 @@ Look into folders to authorship, original forks, or licenses.
 *
 
 ## Author
-Addon by **@moebiusSurfing**  
-*(ManuMolina). 2020.*
+An addon by **@moebiusSurfing**  
+*( ManuMolina ) 2019-2021*  
+
+[Twitter](https://twitter.com/moebiussurfing/)  
+[Instagram](https://www.instagram.com/moebiussurfing/)  
+[YouTube](https://www.youtube.com/channel/UCzUw96_wjmNxyIoFXf84hQg)  
 
 ## License
-*MIT License.*
+
+[**MIT License**](https://github.com/moebiussurfing/ofxColorManager/blob/b29c56f7b0e374b6a6fe2406e45fbfaaf2726112/LICENSE)
