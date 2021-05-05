@@ -1,11 +1,13 @@
 ofxAddonTemplateCustomApp
 =============================
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+![Stage: beta](https://img.shields.io/badge/-alpha-red)
 
 # Overview
 **ofxAddonTemplateCustomApp** is an **openFrameworks** addon template for MYSELF.
 
 ## Screenshot
-![image](/readme_images/Capture1.PNG?raw=true "image")
+![image](docs/readme_images/Capture1.PNG?raw=true "image")
 
 ## Features
 - Customize GUI.

@@ -11,8 +11,10 @@ public:
 	~MyClass();
 
 	void setup();
-	void update();
+//	void update();
+	void update(ofEventArgs & args);
 	void draw();
+	void keyPressed(ofKeyEventArgs &eventArgs);
 	void exit();
 
 	void setBool(bool b);
