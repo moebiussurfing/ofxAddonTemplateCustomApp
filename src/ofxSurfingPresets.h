@@ -10,7 +10,7 @@
 #include "ofxGui.h"
 #include "ofxSurfingHelpers.h"
 
-class ofxAddonTemplateCustomApp
+class ofxSurfingPreset
 {
 
 public:
@@ -31,8 +31,8 @@ public:
 
 #pragma mark - OF
 
-    ofxAddonTemplateCustomApp();
-    ~ofxAddonTemplateCustomApp();
+    ofxSurfingPreset();
+    ~ofxSurfingPreset();
 
     void setup();
     void update();
@@ -117,7 +117,7 @@ private:
 
 #pragma mark - FILE SETTINGS
 
-    string path_GLOBAL = "ofxAddonTemplateCustomApp/";//this is to folder all files to avoid mixing with other addons data
+    string path_GLOBAL = "ofxSurfingPreset/";//this is to folder all files to avoid mixing with other addons data
     string path_Params_Control = "params_Control.xml";
 };
 

@@ -1,10 +1,10 @@
-ofxAddonTemplateCustomApp
+ofxSurfingPreset
 =============================
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 ![Stage: beta](https://img.shields.io/badge/-alpha-red)
 
 # Overview
-**ofxAddonTemplateCustomApp** is an **openFrameworks** addon template for MYSELF.
+**ofxSurfingPreset** is an **openFrameworks** addon template for MYSELF.
 
 ## Screenshot
 ![image](docs/readme_images/Capture1.PNG?raw=true "image")
@@ -36,23 +36,23 @@ These magic numbers are the follows:
  
 ** ofApp.h **
 ```.cpp
-#include "ofxAddonTemplateCustomApp.h"
-ofxAddonTemplateCustomApp myAddon;
+#include "ofxSurfingPreset.h"
+ofxSurfingPreset myAddon;
 ```
 
 ** ofApp.cpp **
 ```.cpp
 ofApp::setup(){
-	ofxAddonTemplateCustomApp.setup();
+	ofxSurfingPreset.setup();
 }
 
 ofApp::update(){
-	ofxAddonTemplateCustomApp.update();
+	ofxSurfingPreset.update();
 }
 
 ofApp::draw(){
-	ofxAddonTemplateCustomApp.draw();
-	ofxAddonTemplateCustomApp.drawGui();
+	ofxSurfingPreset.draw();
+	ofxSurfingPreset.drawGui();
 }
 ```
 

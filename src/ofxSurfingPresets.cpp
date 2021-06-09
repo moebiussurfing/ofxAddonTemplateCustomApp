@@ -1,23 +1,23 @@
-#include "ofxAddonTemplateCustomApp.h"
+#include "ofxSurfingPreset.h"
 
 #pragma mark - OF
 
 //--------------------------------------------------------------
-ofxAddonTemplateCustomApp::ofxAddonTemplateCustomApp()
+ofxSurfingPreset::ofxSurfingPreset()
 {
 	//path for settings
-	setPathGlobal("ofxAddonTemplateCustomApp/");
+	setPathGlobal("ofxSurfingPreset/");
 	path_Params_Control = "params_Control.xml";
 	DISABLE_Callbacks = true;
 	setActive(true);//add key and mouse listeners
 }
 
 //--------------------------------------------------------------
-void ofxAddonTemplateCustomApp::setup()
+void ofxSurfingPreset::setup()
 {
 	//log mode
-	ofSetLogLevel("ofxAddonTemplateCustomApp", OF_LOG_NOTICE);
-	//ofSetLogLevel("ofxAddonTemplateCustomApp", OF_LOG_SILENT);
+	ofSetLogLevel("ofxSurfingPreset", OF_LOG_NOTICE);
+	//ofSetLogLevel("ofxSurfingPreset", OF_LOG_SILENT);
 
 	//--
 
@@ -36,7 +36,7 @@ void ofxAddonTemplateCustomApp::setup()
 	params_Addon.add(Addon_Float);
 
 	//callback
-	ofAddListener(params_Addon.parameterChangedE(), this, &ofxAddonTemplateCustomApp::Changed_params_Addon);
+	ofAddListener(params_Addon.parameterChangedE(), this, &ofxSurfingPreset::Changed_params_Addon);
 
 	//-
 
@@ -71,7 +71,7 @@ void ofxAddonTemplateCustomApp::setup()
 	params_Control.add(Gui_Position);
 
 	//callback
-	ofAddListener(params_Control.parameterChangedE(), this, &ofxAddonTemplateCustomApp::Changed_params_Control);
+	ofAddListener(params_Control.parameterChangedE(), this, &ofxSurfingPreset::Changed_params_Control);
 
 	//-
 
@@ -81,7 +81,7 @@ void ofxAddonTemplateCustomApp::setup()
 	params.add(params_Control);
 
 	//callback
-	ofAddListener(params.parameterChangedE(), this, &ofxAddonTemplateCustomApp::Changed_params);
+	ofAddListener(params.parameterChangedE(), this, &ofxSurfingPreset::Changed_params);
 
 	//--
 
@@ -110,7 +110,7 @@ void ofxAddonTemplateCustomApp::setup()
 	//ofxGuiSetBackgroundColor(ofColor::black);
 
 	//setup gui
-	gui_Control.setup("ofxAddonTemplateCustomApp");
+	gui_Control.setup("ofxSurfingPreset");
 	gui_Control.add(params);//add control (internal) and addon params
 
 	//collapse groups
@@ -132,7 +132,7 @@ void ofxAddonTemplateCustomApp::setup()
 }
 
 //--------------------------------------------------------------
-void ofxAddonTemplateCustomApp::startup()
+void ofxSurfingPreset::startup()
 {
 	ofLogNotice(__FUNCTION__) << "STARTUP INIT";
 
@@ -152,7 +152,7 @@ void ofxAddonTemplateCustomApp::startup()
 }
 
 //--------------------------------------------------------------
-void ofxAddonTemplateCustomApp::update()
+void ofxSurfingPreset::update()
 {
 	//--
 
@@ -172,7 +172,7 @@ void ofxAddonTemplateCustomApp::update()
 }
 
 //--------------------------------------------------------------
-void ofxAddonTemplateCustomApp::draw()
+void ofxSurfingPreset::draw()
 {
 	if (SHOW_Gui)
 	{
@@ -187,20 +187,20 @@ void ofxAddonTemplateCustomApp::draw()
 }
 
 //--------------------------------------------------------------
-void ofxAddonTemplateCustomApp::exit()
+void ofxSurfingPreset::exit()
 {
 
 }
 
 //--------------------------------------------------------------
-ofxAddonTemplateCustomApp::~ofxAddonTemplateCustomApp()
+ofxSurfingPreset::~ofxSurfingPreset()
 {
 	setActive(false);//remove keys and mouse listeners
 
 	//remove params callbacks listeners
-	ofRemoveListener(params.parameterChangedE(), this, &ofxAddonTemplateCustomApp::Changed_params);
-	ofRemoveListener(params_Control.parameterChangedE(), this, &ofxAddonTemplateCustomApp::Changed_params_Control);
-	ofRemoveListener(params_Addon.parameterChangedE(), this, &ofxAddonTemplateCustomApp::Changed_params_Addon);
+	ofRemoveListener(params.parameterChangedE(), this, &ofxSurfingPreset::Changed_params);
+	ofRemoveListener(params_Control.parameterChangedE(), this, &ofxSurfingPreset::Changed_params_Control);
+	ofRemoveListener(params_Addon.parameterChangedE(), this, &ofxSurfingPreset::Changed_params_Addon);
 
 	//get gui position before save
 	Gui_Position = glm::vec2(gui_Control.getPosition());
@@ -211,7 +211,7 @@ ofxAddonTemplateCustomApp::~ofxAddonTemplateCustomApp()
 }
 
 //--------------------------------------------------------------
-void ofxAddonTemplateCustomApp::setLogLevel(ofLogLevel level)
+void ofxSurfingPreset::setLogLevel(ofLogLevel level)
 {
 	ofSetLogLevel(__FUNCTION__, level);
 }
@@ -220,7 +220,7 @@ void ofxAddonTemplateCustomApp::setLogLevel(ofLogLevel level)
 #pragma mark - OF LISTENERS
 
 //--------------------------------------------------------------
-void ofxAddonTemplateCustomApp::windowResized(int w, int h)
+void ofxSurfingPreset::windowResized(int w, int h)
 {
 	screenW = w;
 	screenH = h;
@@ -233,7 +233,7 @@ void ofxAddonTemplateCustomApp::windowResized(int w, int h)
 
 //keys
 //--------------------------------------------------------------
-void ofxAddonTemplateCustomApp::keyPressed(ofKeyEventArgs &eventArgs)
+void ofxSurfingPreset::keyPressed(ofKeyEventArgs &eventArgs)
 {
 	const int &key = eventArgs.key;
 	ofLogNotice(__FUNCTION__) << (char)key << " [" << key << "]";
@@ -319,7 +319,7 @@ void ofxAddonTemplateCustomApp::keyPressed(ofKeyEventArgs &eventArgs)
 }
 
 //--------------------------------------------------------------
-void ofxAddonTemplateCustomApp::keyReleased(ofKeyEventArgs &eventArgs)
+void ofxSurfingPreset::keyReleased(ofKeyEventArgs &eventArgs)
 {
 	const int &key = eventArgs.key;
 	ofLogNotice(__FUNCTION__) << (char)key << " [" << key << "]";
@@ -331,20 +331,20 @@ void ofxAddonTemplateCustomApp::keyReleased(ofKeyEventArgs &eventArgs)
 }
 
 //--------------------------------------------------------------
-void ofxAddonTemplateCustomApp::addKeysListeners()
+void ofxSurfingPreset::addKeysListeners()
 {
-	ofAddListener(ofEvents().keyPressed, this, &ofxAddonTemplateCustomApp::keyPressed);
+	ofAddListener(ofEvents().keyPressed, this, &ofxSurfingPreset::keyPressed);
 }
 
 //--------------------------------------------------------------
-void ofxAddonTemplateCustomApp::removeKeysListeners()
+void ofxSurfingPreset::removeKeysListeners()
 {
-	ofRemoveListener(ofEvents().keyPressed, this, &ofxAddonTemplateCustomApp::keyPressed);
+	ofRemoveListener(ofEvents().keyPressed, this, &ofxSurfingPreset::keyPressed);
 }
 
 //mouse
 //--------------------------------------------------------------
-void ofxAddonTemplateCustomApp::mouseDragged(ofMouseEventArgs &eventArgs)
+void ofxSurfingPreset::mouseDragged(ofMouseEventArgs &eventArgs)
 {
 	const int &x = eventArgs.x;
 	const int &y = eventArgs.y;
@@ -353,7 +353,7 @@ void ofxAddonTemplateCustomApp::mouseDragged(ofMouseEventArgs &eventArgs)
 }
 
 //--------------------------------------------------------------
-void ofxAddonTemplateCustomApp::mousePressed(ofMouseEventArgs &eventArgs)
+void ofxSurfingPreset::mousePressed(ofMouseEventArgs &eventArgs)
 {
 	const int &x = eventArgs.x;
 	const int &y = eventArgs.y;
@@ -362,7 +362,7 @@ void ofxAddonTemplateCustomApp::mousePressed(ofMouseEventArgs &eventArgs)
 }
 
 //--------------------------------------------------------------
-void ofxAddonTemplateCustomApp::mouseReleased(ofMouseEventArgs &eventArgs)
+void ofxSurfingPreset::mouseReleased(ofMouseEventArgs &eventArgs)
 {
 	const int &x = eventArgs.x;
 	const int &y = eventArgs.y;
@@ -371,24 +371,24 @@ void ofxAddonTemplateCustomApp::mouseReleased(ofMouseEventArgs &eventArgs)
 }
 
 //--------------------------------------------------------------
-void ofxAddonTemplateCustomApp::addMouseListeners()
+void ofxSurfingPreset::addMouseListeners()
 {
-	ofAddListener(ofEvents().mouseDragged, this, &ofxAddonTemplateCustomApp::mouseDragged);
-	ofAddListener(ofEvents().mousePressed, this, &ofxAddonTemplateCustomApp::mousePressed);
-	ofAddListener(ofEvents().mouseReleased, this, &ofxAddonTemplateCustomApp::mouseReleased);
+	ofAddListener(ofEvents().mouseDragged, this, &ofxSurfingPreset::mouseDragged);
+	ofAddListener(ofEvents().mousePressed, this, &ofxSurfingPreset::mousePressed);
+	ofAddListener(ofEvents().mouseReleased, this, &ofxSurfingPreset::mouseReleased);
 }
 
 //--------------------------------------------------------------
-void ofxAddonTemplateCustomApp::removeMouseListeners()
+void ofxSurfingPreset::removeMouseListeners()
 {
-	ofRemoveListener(ofEvents().keyPressed, this, &ofxAddonTemplateCustomApp::keyPressed);
+	ofRemoveListener(ofEvents().keyPressed, this, &ofxSurfingPreset::keyPressed);
 }
 
 
 #pragma mark - API
 
 //--------------------------------------------------------------
-void ofxAddonTemplateCustomApp::setActive(bool b)
+void ofxSurfingPreset::setActive(bool b)
 {
 	//* disables all keys and mouse interaction listeners from the addon
 
@@ -406,7 +406,7 @@ void ofxAddonTemplateCustomApp::setActive(bool b)
 }
 
 //--------------------------------------------------------------
-void ofxAddonTemplateCustomApp::setGuiVisible(bool b)
+void ofxSurfingPreset::setGuiVisible(bool b)
 {
 	SHOW_Gui = b;
 }
@@ -416,7 +416,7 @@ void ofxAddonTemplateCustomApp::setGuiVisible(bool b)
 
 //all params
 //--------------------------------------------------------------
-void ofxAddonTemplateCustomApp::Changed_params(ofAbstractParameter &e)
+void ofxSurfingPreset::Changed_params(ofAbstractParameter &e)
 {
 	//if (!DISABLE_Callbacks)
 	//{
@@ -439,7 +439,7 @@ void ofxAddonTemplateCustomApp::Changed_params(ofAbstractParameter &e)
 
 //addon engine params
 //--------------------------------------------------------------
-void ofxAddonTemplateCustomApp::Changed_params_Addon(ofAbstractParameter &e)
+void ofxSurfingPreset::Changed_params_Addon(ofAbstractParameter &e)
 {
 	if (!DISABLE_Callbacks)
 	{
@@ -462,7 +462,7 @@ void ofxAddonTemplateCustomApp::Changed_params_Addon(ofAbstractParameter &e)
 
 //addon control (internal) params
 //--------------------------------------------------------------
-void ofxAddonTemplateCustomApp::Changed_params_Control(ofAbstractParameter &e)
+void ofxSurfingPreset::Changed_params_Control(ofAbstractParameter &e)
 {
 	if (!DISABLE_Callbacks)
 	{
@@ -524,7 +524,7 @@ void ofxAddonTemplateCustomApp::Changed_params_Control(ofAbstractParameter &e)
 }
 
 //--------------------------------------------------------------
-void ofxAddonTemplateCustomApp::setKey_MODE_App(int k)
+void ofxSurfingPreset::setKey_MODE_App(int k)
 {
 	key_MODE_App = k;
 }
@@ -533,7 +533,7 @@ void ofxAddonTemplateCustomApp::setKey_MODE_App(int k)
 #pragma mark - FILE SETTINGS
 
 //--------------------------------------------------------------
-void ofxAddonTemplateCustomApp::setPathGlobal(string s)//must call before setup. disabled by default
+void ofxSurfingPreset::setPathGlobal(string s)//must call before setup. disabled by default
 {
 	path_GLOBAL = s;
 
