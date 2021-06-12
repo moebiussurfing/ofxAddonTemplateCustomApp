@@ -1,3 +1,3 @@
 ofxGui
-ofxAddonTemplateCustomApp
+ofxSurfingPreset
 ofxSurfingHelpers
