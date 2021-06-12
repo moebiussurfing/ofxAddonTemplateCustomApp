@@ -10,6 +10,9 @@ ofxAddonTemplateCustomApp::ofxAddonTemplateCustomApp()
 	path_Params_Control = "params_Control.xml";
 	DISABLE_Callbacks = true;
 	setActive(true);//add key and mouse listeners
+
+	ofAddListener(ofEvents().update, this, &ofxAddonTemplateCustomApp::update);
+	ofAddListener(ofEvents().draw, this, &ofxAddonTemplateCustomApp::draw, OF_EVENT_ORDER_AFTER_APP);
 }
 
 //--------------------------------------------------------------
@@ -152,6 +155,8 @@ void ofxAddonTemplateCustomApp::startup()
 }
 
 //--------------------------------------------------------------
+void ofxAddonTemplateCustomApp::update(ofEventArgs & args) {
+//--------------------------------------------------------------
 void ofxAddonTemplateCustomApp::update()
 {
 	//--
@@ -206,6 +211,9 @@ ofxAddonTemplateCustomApp::~ofxAddonTemplateCustomApp()
 	Gui_Position = glm::vec2(gui_Control.getPosition());
 
 	ofxSurfingHelpers::saveGroup(params_Control, path_GLOBAL + path_Params_Control);
+
+	ofRemoveListener(ofEvents().update, this, &ofxAddonTemplateCustomApp::update);
+	ofRemoveListener(ofEvents().draw, this, &ofxAddonTemplateCustomApp::draw, OF_EVENT_ORDER_AFTER_APP);
 
 	//exit();
 }

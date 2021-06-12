@@ -35,8 +35,12 @@ public:
     ~ofxAddonTemplateCustomApp();
 
     void setup();
+    
     void update();
     void draw();
+    void update(ofEventArgs & args);
+    void draw(ofEventArgs & args);
+
     void exit();
     void startup();
 
