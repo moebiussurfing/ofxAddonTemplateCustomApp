@@ -1,35 +1,35 @@
-#include "MyClass.h"
+#include "myClassBasic.h"
 //--------------------------------------------------------------
-myClass::myClass(){
-	ofAddListener(ofEvents().update, this, &myClass::update);
-	ofAddListener(ofEvents().keyPressed, this, &myClass::keyPressed);
+myClassBasic::myClassBasic(){
+	ofAddListener(ofEvents().update, this, &myClassBasic::update);
+	ofAddListener(ofEvents().keyPressed, this, &myClassBasic::keyPressed);
 }
 
 //--------------------------------------------------------------
-myClass::~myClass(){
-	ofRemoveListener(ofEvents().update, this, &myClass::update);
-	ofRemoveListener(ofEvents().keyPressed, this, &myClass::keyPressed);
+myClassBasic::~myClassBasic(){
+	ofRemoveListener(ofEvents().update, this, &myClassBasic::update);
+	ofRemoveListener(ofEvents().keyPressed, this, &myClassBasic::keyPressed);
 }
 
 //--------------------------------------------------------------
-void MyClass::setup(){
+void myClassBasic::setup(){
 }
 
 //--------------------------------------------------------------
-void MyClass::update(){
+void myClassBasic::update(){
 }
 
 //--------------------------------------------------------------
-void MyClass::update(ofEventArgs & args)
+void myClassBasic::update(ofEventArgs & args)
 {
 }
 
 //--------------------------------------------------------------
-void MyClass::draw(){
+void myClassBasic::draw(){
 }
 
 //--------------------------------------------------------------
-void MyClass::keyPressed(ofKeyEventArgs &eventArgs)
+void myClassBasic::keyPressed(ofKeyEventArgs &eventArgs)
 {
 	const int key = eventArgs.key;
 
@@ -51,16 +51,16 @@ void MyClass::keyPressed(ofKeyEventArgs &eventArgs)
 }
 
 //--------------------------------------------------------------
-void MyClass::exit(){
+void myClassBasic::exit(){
 }
 
 //--------------------------------------------------------------
-void MyClass::setBool(bool b){
+void myClassBasic::setBool(bool b){
 		ofLogNotice(__FUNCTION__) << ofToString(b?"true":"false");
 }
 
 //--------------------------------------------------------------
-bool MyClass::getBool(){
+bool myClassBasic::getBool(){
 	return true;
 }
 

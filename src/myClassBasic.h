@@ -2,13 +2,13 @@
 
 #include "ofMain.h"
 
-class MyClass
+class myClassBasic
 {
 
 public:
 
-	MyClass();
-	~MyClass();
+	myClassBasic();
+	~myClassBasic();
 
 	void setup();
 //	void update();
