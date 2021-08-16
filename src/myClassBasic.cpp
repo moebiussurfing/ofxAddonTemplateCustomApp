@@ -2,12 +2,14 @@
 //--------------------------------------------------------------
 myClassBasic::myClassBasic(){
 	ofAddListener(ofEvents().update, this, &myClassBasic::update);
+	ofAddListener(ofEvents().draw, this, &myClassBasic::draw);
 	ofAddListener(ofEvents().keyPressed, this, &myClassBasic::keyPressed);
 }
 
 //--------------------------------------------------------------
 myClassBasic::~myClassBasic(){
 	ofRemoveListener(ofEvents().update, this, &myClassBasic::update);
+	ofRemoveListener(ofEvents().draw, this, &myClassBasic::draw);
 	ofRemoveListener(ofEvents().keyPressed, this, &myClassBasic::keyPressed);
 }
 

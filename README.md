@@ -90,7 +90,7 @@ Above add-ons already packed into **OF_ADDON/libs**. No need to add them manuall
 * 
 
 ### Notes
-*
+* Hit me up if you have any suggestions or feature requests.
 
 ## Author
 An addon by **@moebiusSurfing**  

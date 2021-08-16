@@ -12,8 +12,9 @@ public:
 
 	void setup();
 //	void update();
+	// void draw();
 	void update(ofEventArgs & args);
-	void draw();
+	void draw(ofEventArgs & args);
 	void keyPressed(ofKeyEventArgs &eventArgs);
 	void exit();
 
