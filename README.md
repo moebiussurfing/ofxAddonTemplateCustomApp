@@ -4,7 +4,7 @@ ofxAddonTemplateCustomApp
 ![Stage: beta](https://img.shields.io/badge/-alpha-red)
 
 # Overview
-**ofxAddonTemplateCustomApp** is a **PERSONAL** template addon for **openFrameworks** to make other **addons** or **oF-Apps* for **MYSELF**.
+**ofxAddonTemplateCustomApp** is a **PERSONAL** template addon for **openFrameworks** to make other **addons** or **oF-Apps** for **MYSELF**.
 
 ## Screenshot
 ![image](docs/readme_images/Capture1.PNG?raw=true "image")
