@@ -1,24 +1,20 @@
 #include "myClassBasic.h"
 //--------------------------------------------------------------
-myClassBasic::myClassBasic(){
+myClassBasic::myClassBasic() {
 	ofAddListener(ofEvents().update, this, &myClassBasic::update);
 	ofAddListener(ofEvents().draw, this, &myClassBasic::draw);
 	ofAddListener(ofEvents().keyPressed, this, &myClassBasic::keyPressed);
 }
 
 //--------------------------------------------------------------
-myClassBasic::~myClassBasic(){
+myClassBasic::~myClassBasic() {
 	ofRemoveListener(ofEvents().update, this, &myClassBasic::update);
 	ofRemoveListener(ofEvents().draw, this, &myClassBasic::draw);
 	ofRemoveListener(ofEvents().keyPressed, this, &myClassBasic::keyPressed);
 }
 
 //--------------------------------------------------------------
-void myClassBasic::setup(){
-}
-
-//--------------------------------------------------------------
-void myClassBasic::update(){
+void myClassBasic::setup() {
 }
 
 //--------------------------------------------------------------
@@ -27,7 +23,16 @@ void myClassBasic::update(ofEventArgs & args)
 }
 
 //--------------------------------------------------------------
-void myClassBasic::draw(){
+void myClassBasic::draw(ofEventArgs & args)
+{
+}
+
+//--------------------------------------------------------------
+void myClassBasic::update() {
+}
+
+//--------------------------------------------------------------
+void myClassBasic::draw() {
 }
 
 //--------------------------------------------------------------
@@ -45,7 +50,7 @@ void myClassBasic::keyPressed(ofKeyEventArgs &eventArgs)
 
 	//--
 
-	if (false){}
+	if (false) {}
 
 	else if (key == 'G' && !mod_ALT)
 	{
@@ -53,16 +58,16 @@ void myClassBasic::keyPressed(ofKeyEventArgs &eventArgs)
 }
 
 //--------------------------------------------------------------
-void myClassBasic::exit(){
+void myClassBasic::exit() {
 }
 
-//--------------------------------------------------------------
-void myClassBasic::setBool(bool b){
-		ofLogNotice(__FUNCTION__) << ofToString(b?"true":"false");
-}
-
-//--------------------------------------------------------------
-bool myClassBasic::getBool(){
-	return true;
-}
+////--------------------------------------------------------------
+//void myClassBasic::setBool(bool b) {
+//	ofLogNotice(__FUNCTION__) << ofToString(b ? "true" : "false");
+//}
+//
+////--------------------------------------------------------------
+//bool myClassBasic::getBool() {
+//	return true;
+//}
 

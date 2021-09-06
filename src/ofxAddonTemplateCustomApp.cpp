@@ -1,92 +1,116 @@
 #include "ofxAddonTemplateCustomApp.h"
 
-#pragma mark - OF
-
 //--------------------------------------------------------------
 ofxAddonTemplateCustomApp::ofxAddonTemplateCustomApp()
 {
 	// path for settings
 	setPathGlobal("ofxAddonTemplateCustomApp/");
-	path_Params_Control = "params_Control.xml";
-	DISABLE_Callbacks = true;
-	setActive(true);//add key and mouse listeners
+	path_Params_AppSettings = "ofxAddonTemplateCustomApp_AppSettings.xml";
+	path_Params_Control = "Params_Control.xml";
+
+	bCallbacksEnable = true;
+	setActive(true); // adds key and mouse listeners
 
 	ofAddListener(ofEvents().update, this, &ofxAddonTemplateCustomApp::update);
-	ofAddListener(ofEvents().draw, this, &ofxAddonTemplateCustomApp::draw, OF_EVENT_ORDER_AFTER_APP);
+	ofAddListener(ofEvents().draw, this, &ofxAddonTemplateCustomApp::draw);
+	//ofAddListener(ofEvents().draw, this, &ofxAddonTemplateCustomApp::draw, OF_EVENT_ORDER_AFTER_APP);
 
 	setup();
 }
 
 //--------------------------------------------------------------
+ofxAddonTemplateCustomApp::~ofxAddonTemplateCustomApp()
+{
+	setActive(false); // removes keys and mouse listeners
+
+	// removes params callbacks listeners
+	ofRemoveListener(params.parameterChangedE(), this, &ofxAddonTemplateCustomApp::Changed_params);
+	ofRemoveListener(params_Control.parameterChangedE(), this, &ofxAddonTemplateCustomApp::Changed_params_Control);
+	ofRemoveListener(params_Addon.parameterChangedE(), this, &ofxAddonTemplateCustomApp::Changed_params_Addon);
+
+	// removes update/draw callbacks
+	ofRemoveListener(ofEvents().update, this, &ofxAddonTemplateCustomApp::update);
+	ofRemoveListener(ofEvents().draw, this, &ofxAddonTemplateCustomApp::draw);
+	//ofRemoveListener(ofEvents().draw, this, &ofxAddonTemplateCustomApp::draw, OF_EVENT_ORDER_AFTER_APP);
+
+	exit();
+}
+
+//--------------------------------------------------------------
 void ofxAddonTemplateCustomApp::setup()
 {
-	//log mode
+	// log mode
 	ofSetLogLevel("ofxAddonTemplateCustomApp", OF_LOG_NOTICE);
 
 	//--
 
 	// window
-	screenW = ofGetWidth();
-	screenH = ofGetHeight();
+	wWindow = ofGetWidth();
+	hWindow = ofGetHeight();
+	rectWindow = ofGetCurrentViewport();
 
 	//--
 
-	// params control (addon variables)
-	Addon_Active.set("ADDON ACTIVE", true);
-	Addon_Float.set("ADDON float", 0, 0, 1);
+	// addon params
+	Addon_Active.set("Addon Active", true);
+	Addon_Float.set("Addon Float", 0, 0, 1);
+
 	// group
-	params_Addon.setName("ADDON");
+	params_Addon.setName("Params Addon");
 	params_Addon.add(Addon_Active);
 	params_Addon.add(Addon_Float);
-	params_Addon.add(fileList);
 
 	// callback
 	ofAddListener(params_Addon.parameterChangedE(), this, &ofxAddonTemplateCustomApp::Changed_params_Addon);
 
 	//-
 
-	// addon control(internal)
+	// addon control (internal)
 
 	// params
 
-	MODE_Active.set("ACTIVE", true);
-	ENABLE_keys.set("KEYS", true);
-	SHOW_Help.set("HELP", false);
-	MODE_App.set("APP MODE", 0, 0, NUM_MODES_APP - 1);
-	MODE_App_Name.set("", "");
-	MODE_App_Name.setSerializable(false);
-	ENABLE_Debug.set("DEBUG", true);
-	ENABLE_AutoSave.set("AUTO SAVE", true);
-	SHOW_Gui.set("GUI", true);
-	Gui_Position.set("GUI POSITION",
-		glm::vec2(screenW * 0.5, screenH * 0.5),
+	bActive.set("Active", true);
+	bKeys.set("Keys", true);
+	bHelp.set("Help", false);
+
+	appModeIndex.set("App Mode", 0, 0, OFX_APP_MODES_AMOUNT - 1);
+	appModeName.set("", "");
+
+	bDebug.set("Debug", true);
+	bAutoSave.set("AutoSave", true);
+
+	bGui.set("Gui", true);
+	positionGui.set("Gui Position",
+		glm::vec2(wWindow * 0.5, hWindow * 0.5),
 		glm::vec2(0, 0),
-		glm::vec2(screenW, screenH)
+		glm::vec2(wWindow, hWindow)
 	);
 
 	// params control (internal)
-	params_Control.setName("INTERNAL");
-	params_Control.add(MODE_App);
-	params_Control.add(MODE_App_Name);
-	params_Control.add(MODE_Active);
-	params_Control.add(ENABLE_keys);
-	params_Control.add(SHOW_Help);
-	params_Control.add(ENABLE_Debug);
-	params_Control.add(ENABLE_AutoSave);
-	params_Control.add(SHOW_Gui);
-	params_Control.add(Gui_Position);
+	params_Control.setName("Internal");
+	params_Control.add(appModeIndex);
+	params_Control.add(appModeName);
+	params_Control.add(bActive);
+	params_Control.add(bKeys);
+	params_Control.add(bHelp);
+	params_Control.add(bDebug);
+	params_Control.add(bAutoSave);
+	params_Control.add(bGui);
+	params_Control.add(positionGui);
 
 	//-
 
 	// params App settings
 	params_AppSettings.setName("AppSettings");
-	//params_AppSettings.add(bInitialize);
-	params_AppSettings.add(bClear);
-	params_AppSettings.add(bRun);
-	params_AppSettings.add(fileList);
+	params_AppSettings.add(bGui);
+	params_AppSettings.add(bHelp);
+	params_AppSettings.add(bKeys);
 
-	bClear.setSerializable(false);
-	bRun.setSerializable(false);
+	//-
+
+	// exclude for settings
+	bDebug.setSerializable(false);
+	appModeName.setSerializable(false);
 
 	//-
 
@@ -96,7 +120,7 @@ void ofxAddonTemplateCustomApp::setup()
 	//-
 
 	// all params
-	params.setName("ALL PARAMS");
+	params.setName("All Params");
 	params.add(params_AppSettings);
 	params.add(params_Addon);
 	params.add(params_Control);
@@ -107,57 +131,51 @@ void ofxAddonTemplateCustomApp::setup()
 	//--
 
 	// gui
-
-	// theme
-	string _path = "assets/fonts/";
-	_path += "overpass-mono-bold.otf";
-	float _size = 7;
-	ofFile file(_path);
-	if (file.exists())
-	{
-		ofxGuiSetFont(_path, _size);
-	}
-	else
-	{
-		ofLogError(__FUNCTION__) << "ofxGui Theme '" << _path << "' Not found!";
-	}
-
-	ofxGuiSetDefaultHeight(30);
-	ofxGuiSetBorderColor(32);
-	ofxGuiSetFillColor(ofColor(48));
-	ofxGuiSetTextColor(ofColor::white);
-	ofxGuiSetHeaderColor(ofColor(24));
-	ofxGuiSetBackgroundColor(ofColor::black);
-
-	// setup gui
-	gui_Control.setup("ofxAddonTemplateCustomApp");
-	gui_Control.add(params);//add control (internal) and addon params
-	gui_Control.setPosition(ofGetWidth() - 210, 20);
-
-	// collapse groups
-	auto &g0 = gui_Control.getGroup("ALL PARAMS");//1st level
-	auto &g2 = g0.getGroup("ADDON");//2nd level
-	auto &g3 = g0.getGroup("INTERNAL");//2nd level
-	auto &g31 = g3.getGroup("GUI POSITION");//3nd level
-	//g0.minimize();
-	g2.minimize();
-	g3.minimize();
-	g31.minimize();
+	setupGui();
 
 	//--
 
 	// startup
 	startup();
 
+	//--
+}
+
+//--------------------------------------------------------------
+void ofxAddonTemplateCustomApp::setupGui()
+{
+	ofLogNotice(__FUNCTION__);
+
+	// theme
+	ofxSurfingHelpers::setThemeDarkMini_ofxGui();
+
 	//-
+
+	// setup gui
+	{
+		gui_Control.setup("ofxAddonTemplateCustomApp");
+		gui_Control.add(params);//add control (internal) and addon params
+		gui_Control.setPosition(positionGui.get().x, positionGui.get().y);
+		//gui_Control.setPosition(ofGetWidth() - 210, 20);
+
+		// collapse groups
+		auto &g0 = gui_Control.getGroup(params.getName());//1st level
+		auto &g2 = g0.getGroup(params_Addon.getName());//2nd level
+		auto &g3 = g0.getGroup(params_Control.getName());//2nd level
+		auto &g31 = g3.getGroup(positionGui.getName());//3nd level
+		//g0.minimize();
+		g2.minimize();
+		g3.minimize();
+		g31.minimize();
+	}
 }
 
 //--------------------------------------------------------------
 void ofxAddonTemplateCustomApp::startup()
 {
-	ofLogNotice(__FUNCTION__) << "STARTUP INIT";
+	ofLogNotice(__FUNCTION__);
 
-	DISABLE_Callbacks = false;
+	bCallbacksEnable = true;
 
 	//-
 
@@ -165,10 +183,10 @@ void ofxAddonTemplateCustomApp::startup()
 	ofxSurfingHelpers::loadGroup(params_Control, path_GLOBAL + path_Params_Control);
 	ofxSurfingHelpers::loadGroup(params_AppSettings, path_GLOBAL + path_Params_AppSettings);
 
-	MODE_Active = true;
+	bActive = true;
 
 	// set gui position after window setup/resizing
-	windowResized(screenW, screenH);
+	windowResized(wWindow, hWindow);
 
 	ofxSurfingHelpers::CheckFolder(path_GLOBAL);
 }
@@ -177,15 +195,15 @@ void ofxAddonTemplateCustomApp::startup()
 void ofxAddonTemplateCustomApp::update(ofEventArgs & args) {
 
 	// autosave
-	if (ENABLE_AutoSave && ofGetElapsedTimeMillis() - timerLast_Autosave > timeToAutosave)
+	if (bAutoSave && ofGetElapsedTimeMillis() - timerLastAutosave > timeToAutosave)
 	{
-		DISABLE_Callbacks = true;
+		bCallbacksEnable = false;
 		// get gui position before save
-		Gui_Position = glm::vec2(gui_Control.getPosition());
+		positionGui = glm::vec2(gui_Control.getPosition());
 		ofxSurfingHelpers::saveGroup(params_Control, path_GLOBAL + path_Params_Control);
-		DISABLE_Callbacks = false;
+		bCallbacksEnable = true;
 
-		timerLast_Autosave = ofGetElapsedTimeMillis();
+		timerLastAutosave = ofGetElapsedTimeMillis();
 		ofLogVerbose(__FUNCTION__) << "AutoSaved DONE";
 	}
 }
@@ -193,71 +211,86 @@ void ofxAddonTemplateCustomApp::update(ofEventArgs & args) {
 //--------------------------------------------------------------
 void ofxAddonTemplateCustomApp::draw(ofEventArgs & args)
 {
-	if (SHOW_Gui)
+	// edit mode
+	if (appModeIndex == 1)
 	{
-		// edit mode
-		if (MODE_App == 1)
-		{
-			//controlPoints.draw();
-		}
-
-		gui_Control.draw();
 	}
 
-	drawInfo();
+	// gui
+	if (bGui) drawGui();
+}
+
+//--------------------------------------------------------------
+void ofxAddonTemplateCustomApp::update() {
+}
+
+//--------------------------------------------------------------
+void ofxAddonTemplateCustomApp::draw() {
+}
+
+//--------------------------------------------------------------
+void ofxAddonTemplateCustomApp::drawGui() {
+	gui_Control.draw();
+}
+
+//--------------------------------------------------------------
+void ofxAddonTemplateCustomApp::windowResized(int w, int h)
+{
+	wWindow = w;
+	hWindow = h;
+
+	rectWindow = ofGetCurrentViewport();
+
+	//-
+
+	// user gui deopending on window dimensions
+	//gui_Control.setPosition(wWindow * 0.5 - 200, hWindow - 200);
 }
 
 //--------------------------------------------------------------
 void ofxAddonTemplateCustomApp::exit()
 {
 	// get gui position before save
-	Gui_Position = glm::vec2(gui_Control.getPosition());
+	positionGui = glm::vec2(gui_Control.getPosition());
 
 	ofxSurfingHelpers::saveGroup(params_Control, path_GLOBAL + path_Params_Control);
 	ofxSurfingHelpers::saveGroup(params_AppSettings, path_GLOBAL + path_Params_AppSettings);
 }
 
 //--------------------------------------------------------------
-ofxAddonTemplateCustomApp::~ofxAddonTemplateCustomApp()
+void ofxAddonTemplateCustomApp::setActive(bool b)
 {
-	setActive(false); // remove keys and mouse listeners
+	ofLogNotice(__FUNCTION__) << b;
 
-	// remove params callbacks listeners
-	ofRemoveListener(params.parameterChangedE(), this, &ofxAddonTemplateCustomApp::Changed_params);
-	ofRemoveListener(params_Control.parameterChangedE(), this, &ofxAddonTemplateCustomApp::Changed_params_Control);
-	ofRemoveListener(params_Addon.parameterChangedE(), this, &ofxAddonTemplateCustomApp::Changed_params_Addon);
+	// Disables all keys and mouse interaction listeners from the addon
 
-	ofRemoveListener(ofEvents().update, this, &ofxAddonTemplateCustomApp::update);
-	ofRemoveListener(ofEvents().draw, this, &ofxAddonTemplateCustomApp::draw, OF_EVENT_ORDER_AFTER_APP);
-
-	exit();
+	bActive = b;
+	if (!b)
+	{
+		removeKeysListeners();
+		removeMouseListeners();
+	}
+	else
+	{
+		addKeysListeners();
+		addMouseListeners();
+	}
 }
 
 //--------------------------------------------------------------
-void ofxAddonTemplateCustomApp::setLogLevel(ofLogLevel level)
+void ofxAddonTemplateCustomApp::setGuiVisible(bool b)
 {
-	ofSetLogLevel(__FUNCTION__, level);
-}
-
-
-#pragma mark - OF LISTENERS
-
-//--------------------------------------------------------------
-void ofxAddonTemplateCustomApp::windowResized(int w, int h)
-{
-	screenW = w;
-	screenH = h;
-
-	//-
-
-	// user gui deopending on window dimensions
-	//gui_Control.setPosition(screenW * 0.5 - 200, screenH - 200);
+	ofLogNotice(__FUNCTION__);
+	bGui = b;
 }
 
 // keys
 //--------------------------------------------------------------
 void ofxAddonTemplateCustomApp::keyPressed(ofKeyEventArgs &eventArgs)
 {
+	// disabler for all keys. (independent from bActive)
+	if (!bKeys) return;
+
 	const int &key = eventArgs.key;
 	ofLogNotice(__FUNCTION__) << (char)key << " [" << key << "]";
 
@@ -278,49 +311,42 @@ void ofxAddonTemplateCustomApp::keyPressed(ofKeyEventArgs &eventArgs)
 
 	//-
 
-	//disabler for all keys. (independent from MODE_Active)
-	if (ENABLE_keys)
+	if (0) {}
+
+	//// custom
+	//else if (key == ' ')
+	//{
+	//}
+
+	//// custom with modifiers
+	//if (key == OF_KEY_UP && mod_ALT)
+	//{
+	//	ofLogNotice(__FUNCTION__) << "";
+	//}
+	//else if (key == OF_KEY_UP)
+	//{
+	//	ofLogNotice(__FUNCTION__) << "";
+	//}
+
+	// general
+	//if (key == keyAppMode)
+	//{
+	//	int i = appModeIndex;
+	//	i++;
+	//	appModeIndex = i % OFX_APP_MODES_AMOUNT;
+	//}
+
+	else if (key == 'g')
 	{
-		if (0) {}
-
-		////custom
-		//if (key == ' ')
-		//{
-		//}
-		//else if (key == ' ')
-		//{
-		//}
-
-		////custom with modifiers
-		//if (key == OF_KEY_UP && mod_ALT)
-		//{
-		//	ofLogNotice(__FUNCTION__) << "";
-		//}
-		//else if (key == OF_KEY_UP)
-		//{
-		//	ofLogNotice(__FUNCTION__) << "";
-		//}
-
-		//general
-		//if (key == key_MODE_App)
-		//{
-		//	int i = MODE_App;
-		//	i++;
-		//	MODE_App = i % NUM_MODES_APP;
-		//}
-
-		else if (key == 'g')
-		{
-			SHOW_Gui = !SHOW_Gui;
-		}
-		else if (key == 'h')
-		{
-			SHOW_Help = !SHOW_Help;
-		}
-		else if (key == 'd')
-		{
-			ENABLE_Debug = !ENABLE_Debug;
-		}
+		bGui = !bGui;
+	}
+	else if (key == 'h')
+	{
+		bHelp = !bHelp;
+	}
+	else if (key == 'd')
+	{
+		bDebug = !bDebug;
 	}
 
 	//--
@@ -328,10 +354,10 @@ void ofxAddonTemplateCustomApp::keyPressed(ofKeyEventArgs &eventArgs)
 	// key enabler
 	if (key == 'k')
 	{
-		ENABLE_keys = !ENABLE_keys;
-		ofLogNotice(__FUNCTION__) << "KEYS: " << (ENABLE_keys ? "ON" : "OFF");
+		bKeys = !bKeys;
+		ofLogNotice(__FUNCTION__) << "KEYS: " << (bKeys ? "ON" : "OFF");
 
-		if (!ENABLE_keys)
+		if (!bKeys)
 		{
 			ofLogNotice(__FUNCTION__) << "ALL KEYS DISABLED. PRESS 'k' TO ENABLE GAIN!";
 		}
@@ -357,23 +383,25 @@ void ofxAddonTemplateCustomApp::keyReleased(ofKeyEventArgs &eventArgs)
 //--------------------------------------------------------------
 void ofxAddonTemplateCustomApp::addKeysListeners()
 {
+	ofLogNotice(__FUNCTION__);
 	ofAddListener(ofEvents().keyPressed, this, &ofxAddonTemplateCustomApp::keyPressed);
 }
 
 //--------------------------------------------------------------
 void ofxAddonTemplateCustomApp::removeKeysListeners()
 {
+	ofLogNotice(__FUNCTION__);
 	ofRemoveListener(ofEvents().keyPressed, this, &ofxAddonTemplateCustomApp::keyPressed);
 }
 
-//mouse
+// mouse
 //--------------------------------------------------------------
 void ofxAddonTemplateCustomApp::mouseDragged(ofMouseEventArgs &eventArgs)
 {
 	const int &x = eventArgs.x;
 	const int &y = eventArgs.y;
 	const int &button = eventArgs.button;
-	//ofLogNotice(__FUNCTION__) << "mouseDragged " << x << ", " << y << ", " << button;
+	ofLogVerbose(__FUNCTION__) << x << ", " << y << ", " << button;
 }
 
 //--------------------------------------------------------------
@@ -382,7 +410,7 @@ void ofxAddonTemplateCustomApp::mousePressed(ofMouseEventArgs &eventArgs)
 	const int &x = eventArgs.x;
 	const int &y = eventArgs.y;
 	const int &button = eventArgs.button;
-	//ofLogNotice(__FUNCTION__) << "mousePressed " << x << ", " << y << ", " << button;
+	ofLogVerbose(__FUNCTION__) << x << ", " << y << ", " << button;
 }
 
 //--------------------------------------------------------------
@@ -391,7 +419,7 @@ void ofxAddonTemplateCustomApp::mouseReleased(ofMouseEventArgs &eventArgs)
 	const int &x = eventArgs.x;
 	const int &y = eventArgs.y;
 	const int &button = eventArgs.button;
-	//ofLogNotice(__FUNCTION__) << "mouseReleased " << x << ", " << y << ", " << button;
+	ofLogVerbose(__FUNCTION__) << x << ", " << y << ", " << button;
 }
 
 //--------------------------------------------------------------
@@ -408,57 +436,25 @@ void ofxAddonTemplateCustomApp::removeMouseListeners()
 	ofRemoveListener(ofEvents().keyPressed, this, &ofxAddonTemplateCustomApp::keyPressed);
 }
 
-
-#pragma mark - API
-
-//--------------------------------------------------------------
-void ofxAddonTemplateCustomApp::setActive(bool b)
-{
-	//* disables all keys and mouse interaction listeners from the addon
-
-	MODE_Active = b;
-	if (!b)
-	{
-		removeKeysListeners();
-		removeMouseListeners();
-	}
-	else
-	{
-		addKeysListeners();
-		addMouseListeners();
-	}
-}
-
-//--------------------------------------------------------------
-void ofxAddonTemplateCustomApp::setGuiVisible(bool b)
-{
-	SHOW_Gui = b;
-}
-
-
-#pragma mark - CALLBACKS
-
-// all params
 //--------------------------------------------------------------
 void ofxAddonTemplateCustomApp::Changed_params(ofAbstractParameter &e)
 {
+	if (!bCallbacksEnable) return;
+
 	string name = e.getName();
 	ofLogNotice(__FUNCTION__) << name << " : " << e;
 
 	if (0) {}
 
-	//filter params
-	else if (name == bClear.getName() && bClear.get())
-	{
-		bClear = false;
-		fileList = "";
-	}
-	else if (name == bRun.getName() && bRun.get())
-	{
-		bRun = false;
-
-		doRemoveDataFiles();
-	}
+	//// filter params
+	//else if (name == bClear.getName() && bClear.get())
+	//{
+	//	bClear = false;
+	//}
+	//else if (name == bRun.getName() && bRun.get())
+	//{
+	//	bRun = false;
+	//}
 	//else if (name == bInitialize.getName() && bInitialize.get())
 	//{
 	//	bInitialize = false;
@@ -470,7 +466,7 @@ void ofxAddonTemplateCustomApp::Changed_params(ofAbstractParameter &e)
 //--------------------------------------------------------------
 void ofxAddonTemplateCustomApp::Changed_params_Addon(ofAbstractParameter &e)
 {
-	if (DISABLE_Callbacks) return;
+	if (!bCallbacksEnable) return;
 
 	string name = e.getName();
 
@@ -488,11 +484,11 @@ void ofxAddonTemplateCustomApp::Changed_params_Addon(ofAbstractParameter &e)
 	}
 }
 
-//addon control (internal) params
+// addon control (internal) params
 //--------------------------------------------------------------
 void ofxAddonTemplateCustomApp::Changed_params_Control(ofAbstractParameter &e)
 {
-	if (DISABLE_Callbacks) return;
+	if (!bCallbacksEnable) return;
 
 	string name = e.getName();
 
@@ -505,58 +501,59 @@ void ofxAddonTemplateCustomApp::Changed_params_Control(ofAbstractParameter &e)
 
 	if (0) {}
 
-	//control params
 	else if (name == "")
 	{
 	}
 
+	// app modes
 	//else if (name == "APP MODE")
 	//{
-	//	switch (MODE_App)
+	//	switch (appModeIndex)
 	//	{
 	//	case 0:
-	//		MODE_App_Name = "RUN";
+	//		appModeName = "RUN";
 	//		//setActive(false);
 	//		break;
 	//	case 1:
-	//		MODE_App_Name = "EDIT";
+	//		appModeName = "EDIT";
 	//		//setActive(true);
 	//		break;
 	//	default:
-	//		MODE_App_Name = "UNKNOWN";
+	//		appModeName = "UNKNOWN";
 	//		break;
 	//	}
 	//}
 
-	else if (name == "GUI POSITION")
+	else if (name == positionGui.getName())
 	{
-		gui_Control.setPosition(Gui_Position.get().x, Gui_Position.get().y);
+		gui_Control.setPosition(positionGui.get().x, positionGui.get().y);
 	}
-	else if (name == "ACTIVE")
+	else if (name == bActive.getName())
 	{
-		setActive(MODE_Active);
+		setActive(bActive);
 	}
-	else if (name == "GUI")
-	{
-	}
-	else if (name == "HELP")
+	else if (name == bGui.getName())
 	{
 	}
-	else if (name == "APP MODE")
+	else if (name == bHelp.getName())
 	{
 	}
-	else if (name == "DEBUG")
+	else if (name == bDebug.getName())
 	{
 	}
 }
 
 //--------------------------------------------------------------
-void ofxAddonTemplateCustomApp::setKey_MODE_App(int k)
+void ofxAddonTemplateCustomApp::setKeyAppMode(int k)
 {
-	key_MODE_App = k;
+	keyAppMode = k;
 }
 
-#pragma mark - FILE SETTINGS
+//--------------------------------------------------------------
+void ofxAddonTemplateCustomApp::setLogLevel(ofLogLevel level)
+{
+	ofSetLogLevel(__FUNCTION__, level);
+}
 
 //--------------------------------------------------------------
 void ofxAddonTemplateCustomApp::setPathGlobal(string s)//must call before setup. disabled by default
@@ -568,52 +565,4 @@ void ofxAddonTemplateCustomApp::setPathGlobal(string s)//must call before setup.
 
 //--------------------------------------------------------------
 void ofxAddonTemplateCustomApp::dragEvent(ofDragInfo info) {
-	if (info.files.size() > 0) {
-		dragPt = info.position;
-
-		if (fileList.get() == "") {
-			msg = "";
-		}
-
-		//draggedImages.assign(info.files.size(), ofImage());
-		for (unsigned int k = 0; k < info.files.size(); k++)
-		{
-			string name = info.files[k];
-			ofLogNotice(__FUNCTION__) << k << " : " << name;
-			fileList += name;
-			fileList += "\n";
-		}
-	}
-}
-
-//--------------------------------------------------------------
-void ofxAddonTemplateCustomApp::drawInfo() {
-
-	ofDrawBitmapStringHighlight(fileList, 20, 25);
-	ofDrawBitmapStringHighlight("Drag files to queue paths...", ofGetWidth() - 300, ofGetHeight() - 25);
-	ofDrawBitmapStringHighlight(msg, ofGetWidth() - 300, 25);
-}
-
-//--------------------------------------------------------------
-void ofxAddonTemplateCustomApp::doRemoveDataFiles() {
-
-	auto ss = ofSplitString(fileList, "\n");
-
-	for (int i = 0; i < ss.size(); i++)
-	{
-		string filepath = ss[i];
-		ofLogNotice(__FUNCTION__) << "#" << i << " : " << filepath;
-		ofFile::removeFile(filepath, true);
-	}
-
-	msg = "Removed files Done";
-	//fileList = "";
-
-	//// remove all the settings folder
-	//const filesystem::path path = path_Global;
-	//ofDirectory::removeDirectory(path, true, true);
-
-	//// remove ini file
-	//const filesystem::path file = ofToDataPath("../imgui.ini");
-	//ofFile::removeFile(file, true);
 }

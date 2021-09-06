@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
+
 #include "ofxAddonTemplateCustomApp.h"
 
 class ofApp : public ofBaseApp{
@@ -21,7 +22,7 @@ class ofApp : public ofBaseApp{
 		void windowResized(int w, int h);
 		void gotMessage(ofMessage msg);
 		
-		ofxAddonTemplateCustomApp dataRemover;
+		ofxAddonTemplateCustomApp classObject;
 
 		void dragEvent(ofDragInfo dragInfo);
 };
