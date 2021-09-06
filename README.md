@@ -59,16 +59,18 @@ Clone these add-ons and include into the **OF Project Generator** to allow compi
 * [ofxSurfingImGui](https://github.com/moebiussurfing/ofxSurfingImGui)  
 * [ofxImGui](https://github.com/Daandelange/ofxImGui/) [*Fork*]  
 * ofxGui [*Core*]  
+
 _[ EXAMPLE FOR OTHER ADDONS ]_  
 * [ofxScaleDragRect](https://github.com/moebiussurfing/ofxScaleDragRect)
 * [ofxWindowApp](https://github.com/moebiussurfing/ofxWindowApp) [*Only for the example*]  
 * ofxXmlSettings [*Core*]  
 
-Above add-ons already packed into **OF_ADDON/libs**. No need to add them manually with the **OF Project Generator**:  
-* [ofxColorQuantizerHelper](https://github.com/moebiussurfing/ofxColorQuantizerHelper)
+Above addons already packed into **OF_ADDON/libs**.  
+No need to add them manually with the **OF Project Generator**:  
+* [ofxColorQuantizerHelper](https://github.com/moebiussurfing/ofxColorQuantizerHelper)  
 
 *Thanks a lot to all these ofxAddons coders. Look into each folder for authoring credits, original forks, and license info.*  
-  </p>
+ </p>
 </details>
 
 <details>
@@ -94,7 +96,13 @@ An addon by **@moebiusSurfing**
 *( ManuMolina ) 2019-2021*  
 
 ### Contact / Follow
-[Twitter](https://twitter.com/moebiussurfing/) | [Instagram](https://www.instagram.com/moebiussurfing/) | [YouTube](https://www.youtube.com/channel/UCzUw96_wjmNxyIoFXf84hQg)  
+<p>
+<a href="https://twitter.com/moebiusSurfing/" rel="nofollow">Twitter</a> | 
+<a href="https://www.youtube.com/moebiusSurfing" rel="nofollow">YouTube</a> | 
+<a href="https://www.instagram.com/moebiusSurfing/" rel="nofollow">Instagram</a> | 
+<a href="https://github.com/moebiussurfing" target="_blank">GitHub</a> | 
+<a href="mailto:moebiussurfing@gmail.com" target="_blank">Email</a>
+</p>
 
 ### License
-**MIT License**
+MIT License
