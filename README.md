@@ -92,4 +92,4 @@ An addon by **@moebiusSurfing**
 [YouTube](https://www.youtube.com/channel/UCzUw96_wjmNxyIoFXf84hQg)  
 
 ### License
-[**MIT License**]
+**MIT License**
