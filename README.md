@@ -70,18 +70,6 @@ Above add-ons already packed into **OF_ADDON/libs**. No need to add them manuall
   </p>
 </details>
 
-## Author
-An addon by **@moebiusSurfing**  
-*( ManuMolina ) 2019-2021*  
-
-## License
-[**MIT License**]
-
-#### Contact / Follow
-[Twitter](https://twitter.com/moebiussurfing/)  
-[Instagram](https://www.instagram.com/moebiussurfing/)  
-[YouTube](https://www.youtube.com/channel/UCzUw96_wjmNxyIoFXf84hQg)  
-
 <details>
   <summary>TODO / NOTES</summary>
   <p>
@@ -90,3 +78,15 @@ An addon by **@moebiusSurfing**
 * 
   </p>
 </details>
+
+## Author
+An addon by **@moebiusSurfing**  
+*( ManuMolina ) 2019-2021*  
+
+#### Contact / Follow
+[Twitter](https://twitter.com/moebiussurfing/)  
+[Instagram](https://www.instagram.com/moebiussurfing/)  
+[YouTube](https://www.youtube.com/channel/UCzUw96_wjmNxyIoFXf84hQg)  
+
+#### License
+[**MIT License**]
