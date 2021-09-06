@@ -15,7 +15,7 @@ I Use this classes as templates for build my addons.
 - Customize GUI.
 - Basic parameters and app modes.
 - Store/Recall settings.
-- 
+- Readme files, git ignore and some scripts.
 
 ## Usage
  
@@ -42,7 +42,7 @@ ofApp::draw(){
 }
 ```
 
-details>
+<details>
   <summary>Dependencies</summary>
   <p>
 
@@ -70,19 +70,23 @@ Above add-ons already packed into **OF_ADDON/libs**. No need to add them manuall
   </p>
 </details>
 
-### TODO
-* 
-
-### Notes
-* Hit me up if you have any suggestions or feature requests.
-
 ## Author
 An addon by **@moebiusSurfing**  
 *( ManuMolina ) 2019-2021*  
 
+## License
+[**MIT License**]
+
+#### Contact / Follow
 [Twitter](https://twitter.com/moebiussurfing/)  
 [Instagram](https://www.instagram.com/moebiussurfing/)  
 [YouTube](https://www.youtube.com/channel/UCzUw96_wjmNxyIoFXf84hQg)  
 
-## License
-[**MIT License**]
+<details>
+  <summary>TODO / NOTES</summary>
+  <p>
+
+* Hit me up if you have any suggestions or feature requests.
+* 
+  </p>
+</details>
