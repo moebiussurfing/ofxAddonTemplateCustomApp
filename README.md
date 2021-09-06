@@ -19,7 +19,9 @@ I Use these classes as templates for build my addons.
 - Key commands snippets.
 
 ## Usage
- 
+
+_[ EXAMPLE FOR OTHER ADDONS ]_  
+
 ### ofApp.h
 ```.cpp
 #include "ofxAddonTemplateCustomApp.h"
@@ -49,6 +51,8 @@ ofApp::draw()
 <details>
   <summary>Dependencies</summary>
   <p>
+
+_[ EXAMPLE FOR OTHER ADDONS ]_  
 
 Clone these add-ons and include into the **OF Project Generator** to allow compile your projects or the examples:
 * [ofxSurfingHelpers](https://github.com/moebiussurfing/ofxSurfingHelpers)  
