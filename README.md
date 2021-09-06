@@ -1,10 +1,12 @@
-ofxSurfingPreset
+ofxAddonTemplateCustomApp
 =============================
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 ![Stage: beta](https://img.shields.io/badge/-alpha-red)
 
 # Overview
-**ofxSurfingPreset** is an **openFrameworks** addon template for MYSELF.
+**ofxAddonTemplateCustomApp** is an **openFrameworks** addon template for MYSELF.
+
+I Use this classes as templates for build my addons.
 
 ## Screenshot
 ![image](docs/readme_images/Capture1.PNG?raw=true "image")
@@ -15,44 +17,28 @@ ofxSurfingPreset
 - Store/Recall settings.
 - 
 
-The first step is to create texture just like every texture using threejs.
-
-    const texturePath =  'https://i.imgur.com/Oj6RJV9.png';
-    const spriteTexture = new  THREE.TextureLoader().load(texturePath)
-
-   
-Next step is about creating the animator object:
-
-     const animator =  new  PlainAnimator(spriteTexture, 4, 4, 10, 15);
-These magic numbers are the follows:
-|value| description |
-|--|--|
-| 4 | number of frames horizontally |
-| 4 | number of frames vertically |
-| 10 | total number of frames |
-| 15 | frames per second (fps) |
-
 ## Usage
  
-** ofApp.h **
+### ofApp.h
 ```.cpp
-#include "ofxSurfingPreset.h"
-ofxSurfingPreset myAddon;
+#include "ofxAddonTemplateCustomApp.h"
+
+ofxAddonTemplateCustomApp myAddon;
 ```
 
-** ofApp.cpp **
+### ofApp.cpp
 ```.cpp
 ofApp::setup(){
-	ofxSurfingPreset.setup();
+	ofxAddonTemplateCustomApp.setup();
 }
 
 ofApp::update(){
-	ofxSurfingPreset.update();
+	ofxAddonTemplateCustomApp.update();
 }
 
 ofApp::draw(){
-	ofxSurfingPreset.draw();
-	ofxSurfingPreset.drawGui();
+	ofxAddonTemplateCustomApp.draw();
+	ofxAddonTemplateCustomApp.drawGui();
 }
 ```
 
@@ -64,9 +50,9 @@ Clone these add-ons and include into the **OF Project Generator** to allow compi
 * [ofxColorClient](https://github.com/moebiussurfing/ofxColorClient)
 * [ofxSurfingHelpers](https://github.com/moebiussurfing/ofxSurfingHelpers)  
 * [ofxScaleDragRect](https://github.com/moebiussurfing/ofxScaleDragRect)
+* [ofxWindowApp](https://github.com/moebiussurfing/ofxWindowApp)  [ Only for the example ]
 * ofxGui  [ **OF** ]
 * ofxXmlSettings [ **OF** ]
-* [ofxWindowApp](https://github.com/moebiussurfing/ofxWindowApp)  [ Only for the example ]
 
 Above add-ons already packed into **OF_ADDON/libs**. No need to add them manually with the **OF Project Generator**:  
 * [ofxColorQuantizerHelper](https://github.com/moebiussurfing/ofxColorQuantizerHelper)
@@ -84,8 +70,6 @@ Above add-ons already packed into **OF_ADDON/libs**. No need to add them manuall
   </p>
 </details>
 
-<br/>
-
 ### TODO
 * 
 
@@ -101,5 +85,4 @@ An addon by **@moebiusSurfing**
 [YouTube](https://www.youtube.com/channel/UCzUw96_wjmNxyIoFXf84hQg)  
 
 ## License
-
-[**MIT License**](https://github.com/moebiussurfing/ofxColorManager/blob/b29c56f7b0e374b6a6fe2406e45fbfaaf2726112/LICENSE)
+[**MIT License**]
