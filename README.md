@@ -30,8 +30,7 @@ _[ EXAMPLE FOR OTHER ADDONS ]_
 #include "ofxAddonTemplateCustomApp.h"
 
 ofxAddonTemplateCustomApp myAddon;
-```
-_[ EXAMPLE FOR OTHER ADDONS ]_  
+``` 
 ### ofApp.cpp
 ```.cpp
 ofApp::setup()
@@ -59,11 +58,11 @@ Clone these add-ons and include into the **OF Project Generator** to allow compi
 * [ofxSurfingHelpers](https://github.com/moebiussurfing/ofxSurfingHelpers)  
 * [ofxSurfingImGui](https://github.com/moebiussurfing/ofxSurfingImGui)  
 * [ofxImGui](https://github.com/Daandelange/ofxImGui/) [*Fork*]  
-* ofxGui [*Core*]
+* ofxGui [*Core*]  
 _[ EXAMPLE FOR OTHER ADDONS ]_  
 * [ofxScaleDragRect](https://github.com/moebiussurfing/ofxScaleDragRect)
-* [ofxWindowApp](https://github.com/moebiussurfing/ofxWindowApp)  [ Only for the example ]
-* ofxXmlSettings [*Core*]
+* [ofxWindowApp](https://github.com/moebiussurfing/ofxWindowApp) [*Only for the example*]  
+* ofxXmlSettings [*Core*]  
 
 Above add-ons already packed into **OF_ADDON/libs**. No need to add them manually with the **OF Project Generator**:  
 * [ofxColorQuantizerHelper](https://github.com/moebiussurfing/ofxColorQuantizerHelper)
