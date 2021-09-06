@@ -86,10 +86,10 @@ Above add-ons already packed into **OF_ADDON/libs**. No need to add them manuall
 An addon by **@moebiusSurfing**  
 *( ManuMolina ) 2019-2021*  
 
-##### Contact / Follow
+### Contact / Follow
 [Twitter](https://twitter.com/moebiussurfing/)  
 [Instagram](https://www.instagram.com/moebiussurfing/)  
 [YouTube](https://www.youtube.com/channel/UCzUw96_wjmNxyIoFXf84hQg)  
 
-##### License
+### License
 [**MIT License**]
