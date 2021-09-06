@@ -52,10 +52,12 @@ ofApp::draw()
 
 Clone these add-ons and include into the **OF Project Generator** to allow compile your projects or the examples:
 * [ofxSurfingHelpers](https://github.com/moebiussurfing/ofxSurfingHelpers)  
+* [ofxSurfingImGui](https://github.com/moebiussurfing/ofxSurfingImGui)  
+* [ofxImGui](https://github.com/Daandelange/ofxImGui/) [*Fork*]  
 * [ofxScaleDragRect](https://github.com/moebiussurfing/ofxScaleDragRect)
 * [ofxWindowApp](https://github.com/moebiussurfing/ofxWindowApp)  [ Only for the example ]
-* ofxGui  [ **OF** ]
-* ofxXmlSettings [ **OF** ]
+* ofxGui  [*Core*]
+* ofxXmlSettings [*Core*]
 
 Above add-ons already packed into **OF_ADDON/libs**. No need to add them manually with the **OF Project Generator**:  
 * [ofxColorQuantizerHelper](https://github.com/moebiussurfing/ofxColorQuantizerHelper)
