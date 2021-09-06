@@ -14,12 +14,11 @@ ofxAddonTemplateCustomApp
 - Common ofParameters. 
 - ofxGui and ImGui GUI with customized themes.
 - Auto Store/Recall app session settings.
-- Callbacks methods for litering.
+- Callbacks methods for filtering.
 - Key commands with modificators.
-- ImGui initiation wiht Layout Presets Engine.
-- Readme files, git ignore and doc folder for screenshots.
+- ImGui initiation with a Layout Presets Engine.
+- Readme files, Git ignore, some scripts and ```/doc/readme-images``` folders for screenshots.
 - Different app modes.
-- Readme files, git ignore and some scripts.
 - Key commands snippets.
 
 ## Usage
@@ -42,12 +41,12 @@ ofApp::setup()
 
 ofApp::update()
 {
-	ofxAddonTemplateCustomApp.update();
+	//ofxAddonTemplateCustomApp.update();
 }
 
 ofApp::draw()
 {
-	ofxAddonTemplateCustomApp.draw();
+	//ofxAddonTemplateCustomApp.draw();
 	ofxAddonTemplateCustomApp.drawGui();
 }
 ```
