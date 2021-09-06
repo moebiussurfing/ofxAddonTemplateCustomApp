@@ -4,18 +4,19 @@ ofxAddonTemplateCustomApp
 ![Stage: beta](https://img.shields.io/badge/-alpha-red)
 
 # Overview
-**ofxAddonTemplateCustomApp** is an **openFrameworks** addon template for MYSELF.
+**ofxAddonTemplateCustomApp** is a personal **openFrameworks** addon template for **MYSELF**.
 
-I Use this classes as templates for build my addons.
+I Use these classes as templates for build my addons.
 
 ## Screenshot
 ![image](docs/readme_images/Capture1.PNG?raw=true "image")
 
 ## Features
-- Customize GUI.
+- Customized GUI.
 - Basic parameters and app modes.
 - Store/Recall settings.
 - Readme files, git ignore and some scripts.
+- Key commands snippets.
 
 ## Usage
  
@@ -28,15 +29,18 @@ ofxAddonTemplateCustomApp myAddon;
 
 ### ofApp.cpp
 ```.cpp
-ofApp::setup(){
+ofApp::setup()
+{
 	ofxAddonTemplateCustomApp.setup();
 }
 
-ofApp::update(){
+ofApp::update()
+{
 	ofxAddonTemplateCustomApp.update();
 }
 
-ofApp::draw(){
+ofApp::draw()
+{
 	ofxAddonTemplateCustomApp.draw();
 	ofxAddonTemplateCustomApp.drawGui();
 }
@@ -47,7 +51,6 @@ ofApp::draw(){
   <p>
 
 Clone these add-ons and include into the **OF Project Generator** to allow compile your projects or the examples:
-* [ofxColorClient](https://github.com/moebiussurfing/ofxColorClient)
 * [ofxSurfingHelpers](https://github.com/moebiussurfing/ofxSurfingHelpers)  
 * [ofxScaleDragRect](https://github.com/moebiussurfing/ofxScaleDragRect)
 * [ofxWindowApp](https://github.com/moebiussurfing/ofxWindowApp)  [ Only for the example ]
@@ -83,10 +86,10 @@ Above add-ons already packed into **OF_ADDON/libs**. No need to add them manuall
 An addon by **@moebiusSurfing**  
 *( ManuMolina ) 2019-2021*  
 
-#### Contact / Follow
+##### Contact / Follow
 [Twitter](https://twitter.com/moebiussurfing/)  
 [Instagram](https://www.instagram.com/moebiussurfing/)  
 [YouTube](https://www.youtube.com/channel/UCzUw96_wjmNxyIoFXf84hQg)  
 
-#### License
+##### License
 [**MIT License**]
