@@ -4,17 +4,21 @@ ofxAddonTemplateCustomApp
 ![Stage: beta](https://img.shields.io/badge/-alpha-red)
 
 # Overview
-**ofxAddonTemplateCustomApp** is a personal **openFrameworks** addon template for **MYSELF**.
-
-I Use these classes as templates for build my addons.
+**ofxAddonTemplateCustomApp** is a **PERSONAL** template addon for **openFrameworks** to make other **addons** or **oF-Apps* for **MYSELF**.
 
 ## Screenshot
 ![image](docs/readme_images/Capture1.PNG?raw=true "image")
 
 ## Features
-- Customized GUI.
-- Basic parameters and app modes.
-- Store/Recall settings.
+
+- Common ofParameters. 
+- ofxGui and ImGui GUI with customized themes.
+- Auto Store/Recall app session settings.
+- Callbacks methods for litering.
+- Key commands with modificators.
+- ImGui initiation wiht Layout Presets Engine.
+- Readme files, git ignore and doc folder for screenshots.
+- Different app modes.
 - Readme files, git ignore and some scripts.
 - Key commands snippets.
 
@@ -28,7 +32,7 @@ _[ EXAMPLE FOR OTHER ADDONS ]_
 
 ofxAddonTemplateCustomApp myAddon;
 ```
-
+_[ EXAMPLE FOR OTHER ADDONS ]_  
 ### ofApp.cpp
 ```.cpp
 ofApp::setup()
@@ -52,15 +56,14 @@ ofApp::draw()
   <summary>Dependencies</summary>
   <p>
 
-_[ EXAMPLE FOR OTHER ADDONS ]_  
-
 Clone these add-ons and include into the **OF Project Generator** to allow compile your projects or the examples:
 * [ofxSurfingHelpers](https://github.com/moebiussurfing/ofxSurfingHelpers)  
 * [ofxSurfingImGui](https://github.com/moebiussurfing/ofxSurfingImGui)  
 * [ofxImGui](https://github.com/Daandelange/ofxImGui/) [*Fork*]  
+* ofxGui [*Core*]
+_[ EXAMPLE FOR OTHER ADDONS ]_  
 * [ofxScaleDragRect](https://github.com/moebiussurfing/ofxScaleDragRect)
 * [ofxWindowApp](https://github.com/moebiussurfing/ofxWindowApp)  [ Only for the example ]
-* ofxGui [*Core*]
 * ofxXmlSettings [*Core*]
 
 Above add-ons already packed into **OF_ADDON/libs**. No need to add them manually with the **OF Project Generator**:  
@@ -93,9 +96,7 @@ An addon by **@moebiusSurfing**
 *( ManuMolina ) 2019-2021*  
 
 ### Contact / Follow
-[Twitter](https://twitter.com/moebiussurfing/)  
-[Instagram](https://www.instagram.com/moebiussurfing/)  
-[YouTube](https://www.youtube.com/channel/UCzUw96_wjmNxyIoFXf84hQg)  
+[Twitter](https://twitter.com/moebiussurfing/) | [Instagram](https://www.instagram.com/moebiussurfing/) | [YouTube](https://www.youtube.com/channel/UCzUw96_wjmNxyIoFXf84hQg)  
 
 ### License
 **MIT License**
