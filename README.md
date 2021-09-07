@@ -21,21 +21,19 @@ This is more up-to-date than **ofxAddonTemplateCustomApp**.
 ![image](docs/readme_images/Capture1.PNG?raw=true "image")
 
 ## Features
-- Common ofParameters and groups. 
+- Common ofParameters and groups.
 - ofxGui and ImGui GUI with customized themes.
 - ImGui initiation with a Layout Presets Engine.
 - Auto Store/Recall app session settings.
 - Callbacks methods for filtering ofParams.
-- Callbacks for auto call update/draw. 
+- Callbacks for auto call update/draw.
 - Key commands with modificators and snippets.
-- Readme files, Git ignore, some scripts and ```/doc/readme-images``` folders for screenshots.
+- Readme files, Git ignore, some scripts and /doc/readme-images/ folders for screenshots.
 - Different app modes.
 - Draggable floating help box.
 
 ## Usage
-
 _[ EXAMPLE FOR OTHER ADDONS ]_  
-
 ### ofApp.h
 ```.cpp
 #include "ofxAddonTemplateCustomApp.h"
