@@ -7,10 +7,15 @@ ofxAddonTemplateCustomApp
 **ofxAddonTemplateCustomApp** is a **PERSONAL** template addon for **openFrameworks** to make other **addons** or **oF-Apps** for **MYSELF**.
 
 ### Included classes:
-**myClassBasic**.h/.cpp -> A very simple template class with common oF methods: _setup/update/draw/_ ...etc.  
-**ofxAddonTemplateCustomApp**.h/.cpp -> A bigger template with more functions.  
-**ofxAddonTemplate_ImGui**.h/.cpp - > Added ImGui sttuf but requires my ofxSurfingImGui addon.  
-This the newer file, more  updated than **ofxAddonTemplateCustomApp**.
+**myClassBasic**.h/.cpp  
+A very simple template class with common oF methods: _setup/update/draw/_ ...etc.  
+
+**ofxAddonTemplateCustomApp**.h/.cpp  
+A bigger template with more functions.  
+
+**ofxAddonTemplate_ImGui**.h/.cpp  
+Added ImGui sttuf but requires my ofxSurfingImGui addon.  
+This the newer file, more  updated than **ofxAddonTemplateCustomApp**.  
 
 ## Screenshot
 ![image](docs/readme_images/Capture1.PNG?raw=true "image")
