@@ -11,15 +11,15 @@ ofxAddonTemplateCustomApp
 
 ## Features
 
-- Common ofParameters. 
+- Common ofParameters and groups. 
 - ofxGui and ImGui GUI with customized themes.
+- ImGui initiation with a Layout Presets Engine.
 - Auto Store/Recall app session settings.
 - Callbacks methods for filtering.
-- Key commands with modificators.
-- ImGui initiation with a Layout Presets Engine.
+- Key commands with modificators and snippets.
 - Readme files, Git ignore, some scripts and ```/doc/readme-images``` folders for screenshots.
 - Different app modes.
-- Key commands snippets.
+- Draggable floating help box.
 
 ## Usage
 
@@ -57,17 +57,14 @@ ofApp::draw()
 Clone these add-ons and include into the **OF Project Generator** to allow compile your projects or the examples:
 * [ofxSurfingHelpers](https://github.com/moebiussurfing/ofxSurfingHelpers)  
 * [ofxSurfingImGui](https://github.com/moebiussurfing/ofxSurfingImGui)  
-* [ofxImGui](https://github.com/Daandelange/ofxImGui/) [*Fork*]  
-* ofxGui [*Core*]  
+* [ofxImGui](https://github.com/Daandelange/ofxImGui/) [_Fork_]  
+* [ofxScaleDragRect](https://github.com/moebiussurfing/ofxScaleDragRect) [_Fork_]  
+* [ofxMSAInteractiveObject](https://github.com/moebiussurfing/ofxMSAInteractiveObject) [_Fork_]  
+* ofxGui [_Core_]  
 
-_[ EXAMPLE FOR OTHER ADDONS ]_  
-* [ofxScaleDragRect](https://github.com/moebiussurfing/ofxScaleDragRect)
-* [ofxWindowApp](https://github.com/moebiussurfing/ofxWindowApp) [*Only for the example*]  
-* ofxXmlSettings [*Core*]  
-
-Above addons already packed into **OF_ADDON/libs**.  
-No need to add them manually with the **OF Project Generator**:  
-* [ofxColorQuantizerHelper](https://github.com/moebiussurfing/ofxColorQuantizerHelper)  
+The below addons are already packed into **OF_ADDON/libs/**.  
+No need to add them manually with the **OF PROJECT GENERATOR**:  
+* [x](https://github.com/moebiussurfing/x)  
 
 *Thanks a lot to all these ofxAddons coders. Look into each folder for authoring credits, original forks, and license info.*  
  </p>

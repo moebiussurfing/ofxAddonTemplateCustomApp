@@ -8,13 +8,16 @@ ofxAddonTemplate_ImGui::ofxAddonTemplate_ImGui()
 	path_Params_AppSettings = "ofxAddonTemplate_ImGui_AppSettings.xml";
 	path_Params_Control = "Params_Control.xml";
 
-	bCallbacksEnable = true;
+	bCallbacksEnable = false; // disable until ends setup
 	setActive(true); // adds key and mouse listeners
 
 	ofAddListener(ofEvents().update, this, &ofxAddonTemplate_ImGui::update);
 	ofAddListener(ofEvents().draw, this, &ofxAddonTemplate_ImGui::draw);
 	//ofAddListener(ofEvents().draw, this, &ofxAddonTemplate_ImGui::draw, OF_EVENT_ORDER_AFTER_APP);
 
+	//-
+
+	// Auto called on creation
 	setup();
 }
 
@@ -33,14 +36,18 @@ ofxAddonTemplate_ImGui::~ofxAddonTemplate_ImGui()
 	ofRemoveListener(ofEvents().draw, this, &ofxAddonTemplate_ImGui::draw);
 	//ofRemoveListener(ofEvents().draw, this, &ofxAddonTemplate_ImGui::draw, OF_EVENT_ORDER_AFTER_APP);
 
+	//-
+
+	// Auto called on destruction
 	exit();
 }
 
 //--------------------------------------------------------------
 void ofxAddonTemplate_ImGui::setup()
 {
-	// log mode
-	ofSetLogLevel("ofxAddonTemplate_ImGui", OF_LOG_NOTICE);
+	// Log level
+	setLogLevel(OF_LOG_NOTICE);
+	//setLogLevel(OF_LOG_VERBOSE);
 
 	//--
 
@@ -48,7 +55,25 @@ void ofxAddonTemplate_ImGui::setup()
 	wWindow = ofGetWidth();
 	hWindow = ofGetHeight();
 	rectWindow = ofGetCurrentViewport();
+	
+	//--
+	
+	setupParameters();
 
+	//--
+
+	// gui
+	setupGui();
+
+	//--
+
+	// startup
+	startup();
+}
+
+//--------------------------------------------------------------
+void ofxAddonTemplate_ImGui::setupParameters()
+{
 	//--
 
 	// addon params
@@ -65,31 +90,36 @@ void ofxAddonTemplate_ImGui::setup()
 
 	//-
 
-	// addon control (internal)
+	// addon control
 
 	// params
 
 	bActive.set("Active", true);
 	bKeys.set("Keys", true);
 	bHelp.set("Help", false);
-
-	appModeIndex.set("App Mode", 0, 0, OFX_APP_MODES_AMOUNT - 1);
-	appModeName.set("", "");
-
 	bDebug.set("Debug", true);
-	bAutoSave.set("AutoSave", true);
+	bAutoSave.set("AutoSave", false);
+
+	// app modes
+	appModeNames.clear();
+	//appModeNames.push_back("Undefined");
+	//appModeNames.push_back("Inactive");
+	appModeNames.push_back("Edit");
+	appModeNames.push_back("Live");
+	appModeIndex.set("App Mode", 0, 0, appModeNames.size() - 1);
+	//appModeIndex.set("App Mode", 0, 0, OFX_APP_MODES_AMOUNT - 1);
+	appModeName.set("App Mode Name", "");
 
 	bGui.set("Gui", true);
 	bGui_User.set("Gui User", true);
-
 	bGui_Advanced.set("Gui Advanced", true);
-	positionGui.set("Gui Position",
+	positionGuiAdvanced.set("Gui Position",
 		glm::vec2(wWindow * 0.5, hWindow * 0.5),
 		glm::vec2(0, 0),
 		glm::vec2(wWindow, hWindow)
 	);
 
-	// params control (internal)
+	// params control
 	params_Control.setName("Internal");
 	params_Control.add(appModeIndex);
 	params_Control.add(appModeName);
@@ -101,11 +131,11 @@ void ofxAddonTemplate_ImGui::setup()
 	params_Control.add(bGui);
 	params_Control.add(bGui_User);
 	params_Control.add(bGui_Advanced);
-	params_Control.add(positionGui);
+	params_Control.add(positionGuiAdvanced);
 
 	//-
 
-	// params App settings
+	// params App settings (to save/load app state)
 	params_AppSettings.setName("AppSettings");
 	params_AppSettings.add(bGui);
 	params_AppSettings.add(bGui_User);
@@ -117,6 +147,7 @@ void ofxAddonTemplate_ImGui::setup()
 
 	// exclude for settings
 	bDebug.setSerializable(false);
+	bHelp.setSerializable(false);
 	appModeName.setSerializable(false);
 
 	//-
@@ -134,19 +165,46 @@ void ofxAddonTemplate_ImGui::setup()
 
 	// callback
 	ofAddListener(params.parameterChangedE(), this, &ofxAddonTemplate_ImGui::Changed_params);
-
-	//--
-
-	// gui
-	setupGui();
-
-	//--
-
-	// startup
-	startup();
-
-	//--
 }
+
+//--------------------------------------------------------------
+void ofxAddonTemplate_ImGui::startup()
+{
+	ofLogNotice(__FUNCTION__);
+	bCallbacksEnable = true; // -> Just now we enable the callbacks!. That's to avoid some possible crashes.
+
+	loadSettings();
+
+	//-
+
+	bActive = true;
+
+	// Refresh window size to update some layouts or fbo sizes ...etc
+	// set gui position after window setup/resizing
+	windowResized(wWindow, hWindow);
+}
+
+//--------------------------------------------------------------
+void ofxAddonTemplate_ImGui::setupHelp()
+{
+	strHelpInfo = "ofxAddonTemplate_ImGui\n\n";
+	strHelpInfo += "h : Help Info\n";
+	strHelpInfo += "g : Gui\n";
+	strHelpInfo += "G : Gui Advanced\n";
+	strHelpInfo += "d : Debug\n";
+	strHelpInfo += "k : Enable Keys\n";
+	//strHelpInfo += "g : Show Gui\n";
+	//strHelpInfo += "\n";
+
+	// help box
+	helpTextBoxWidget.setPath(path_Global);
+	helpTextBoxWidget.setup();
+	helpTextBoxWidget.setTheme(bThemeDarkOrLight);
+}
+
+//-
+
+// Gui
 
 //--------------------------------------------------------------
 void ofxAddonTemplate_ImGui::setupGui()
@@ -164,14 +222,14 @@ void ofxAddonTemplate_ImGui::setupGui()
 
 		gui_Advanced.setup("ofxAddonTemplate_ImGui");
 		gui_Advanced.add(params);//add control (internal) and addon params
-		gui_Advanced.setPosition(positionGui.get().x, positionGui.get().y);
+		gui_Advanced.setPosition(positionGuiAdvanced.get().x, positionGuiAdvanced.get().y);
 		//gui_Advanced.setPosition(ofGetWidth() - 210, 20);
 
 		// collapse groups
 		auto &g0 = gui_Advanced.getGroup(params.getName());//1st level
 		auto &g2 = g0.getGroup(params_Addon.getName());//2nd level
 		auto &g3 = g0.getGroup(params_Control.getName());//2nd level
-		auto &g31 = g3.getGroup(positionGui.getName());//3nd level
+		auto &g31 = g3.getGroup(positionGuiAdvanced.getName());//3nd level
 		//g0.minimize();
 		g2.minimize();
 		g3.minimize();
@@ -180,10 +238,15 @@ void ofxAddonTemplate_ImGui::setupGui()
 
 	//--
 
-#ifdef USE_IM_GUI
 	// setup ImGui
+#ifdef USE_IM_GUI
 	setupImGui();
 #endif
+
+	//--
+
+	// Help info
+	setupHelp();
 }
 
 //--
@@ -258,9 +321,25 @@ void ofxAddonTemplate_ImGui::setupImGuiStyles()
 void ofxAddonTemplate_ImGui::drawImGui_User() { // user gui
 	//return;
 
-	ImGui::Begin("A RAW Window out of the Layout Engine");
-	ImGui::Text("Hello");
-	ImGui::TextWrapped("A RAW Window out of the Layout Engine");
+	ImGui::Begin("A RAW ImGui Window out of the Layout Engine");
+	ImGui::Text("HelloRaw");
+	// Select AppMode
+	{
+		int i = appModeIndex.get();
+		float _w100 = ofxImGuiSurfing::getWidgetsWidth(1);
+
+		//ImGui::SetNextItemWidth(_w100 - 20);
+		//if (ofxImGui::VectorCombo(" ", &i, appModeNames))
+
+		ImGui::SetNextItemWidth(_w100 - 100);
+		if (ofxImGui::VectorCombo("AppMode", &i, appModeNames))
+
+		{
+			ofLogNotice(__FUNCTION__) << "Combo Index: " << ofToString(i);
+			appModeIndex.set(i);
+		}
+	}
+	ImGui::TextWrapped("HelloRaw, HelloRaw, HelloRaw, HelloRaw, HelloRaw, HelloRaw");
 	ImGui::End();
 
 	//-
@@ -270,29 +349,24 @@ void ofxAddonTemplate_ImGui::drawImGui_User() { // user gui
 	{
 		if (guiManager.beginWindowSpecial(0)) // -> This is our helpers to render windows
 		{
-			ImGui::Text("Hello, left!");
-			ImGui::Text("Hello, left!");
-			ImGui::Text("Hello, left!");
-			ImGui::Text("Hello, left!");
-			ImGui::Text("Hello, left!");
+			ImGui::Text("Hello0, left!");
+			ImGui::Text("Hello0, left!");
 
 			guiManager.endWindowSpecial(); // -> Must be called inside the if / beginWindow brackets!
 		}
 
 		if (guiManager.beginWindowSpecial(1))
 		{
-			ImGui::Text("Hello, down!");
-			ImGui::Text("Hello, down!");
-			ImGui::Text("Hello, down!");
-			ImGui::Text("Hello, down!");
-			ImGui::Text("Hello, down!");
+			ImGui::Text("Hello1, down!");
+			ImGui::Text("Hello1, down!");
 
 			guiManager.endWindowSpecial();
 		}
 
 		if (guiManager.beginWindowSpecial(2))
 		{
-			ImGui::Text("Hello");
+			ImGui::Text("Hello2");
+			ImGui::Text("Hello2");
 
 			guiManager.endWindowSpecial();
 		}
@@ -356,24 +430,14 @@ void ofxAddonTemplate_ImGui::drawImGui() {
 }
 #endif
 
-//----
-
 //--------------------------------------------------------------
-void ofxAddonTemplate_ImGui::startup()
+void ofxAddonTemplate_ImGui::drawHelp()
 {
-	ofLogNotice(__FUNCTION__);
-
-	bCallbacksEnable = true;
-	
-	loadSettings();
-
-	//-
-
-	bActive = true;
-
-	// set gui position after window setup/resizing
-	windowResized(wWindow, hWindow);
+	helpTextBoxWidget.setText(strHelpInfo);
+	helpTextBoxWidget.draw();
 }
+
+//----
 
 //--------------------------------------------------------------
 void ofxAddonTemplate_ImGui::update(ofEventArgs & args) {
@@ -393,20 +457,15 @@ void ofxAddonTemplate_ImGui::update(ofEventArgs & args) {
 //--------------------------------------------------------------
 void ofxAddonTemplate_ImGui::draw(ofEventArgs & args)
 {
-	if (!bGui) return;
-
+	// Different app behaviours
 	// edit mode
-	if (appModeIndex == 1)
+	if (appModeIndex == OF_APP_MODE_EDIT)
 	{
 	}
 
 	// gui
-	if (bGui_Advanced) drawGui();
-
-#ifdef USE_IM_GUI
-	// ImGui
-	drawImGui();
-#endif
+	if (!bGui) return;
+	drawGui();
 }
 
 //--------------------------------------------------------------
@@ -419,7 +478,17 @@ void ofxAddonTemplate_ImGui::draw() {
 
 //--------------------------------------------------------------
 void ofxAddonTemplate_ImGui::drawGui() {
-	gui_Advanced.draw();
+
+	// gui advanced
+	if (bGui_Advanced) gui_Advanced.draw();
+
+	// ImGui
+#ifdef USE_IM_GUI
+	if (bGui_User) drawImGui();
+#endif
+
+	// Help info box text: 
+	if (bHelp) drawHelp();
 }
 
 //--------------------------------------------------------------
@@ -469,75 +538,18 @@ void ofxAddonTemplate_ImGui::setGuiVisible(bool b)
 	bGui = b;
 }
 
+//--------------------------------------------------------------
+void ofxAddonTemplate_ImGui::setGuiVisibleToggle()
+{
+	ofLogNotice(__FUNCTION__);
+	bGui = !bGui;
+}
+
 // keys
 //--------------------------------------------------------------
 void ofxAddonTemplate_ImGui::keyPressed(ofKeyEventArgs &eventArgs)
 {
-	// disabler for all keys. (independent from bActive)
-	if (!bKeys) return;
-
 	const int &key = eventArgs.key;
-	ofLogNotice(__FUNCTION__) << (char)key << " [" << key << "]";
-
-	// modifiers
-	bool mod_COMMAND = eventArgs.hasModifier(OF_KEY_COMMAND);
-	bool mod_CONTROL = eventArgs.hasModifier(OF_KEY_CONTROL);
-	bool mod_ALT = eventArgs.hasModifier(OF_KEY_ALT);
-	bool mod_SHIFT = eventArgs.hasModifier(OF_KEY_SHIFT);
-
-	bool debug = false;
-	if (debug)
-	{
-		ofLogNotice(__FUNCTION__) << "mod_COMMAND: " << (mod_COMMAND ? "ON" : "OFF");
-		ofLogNotice(__FUNCTION__) << "mod_CONTROL: " << (mod_CONTROL ? "ON" : "OFF");
-		ofLogNotice(__FUNCTION__) << "mod_ALT: " << (mod_ALT ? "ON" : "OFF");
-		ofLogNotice(__FUNCTION__) << "mod_SHIFT: " << (mod_SHIFT ? "ON" : "OFF");
-	}
-
-	//-
-
-	if (0) {}
-
-	//// custom
-	//else if (key == ' ')
-	//{
-	//}
-
-	//// custom with modifiers
-	//if (key == OF_KEY_UP && mod_ALT)
-	//{
-	//	ofLogNotice(__FUNCTION__) << "";
-	//}
-	//else if (key == OF_KEY_UP)
-	//{
-	//	ofLogNotice(__FUNCTION__) << "";
-	//}
-
-	// general
-	//if (key == keyAppMode)
-	//{
-	//	int i = appModeIndex;
-	//	i++;
-	//	appModeIndex = i % OFX_APP_MODES_AMOUNT;
-	//}
-
-	else if (key == 'g')
-	{
-		bGui = !bGui;
-	}
-
-	else if (key == 'G')
-	{
-		bGui_Advanced = !bGui_Advanced;
-	}
-	else if (key == 'h')
-	{
-		bHelp = !bHelp;
-	}
-	else if (key == 'd')
-	{
-		bDebug = !bDebug;
-	}
 
 	//--
 
@@ -555,6 +567,81 @@ void ofxAddonTemplate_ImGui::keyPressed(ofKeyEventArgs &eventArgs)
 		{
 			ofLogNotice(__FUNCTION__) << "KEYS ENABLED BACK";
 		}
+	}
+
+	//--
+
+	// disabler for all keys. (independent from bActive)
+	if (!bKeys) return;
+
+	ofLogNotice(__FUNCTION__) << (char)key << " [" << key << "]";
+
+	// modifiers
+	bool mod_COMMAND = eventArgs.hasModifier(OF_KEY_COMMAND);
+	bool mod_CONTROL = eventArgs.hasModifier(OF_KEY_CONTROL);
+	bool mod_ALT = eventArgs.hasModifier(OF_KEY_ALT);
+	bool mod_SHIFT = eventArgs.hasModifier(OF_KEY_SHIFT);
+
+	static bool debug = false;
+	if (debug)
+	{
+		ofLogNotice(__FUNCTION__) << "mod_COMMAND: " << (mod_COMMAND ? "ON" : "OFF");
+		ofLogNotice(__FUNCTION__) << "mod_CONTROL: " << (mod_CONTROL ? "ON" : "OFF");
+		ofLogNotice(__FUNCTION__) << "mod_ALT: " << (mod_ALT ? "ON" : "OFF");
+		ofLogNotice(__FUNCTION__) << "mod_SHIFT: " << (mod_SHIFT ? "ON" : "OFF");
+	}
+
+	//-
+
+	//// custom
+	//if (0) {}
+	//else if (key == ' ')
+	//{
+	//}
+
+	// custom with modifiers
+	if (!mod_COMMAND && !mod_CONTROL && !mod_ALT)
+	{
+		if (0) {}
+
+		else if (key == OF_KEY_UP)
+		{
+			ofLogNotice(__FUNCTION__) << "Up";
+		}
+		else if (key == OF_KEY_UP)
+		{
+			ofLogNotice(__FUNCTION__) << "Down";
+		}
+	}
+
+	//-
+
+	if (0) {}
+
+	// app mode (Tab by default)
+	else if (key == keyAppMode)
+	{
+		// cycled
+		int i = appModeIndex.get();
+		i++;
+		appModeIndex.set(i % (appModeIndex.getMax() + 1));
+	}
+
+	else if (key == 'g')
+	{
+		bGui = !bGui;
+	}
+	else if (key == 'G')
+	{
+		bGui_Advanced = !bGui_Advanced;
+	}
+	else if (key == 'h')
+	{
+		bHelp = !bHelp;
+	}
+	else if (key == 'd')
+	{
+		bDebug = !bDebug;
 	}
 }
 
@@ -626,6 +713,10 @@ void ofxAddonTemplate_ImGui::removeMouseListeners()
 	ofRemoveListener(ofEvents().keyPressed, this, &ofxAddonTemplate_ImGui::keyPressed);
 }
 
+//-
+
+// Callbacks
+
 //--------------------------------------------------------------
 void ofxAddonTemplate_ImGui::Changed_params(ofAbstractParameter &e)
 {
@@ -635,21 +726,6 @@ void ofxAddonTemplate_ImGui::Changed_params(ofAbstractParameter &e)
 	ofLogNotice(__FUNCTION__) << name << " : " << e;
 
 	if (0) {}
-
-	//// filter params
-	//else if (name == bClear.getName() && bClear.get())
-	//{
-	//	bClear = false;
-	//}
-	//else if (name == bRun.getName() && bRun.get())
-	//{
-	//	bRun = false;
-	//}
-	//else if (name == bInitialize.getName() && bInitialize.get())
-	//{
-	//	bInitialize = false;
-	//	fileList = "";
-	//}
 }
 
 // addon engine params
@@ -667,13 +743,28 @@ void ofxAddonTemplate_ImGui::Changed_params_Addon(ofAbstractParameter &e)
 		ofLogNotice(__FUNCTION__) << name << " : " << e;
 	}
 
-	// params
-	if (name == "")
+	// filter params
+	if (0) {}
+
+	else if (name == "")
 	{
 	}
+	//// filter params
+	//else if (name == Addon_Float.getName())
+	//{
+	//	Addon_Float = Addon_Float;
+	//}
+	//else if (name == Addon_Active.getName()))
+	//{
+	//	Addon_Active = Addon_Active;
+	//}
+	//else if (name == bInitialize.getName() && bInitialize.get())
+	//{
+	//	bInitialize = false;
+	//}
 }
 
-// addon control (internal) params
+// addon control params
 //--------------------------------------------------------------
 void ofxAddonTemplate_ImGui::Changed_params_Control(ofAbstractParameter &e)
 {
@@ -694,10 +785,6 @@ void ofxAddonTemplate_ImGui::Changed_params_Control(ofAbstractParameter &e)
 	{
 	}
 
-	else if (name == positionGui.getName())
-	{
-		gui_Advanced.setPosition(positionGui.get().x, positionGui.get().y);
-	}
 	else if (name == bActive.getName())
 	{
 		setActive(bActive);
@@ -710,27 +797,45 @@ void ofxAddonTemplate_ImGui::Changed_params_Control(ofAbstractParameter &e)
 	}
 	else if (name == bDebug.getName())
 	{
+		if (bDebug) {
+			setLogLevel(OF_LOG_VERBOSE);
+		}
+		else {
+			setLogLevel(OF_LOG_NOTICE);
+		}
+	}
+	else if (name == positionGuiAdvanced.getName())
+	{
+		gui_Advanced.setPosition(positionGuiAdvanced.get().x, positionGuiAdvanced.get().y);
 	}
 
-	// app modes
-	//else if (name == "APP MODE")
-	//{
-	//	switch (appModeIndex)
-	//	{
-	//	case 0:
-	//		appModeName = "RUN";
-	//		//setActive(false);
-	//		break;
-	//	case 1:
-	//		appModeName = "EDIT";
-	//		//setActive(true);
-	//		break;
-	//	default:
-	//		appModeName = "UNKNOWN";
-	//		break;
-	//	}
-	//}
+	else if (name == appModeIndex.getName())
+	{
+		appModeIndex.setWithoutEventNotifications(ofClamp(appModeIndex.get(), appModeIndex.getMin(), appModeIndex.getMax()));
+		appModeName = appModeNames[appModeIndex.get()];
+		appMode = AppMode(appModeIndex.get());
+
+		ofLogNotice(__FUNCTION__) << "AppMode: " << appModeIndex.get() << ":" << appModeName.get();
+
+		// app modes
+		//else if (name == "APP MODE")
+		//{
+		//	switch (appModeIndex)
+		//	{
+		//	case 0:
+		//		//setActive(false);
+		//		break;
+		//	case 1:
+		//		//setActive(true);
+		//		break;
+		//	default:
+		//		break;
+		//	}
+		//}
+	}
 }
+
+//--
 
 //--------------------------------------------------------------
 void ofxAddonTemplate_ImGui::setKeyAppMode(int k)
@@ -739,21 +844,26 @@ void ofxAddonTemplate_ImGui::setKeyAppMode(int k)
 }
 
 //--------------------------------------------------------------
-void ofxAddonTemplate_ImGui::setLogLevel(ofLogLevel level)
+void ofxAddonTemplate_ImGui::setLogLevel(ofLogLevel logLevel)
 {
-	ofSetLogLevel(__FUNCTION__, level);
+	ofLogWarning(__FUNCTION__) << ofLogLevel(logLevel);
+	ofSetLogLevel("ofxAddonTemplate_ImGui", logLevel);
 }
 
 //--------------------------------------------------------------
 void ofxAddonTemplate_ImGui::dragEvent(ofDragInfo info) {
 }
 
+//-
+
+// Settings
+
 //--------------------------------------------------------------
 void ofxAddonTemplate_ImGui::setPathGlobal(string s)//must call before setup. disabled by default
 {
-	path_GLOBAL = s;
+	path_Global = s;
 
-	ofxSurfingHelpers::CheckFolder(path_GLOBAL);
+	ofxSurfingHelpers::CheckFolder(path_Global);
 }
 
 //--------------------------------------------------------------
@@ -761,19 +871,19 @@ void ofxAddonTemplate_ImGui::saveSettings() {
 	ofLogVerbose(__FUNCTION__);
 
 	// get gui position before save
-	positionGui = glm::vec2(gui_Advanced.getPosition());
+	positionGuiAdvanced = glm::vec2(gui_Advanced.getPosition());
 
-	ofxSurfingHelpers::saveGroup(params_Control, path_GLOBAL + path_Params_Control);
-	ofxSurfingHelpers::saveGroup(params_AppSettings, path_GLOBAL + path_Params_AppSettings);
+	ofxSurfingHelpers::saveGroup(params_Control, path_Global + path_Params_Control);
+	ofxSurfingHelpers::saveGroup(params_AppSettings, path_Global + path_Params_AppSettings);
 }
 
 //--------------------------------------------------------------
 void ofxAddonTemplate_ImGui::loadSettings() {
 	ofLogVerbose(__FUNCTION__);
 
-	ofxSurfingHelpers::CheckFolder(path_GLOBAL);
+	ofxSurfingHelpers::CheckFolder(path_Global);
 
 	// settings
-	ofxSurfingHelpers::loadGroup(params_Control, path_GLOBAL + path_Params_Control);
-	ofxSurfingHelpers::loadGroup(params_AppSettings, path_GLOBAL + path_Params_AppSettings);
+	ofxSurfingHelpers::loadGroup(params_Control, path_Global + path_Params_Control);
+	ofxSurfingHelpers::loadGroup(params_AppSettings, path_Global + path_Params_AppSettings);
 }

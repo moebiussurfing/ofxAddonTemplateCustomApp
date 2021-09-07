@@ -5,6 +5,11 @@
 
 /*
 
+NOTE:
+ofxAddonTemplate_ImGui is recommended!
+This class is older than ofxAddonTemplate_ImGui.
+Both are similar but this one is a bit older.
+
 TODO:
 
 */

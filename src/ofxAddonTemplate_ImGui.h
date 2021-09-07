@@ -5,6 +5,9 @@
 
 /*
 
+NOTE:
+Notice that this class will be more up-to-date than ofxAddonTemplateCustomApp.h !
+
 TODO:
 
 */
@@ -13,8 +16,9 @@ TODO:
 //--
 
 #include "ofxGui.h"
-#include "ofxSurfingHelpers.h"
 #include "ofxSurfing_ofxGui.h"
+#include "ofxSurfingHelpers.h"
+#include "TextBoxWidget.h"
 
 //--
 
@@ -28,41 +32,6 @@ TODO:
 
 class ofxAddonTemplate_ImGui
 {
-
-private:
-	// we can handle many app modes to change behaviour
-	enum AppMode
-	{
-		OF_APP_MODE_UNDEFINED = 0,
-		OF_APP_MODE_INACTIVE,
-		OF_APP_MODE_EDIT,
-		OF_APP_MODE_LIVE,
-		OFX_APP_MODES_AMOUNT
-	};
-	AppMode appMode = OF_APP_MODE_UNDEFINED;
-
-	//--
-
-#ifdef USE_IM_GUI
-public:
-	ofxSurfing_ImGui_Manager guiManager;
-#endif
-
-public:
-	// app session
-	ofParameterGroup params_AppSettings;
-
-	// to get callbacks
-	ofParameterGroup params_Control;
-
-	// addon variables
-	ofParameterGroup params_Addon;;
-	ofParameter<bool> Addon_Active;
-	ofParameter<float> Addon_Float;
-
-	// all params grouped
-	ofParameterGroup params;
-
 	//----
 
 public:
@@ -77,7 +46,10 @@ public:
 	void draw(ofEventArgs & args);
 	void exit();
 
+	//----
+	
 	void startup(); // -> Called when setup done. Usually to load settings.
+	void setupParameters();
 	void setupGui();
 	void drawGui();
 
@@ -89,6 +61,27 @@ public:
 	void drawImGui_User();
 #endif
 
+	// Help
+private:
+	void setupHelp();
+	void drawHelp();
+	//// font to label clicker boxes
+	//ofTrueTypeFont myFont;
+	//std::string myTTF;// gui font for all gui theme
+	//int sizeTTF;
+	TextBoxWidget helpTextBoxWidget;
+	std::string strHelpInfo = "";
+	bool bThemeDarkOrLight = true;
+
+	//--
+
+#ifdef USE_IM_GUI
+public:
+	ofxSurfing_ImGui_Manager guiManager;
+#endif
+
+	//--
+
 	// Settings
 	void saveSettings();
 	void loadSettings();
@@ -99,27 +92,22 @@ public:
 		bAutoSave = b;
 	}
 
-public:
-	void windowResized(int w, int h);
-
 	//-
 
 public:
 	void setActive(bool b);
 	void setGuiVisible(bool b);
+	void setGuiVisibleToggle();
 	void setLogLevel(ofLogLevel level);
+	void dragEvent(ofDragInfo dragInfo);
 
 	//-
 
 public:
-	void setKeyAppMode(int k);
-private:
-	int keyAppMode = OF_KEY_TAB; // default key to switch appModeIndex
+	void windowResized(int w, int h);
 
-	//-
-
-private:
 	// window
+private:
 	int wWindow, hWindow;
 	ofRectangle rectWindow;
 
@@ -131,35 +119,81 @@ private:
 	// updating some params before save will trigs also the group callbacks
 	// so we disable this callbacks just in case params updatings are required
 	// in this case we will need to update gui position param
-	bool bCallbacksEnable = false;
+	bool bCallbacksEnable;
+
+	//--
+
+	// Group params
+
+private:
+//public:
+	// app session
+	ofParameterGroup params_AppSettings;
+
+	// to get callbacks
+	ofParameterGroup params_Control;
+
+	// addon variables
+	ofParameterGroup params_Addon;;
+	ofParameter<bool> Addon_Active;
+	ofParameter<float> Addon_Float;
+
+	// all params grouped
+	ofParameterGroup params;
 
 	//-
 
-	// control params
+	// Params
 	ofParameter<bool> bActive;
+	ofParameter<bool> bGui; // all gui global
+	ofParameter<bool> bGui_User; // ImGui
+	ofParameter<bool> bGui_Advanced; // ofxGui
+	ofParameter<bool> bHelp;
 	ofParameter<bool> bKeys;
 	ofParameter<bool> bDebug;
-	ofParameter<bool> bGui;
-	ofParameter<bool> bGui_User;
-	ofParameter<bool> bGui_Advanced;
-	ofParameter<bool> bHelp;
-	ofParameter<int> appModeIndex;
-	ofParameter<string> appModeName;
-	ofParameter<glm::vec2> positionGui;
+	ofParameter<glm::vec2> positionGuiAdvanced;
+
+	// gui
 	ofxPanel gui_Advanced; // -> We use ofxGui to debug/advanced settings.
 
+	// App modes
+	// we can handle many app modes to change behaviour
+private:
+	enum AppMode
+	{
+		OF_APP_MODE_UNDEFINED = 0,
+		//OF_APP_MODE_INACTIVE,
+		OF_APP_MODE_EDIT,
+		OF_APP_MODE_LIVE,
+		OFX_APP_MODES_AMOUNT
+	};
+	AppMode appMode = OF_APP_MODE_UNDEFINED;
+	//std::string appModeNames[OFX_APP_MODES_AMOUNT] = { "Undefined", /* "Inactive",*/ "Edit", "Live" };
+	vector<std::string> appModeNames;
+	ofParameter<int> appModeIndex;
+	ofParameter<string> appModeName;
+public:
+	void setKeyAppMode(int k);
+private:
+	int keyAppMode = OF_KEY_TAB; // default key to switch appModeIndex
+
+	//-
+
 	// callbacks
+private:
 	void Changed_params_Control(ofAbstractParameter &e);
 	void Changed_params(ofAbstractParameter &e);
 	void Changed_params_Addon(ofAbstractParameter &e);
 
 	// keys
+private:
 	void keyPressed(ofKeyEventArgs &eventArgs);
 	void keyReleased(ofKeyEventArgs &eventArgs);
 	void addKeysListeners();
 	void removeKeysListeners();
 
 	// mouse
+private:
 	void mouseDragged(ofMouseEventArgs &eventArgs);
 	void mousePressed(ofMouseEventArgs &eventArgs);
 	void mouseReleased(ofMouseEventArgs &eventArgs);
@@ -167,12 +201,8 @@ private:
 	void removeMouseListeners();
 
 	// settings
-	string path_GLOBAL = "ofxAddonTemplate_ImGui/"; // this is to folder all files to avoid mixing with other addons data
+private:
+	string path_Global = "ofxAddonTemplate_ImGui/"; // this is to folder all files to avoid mixing with other addons data
 	string path_Params_Control = "params_Control.xml";
 	string path_Params_AppSettings = "params_AppSettings.xml";
-
-	//-
-
-public:
-	void dragEvent(ofDragInfo dragInfo);
 };
