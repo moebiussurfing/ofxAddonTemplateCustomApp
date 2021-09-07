@@ -25,7 +25,8 @@ This is more up-to-date than **ofxAddonTemplateCustomApp**.
 - ofxGui and ImGui GUI with customized themes.
 - ImGui initiation with a Layout Presets Engine.
 - Auto Store/Recall app session settings.
-- Callbacks methods for filtering.
+- Callbacks methods for filtering ofParams.
+- Callbacks for auto call update/draw. 
 - Key commands with modificators and snippets.
 - Readme files, Git ignore, some scripts and ```/doc/readme-images``` folders for screenshots.
 - Different app modes.
