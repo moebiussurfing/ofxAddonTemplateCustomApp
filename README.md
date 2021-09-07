@@ -70,6 +70,7 @@ Clone these add-ons and include into the **OF Project Generator** to allow compi
 * [ofxScaleDragRect](https://github.com/moebiussurfing/ofxScaleDragRect) [_Fork_]  
 * [ofxMSAInteractiveObject](https://github.com/moebiussurfing/ofxMSAInteractiveObject) [_Fork_]  
 * ofxGui [_Core_]  
+
 _[ EXAMPLE FOR OTHER ADDONS ]_  
 The below addons are already packed into **OF_ADDON/libs/**.  
 No need to add them manually with the **OF PROJECT GENERATOR**:  
