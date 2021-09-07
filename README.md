@@ -6,11 +6,16 @@ ofxAddonTemplateCustomApp
 # Overview
 **ofxAddonTemplateCustomApp** is a **PERSONAL** template addon for **openFrameworks** to make other **addons** or **oF-Apps** for **MYSELF**.
 
+### Included classes:
+**myClassBasic**.h/.cpp -> A very simple template class with common oF methods: _setup/update/draw/_ ...etc.  
+**ofxAddonTemplateCustomApp**.h/.cpp -> A bigger template with more functions.  
+**ofxAddonTemplate_ImGui**.h/.cpp - > Added ImGui sttuf but requires my ofxSurfingImGui addon.  
+This the newer file, more  updated than **ofxAddonTemplateCustomApp**.
+
 ## Screenshot
 ![image](docs/readme_images/Capture1.PNG?raw=true "image")
 
 ## Features
-
 - Common ofParameters and groups. 
 - ofxGui and ImGui GUI with customized themes.
 - ImGui initiation with a Layout Presets Engine.
@@ -61,7 +66,7 @@ Clone these add-ons and include into the **OF Project Generator** to allow compi
 * [ofxScaleDragRect](https://github.com/moebiussurfing/ofxScaleDragRect) [_Fork_]  
 * [ofxMSAInteractiveObject](https://github.com/moebiussurfing/ofxMSAInteractiveObject) [_Fork_]  
 * ofxGui [_Core_]  
-
+_[ EXAMPLE FOR OTHER ADDONS ]_  
 The below addons are already packed into **OF_ADDON/libs/**.  
 No need to add them manually with the **OF PROJECT GENERATOR**:  
 * [ofxAddonTemplateCustomApp](https://github.com/moebiussurfing/ofxAddonTemplateCustomApp)  
@@ -94,11 +99,11 @@ An addon by **@moebiusSurfing**
 
 ### Contact / Follow
 <p>
+<a href="mailto:moebiussurfing@gmail.com" target="_blank">Email</a>
 <a href="https://twitter.com/moebiusSurfing/" rel="nofollow">Twitter</a> | 
 <a href="https://www.youtube.com/moebiusSurfing" rel="nofollow">YouTube</a> | 
 <a href="https://www.instagram.com/moebiusSurfing/" rel="nofollow">Instagram</a> | 
 <a href="https://github.com/moebiussurfing" target="_blank">GitHub</a> | 
-<a href="mailto:moebiussurfing@gmail.com" target="_blank">Email</a>
 </p>
 
 ### License
