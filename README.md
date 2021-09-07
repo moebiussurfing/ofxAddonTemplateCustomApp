@@ -6,7 +6,7 @@ ofxAddonTemplateCustomApp
 # Overview
 **ofxAddonTemplateCustomApp** is a **PERSONAL** template addon for **openFrameworks** to make other **addons** or **oF-Apps** for **MYSELF**.
 
-### Included classes:
+## Included classes:
 **myClassBasic**.h/.cpp  
 A very simple template class with common oF methods: _setup/update/draw/_ ...etc.  
 
