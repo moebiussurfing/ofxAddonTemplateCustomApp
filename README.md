@@ -64,7 +64,7 @@ Clone these add-ons and include into the **OF Project Generator** to allow compi
 
 The below addons are already packed into **OF_ADDON/libs/**.  
 No need to add them manually with the **OF PROJECT GENERATOR**:  
-* [x](https://github.com/moebiussurfing/x)  
+* [ofxAddonTemplateCustomApp](https://github.com/moebiussurfing/ofxAddonTemplateCustomApp)  
 
 *Thanks a lot to all these ofxAddons coders. Look into each folder for authoring credits, original forks, and license info.*  
  </p>
