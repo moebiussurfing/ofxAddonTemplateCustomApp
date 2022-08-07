@@ -1,7 +1,5 @@
-ofxGui
 ofxAddonTemplateCustomApp
+ofxGui
 ofxImGui
-ofxMSAInteractiveObject
-ofxScaleDragRect
 ofxSurfingHelpers
 ofxSurfingImGui

@@ -262,7 +262,7 @@ void ofxAddonTemplate_ImGui::setupImGui()
 
 	//guiManager.setImGuiViewPort(true); // -> For floating windows
 
-	guiManager.setSettingsPathLabel("ofxAddonTemplate_ImGui");
+	guiManager.setName("ofxAddonTemplate_ImGui");
 	// -> Customize the path for settings
 	// Useful for multiple instances not sharing settings.
 
@@ -283,9 +283,9 @@ void ofxAddonTemplate_ImGui::setupImGui()
 	{
 		// -> Pre populate windows.
 		// This enables the Layout Engine
-		guiManager.addWindow("Audio Window", true);
-		guiManager.addWindow("Main Window", true);
-		guiManager.addWindow("Another"); // but without advanced mode
+		guiManager.addWindowSpecial("Audio Window", true);
+		guiManager.addWindowSpecial("Main Window", true);
+		guiManager.addWindowSpecial("Another"); // but without advanced mode
 		guiManager.startup();
 	}
 #endif
@@ -457,7 +457,7 @@ void ofxAddonTemplate_ImGui::update(ofEventArgs & args) {
 //--------------------------------------------------------------
 void ofxAddonTemplate_ImGui::draw(ofEventArgs & args)
 {
-	// Different app behaviours
+	// Different app behaviors
 	// edit mode
 	if (appModeIndex == OF_APP_MODE_EDIT)
 	{
