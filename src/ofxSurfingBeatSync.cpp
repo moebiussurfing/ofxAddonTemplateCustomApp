@@ -583,71 +583,72 @@ void ofxSurfingBeatSync::drawWaveform() {
 	ofPopStyle();
 }
 
-// Audio Callbacks
-//--------------------------------------------------------------
-void ofxSurfingBeatSync::audioIn(float* input, int _bufferSize, int _nChannels) {
-
-	// feed audio frame into ofxBTrack object
-	btrack.audioIn(input, _bufferSize, _nChannels);
-
-	/*
-	{
-		https://github.com/satoruhiga/ofxBTrack/blob/master/example-soundPlayer/src/ofxFmodSoundPlayer.cpp
-
-		// handle 512 sample each time /  called 23 time per sec
-
-		// pass the data along
-		memcpy(outbuffer, inbuffer, sizeof(float) * length * outchannels);
-
-		void* userdata = NULL;
-		FMOD_DSP_GetUserData(dsp_state->instance, &userdata);
-		ofxFmodSoundPlayer* player = (ofxFmodSoundPlayer*)userdata;
-
-		// BPM analysis
-		ofxBTrack* btrack = &(player->btrack);
-		if (btrack) btrack->audioIn(inbuffer, length, inchannels);
-
-		return FMOD_OK;
-	}
-	*/
-
-	/*
-	//TODO
-	{
-		// Fill the buffer, frame by frame
-		for (int i = 0; i < buffer.getNumFrames(); i++) {
-			// Read 1 sample from a file and put it in our buffer
-			play(rBuffer.getSample(i, 0), lBuffer.getSample(i, 0));
-		}
-
-		buffer.setChannel(rBuffer, 0);
-		buffer.setChannel(lBuffer, 1);
-
-		//sampleRate = 44100;
-		//bufferSize = 256;
-		ofSoundBuffer buff(buffer, bufferSize, 2, sampleRate);
-
-		audioDevices.audioIn(&input);
-	}
-	*/
-
-	//--
-
-	// Draw Waveform
-	std::size_t nChannels = _nChannels;
-	for (size_t i = 0; i < _bufferSize; i++)
-	{
-		// Handle input here
-		// Hold the values so the draw method can draw them
-		waveformInput[waveInputIndex] = input[i * _nChannels];
-		if (waveInputIndex < (ofGetWidth() - 1)) {
-			++waveInputIndex;
-		}
-		else {
-			waveInputIndex = 0;
-		}
-	}
-}
+//
+//// Audio Callbacks
+////--------------------------------------------------------------
+//void ofxSurfingBeatSync::audioIn(float* input, int _bufferSize, int _nChannels) {
+//
+//	// feed audio frame into ofxBTrack object
+//	btrack.audioIn(input, _bufferSize, _nChannels);
+//
+//	/*
+//	{
+//		https://github.com/satoruhiga/ofxBTrack/blob/master/example-soundPlayer/src/ofxFmodSoundPlayer.cpp
+//
+//		// handle 512 sample each time /  called 23 time per sec
+//
+//		// pass the data along
+//		memcpy(outbuffer, inbuffer, sizeof(float) * length * outchannels);
+//
+//		void* userdata = NULL;
+//		FMOD_DSP_GetUserData(dsp_state->instance, &userdata);
+//		ofxFmodSoundPlayer* player = (ofxFmodSoundPlayer*)userdata;
+//
+//		// BPM analysis
+//		ofxBTrack* btrack = &(player->btrack);
+//		if (btrack) btrack->audioIn(inbuffer, length, inchannels);
+//
+//		return FMOD_OK;
+//	}
+//	*/
+//
+//	/*
+//	//TODO
+//	{
+//		// Fill the buffer, frame by frame
+//		for (int i = 0; i < buffer.getNumFrames(); i++) {
+//			// Read 1 sample from a file and put it in our buffer
+//			play(rBuffer.getSample(i, 0), lBuffer.getSample(i, 0));
+//		}
+//
+//		buffer.setChannel(rBuffer, 0);
+//		buffer.setChannel(lBuffer, 1);
+//
+//		//sampleRate = 44100;
+//		//bufferSize = 256;
+//		ofSoundBuffer buff(buffer, bufferSize, 2, sampleRate);
+//
+//		audioDevices.audioIn(&input);
+//	}
+//	*/
+//
+//	//--
+//
+//	// Draw Waveform
+//	std::size_t nChannels = _nChannels;
+//	for (size_t i = 0; i < _bufferSize; i++)
+//	{
+//		// Handle input here
+//		// Hold the values so the draw method can draw them
+//		waveformInput[waveInputIndex] = input[i * _nChannels];
+//		if (waveInputIndex < (ofGetWidth() - 1)) {
+//			++waveInputIndex;
+//		}
+//		else {
+//			waveInputIndex = 0;
+//		}
+//	}
+//}
 
 //--------------------------------------------------------------
 void ofxSurfingBeatSync::drawGui() {

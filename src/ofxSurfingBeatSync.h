@@ -56,7 +56,7 @@ public:
 
 	ofxBTrack btrack;
 
-	void audioIn(float* input, int bufferSize, int nChannels);
+	//void audioIn(float* input, int bufferSize, int nChannels);
 	//void audioIn(ofSoundBuffer& input) override;
 
 	ofxSoundDevicesManager audioDevices;
