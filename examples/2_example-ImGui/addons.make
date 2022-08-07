@@ -1,5 +1,0 @@
-ofxAddonTemplateCustomApp
-ofxGui
-ofxImGui
-ofxSurfingHelpers
-ofxSurfingImGui

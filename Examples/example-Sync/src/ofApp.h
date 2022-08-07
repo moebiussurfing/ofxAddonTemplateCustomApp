@@ -2,7 +2,7 @@
 
 #include "ofMain.h"
 
-#include "ofxAddonTemplate_ImGui.h"
+#include "ofxSurfingBeatSync.h"
 
 class ofApp : public ofBaseApp{
 
@@ -22,7 +22,7 @@ class ofApp : public ofBaseApp{
 		void windowResized(int w, int h);
 		void gotMessage(ofMessage msg);
 		
-		ofxAddonTemplate_ImGui classObject;
+		ofxSurfingBeatSync surfSync;
 
 		void dragEvent(ofDragInfo dragInfo);
 };
