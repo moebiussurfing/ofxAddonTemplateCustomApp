@@ -23,7 +23,8 @@ class ofxAddonTemplateCustomApp
 {
 
 private:
-	// we can handle many app modes to change behaviour
+
+	// we can handle many app modes to change behavior
 	enum AppMode
 	{
 		OF_APP_MODE_UNDEFINED = 0,
@@ -56,10 +57,12 @@ public:
 	//----
 
 public:
+
 	ofxAddonTemplateCustomApp();
 	~ofxAddonTemplateCustomApp();
 
 public:
+
 	void setup();
 	void update();
 	void draw();
@@ -72,11 +75,13 @@ public:
 	void drawGui();
 
 public:
+
 	void windowResized(int w, int h);
 
 	//-
 
 public:
+
 	void setActive(bool b);
 	void setGuiVisible(bool b);
 	void setPathGlobal(string s); // must call before setup. disabled by default
@@ -89,14 +94,17 @@ public:
 	//-
 
 public:
+
 	void setKeyAppMode(int k);
 
 private:
+
 	int keyAppMode = OF_KEY_TAB; // default key to switch appModeIndex
 
 	//-
 
 private:
+
 	// window
 	int wWindow, hWindow;
 	ofRectangle rectWindow;
@@ -150,5 +158,6 @@ private:
 	//-
 
 public:
+
 	void dragEvent(ofDragInfo dragInfo);
 };

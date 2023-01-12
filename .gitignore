@@ -13,8 +13,16 @@ openFrameworks-Info.plist
 Project.xcconfig
 icon.rc
 
-#*.ps1
-#*.bat
+## vs
+*\addons\*
+enc_temp_folder\*
+*\enc_temp_folder\*
+
+## scripts
+*.ps1
+*.bat
+
+## settings
 *.ini
 *.XML
 *.xml
