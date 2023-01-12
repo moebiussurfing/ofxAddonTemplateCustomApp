@@ -1,0 +1,10 @@
+ofxBeat
+ofxBTrack
+ofxGui
+ofxImGui
+ofxSoundDevicesManager
+ofxSurfingBeatSync
+ofxSurfingBox
+ofxSurfingHelpers
+ofxSurfingImGui
+ofxWindowApp

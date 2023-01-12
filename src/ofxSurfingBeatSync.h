@@ -6,7 +6,7 @@
 /*
 
 NOTE:
-Notice that this class will be more up-to-date than ofxAddonTemplateCustomApp.h !
+Notice that this class will be more up-to-date than ofxSurfingBeatSync.h !
 
 TODO:
 
@@ -28,17 +28,58 @@ TODO:
 #include "ofxSurfingImGui.h"
 #endif
 
+#include "ofxBeat.h"
+
+#include "ofxBTrack.h"
+
+#include "ofxSoundDevicesManager.h"
+#include "circleBeat.h"
+
 //--
 
-class ofxAddonTemplate_ImGui
+class ofxSurfingBeatSync : public ofBaseApp 
 {
 	//----
 
 public:
-	ofxAddonTemplate_ImGui();
-	~ofxAddonTemplate_ImGui();
+	
+	ofxBeat beat;
+	//void audioReceived(float*, int, int);
+
+	//--
+
+	void setupBtrack();
+	void drawBtrack();
+
+	int sampleRate = 44100;
+	int bufferSize = 256;
+
+	ofxBTrack btrack;
+
+	//void audioIn(float* input, int bufferSize, int nChannels);
+	//void audioIn(ofSoundBuffer& input) override;
+
+	ofxSoundDevicesManager audioDevices;
+
+	//--
+
+	CircleBeat circleBeat;
+
+	void drawWaveform();
+	float waveformInput[4096]; // make this bigger, just in case
+	int waveInputIndex;
+
+	//----
 
 public:
+
+	ofxSurfingBeatSync();
+	~ofxSurfingBeatSync();
+
+	//----
+
+public:
+
 	void setup();
 	void update();
 	void draw();
@@ -202,7 +243,7 @@ private:
 
 	// settings
 private:
-	string path_Global = "ofxAddonTemplate_ImGui/"; // this is to folder all files to avoid mixing with other addons data
+	string path_Global = "ofxSurfingBeatSync/"; // this is to folder all files to avoid mixing with other addons data
 	string path_Params_Control = "params_Control.xml";
 	string path_Params_AppSettings = "params_AppSettings.xml";
 };

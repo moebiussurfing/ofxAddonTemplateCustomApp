@@ -1,19 +1,19 @@
-#include "ofxAddonTemplate_ImGui.h"
+#include "ofxSurfingBeatSync.h"
 
 //--------------------------------------------------------------
-ofxAddonTemplate_ImGui::ofxAddonTemplate_ImGui()
+ofxSurfingBeatSync::ofxSurfingBeatSync()
 {
 	// path for settings
-	setPathGlobal("ofxAddonTemplate_ImGui/");
-	path_Params_AppSettings = "ofxAddonTemplate_ImGui_AppSettings.xml";
+	setPathGlobal("ofxSurfingBeatSync/");
+	path_Params_AppSettings = "ofxSurfingBeatSync_AppSettings.xml";
 	path_Params_Control = "Params_Control.xml";
 
 	bCallbacksEnable = false; // disable until ends setup
 	setActive(true); // adds key and mouse listeners
 
-	ofAddListener(ofEvents().update, this, &ofxAddonTemplate_ImGui::update);
-	ofAddListener(ofEvents().draw, this, &ofxAddonTemplate_ImGui::draw);
-	//ofAddListener(ofEvents().draw, this, &ofxAddonTemplate_ImGui::draw, OF_EVENT_ORDER_AFTER_APP);
+	ofAddListener(ofEvents().update, this, &ofxSurfingBeatSync::update);
+	ofAddListener(ofEvents().draw, this, &ofxSurfingBeatSync::draw);
+	//ofAddListener(ofEvents().draw, this, &ofxSurfingBeatSync::draw, OF_EVENT_ORDER_AFTER_APP);
 
 	//-
 
@@ -22,19 +22,19 @@ ofxAddonTemplate_ImGui::ofxAddonTemplate_ImGui()
 }
 
 //--------------------------------------------------------------
-ofxAddonTemplate_ImGui::~ofxAddonTemplate_ImGui()
+ofxSurfingBeatSync::~ofxSurfingBeatSync()
 {
 	setActive(false); // removes keys and mouse listeners
 
 	// removes params callbacks listeners
-	ofRemoveListener(params.parameterChangedE(), this, &ofxAddonTemplate_ImGui::Changed_params);
-	ofRemoveListener(params_Control.parameterChangedE(), this, &ofxAddonTemplate_ImGui::Changed_params_Control);
-	ofRemoveListener(params_Addon.parameterChangedE(), this, &ofxAddonTemplate_ImGui::Changed_params_Addon);
+	ofRemoveListener(params.parameterChangedE(), this, &ofxSurfingBeatSync::Changed_params);
+	ofRemoveListener(params_Control.parameterChangedE(), this, &ofxSurfingBeatSync::Changed_params_Control);
+	ofRemoveListener(params_Addon.parameterChangedE(), this, &ofxSurfingBeatSync::Changed_params_Addon);
 
 	// removes update/draw callbacks
-	ofRemoveListener(ofEvents().update, this, &ofxAddonTemplate_ImGui::update);
-	ofRemoveListener(ofEvents().draw, this, &ofxAddonTemplate_ImGui::draw);
-	//ofRemoveListener(ofEvents().draw, this, &ofxAddonTemplate_ImGui::draw, OF_EVENT_ORDER_AFTER_APP);
+	ofRemoveListener(ofEvents().update, this, &ofxSurfingBeatSync::update);
+	ofRemoveListener(ofEvents().draw, this, &ofxSurfingBeatSync::draw);
+	//ofRemoveListener(ofEvents().draw, this, &ofxSurfingBeatSync::draw, OF_EVENT_ORDER_AFTER_APP);
 
 	//-
 
@@ -42,9 +42,20 @@ ofxAddonTemplate_ImGui::~ofxAddonTemplate_ImGui()
 	exit();
 }
 
+////--------------------------------------------------------------
+//void ofxSurfingBeatSync::audioReceived(float* input, int bufferSize, int nChannels) {
+//	beat.audioReceived(input, bufferSize, nChannels);
+//}
+
 //--------------------------------------------------------------
-void ofxAddonTemplate_ImGui::setup()
+void ofxSurfingBeatSync::setup()
 {
+	//ofSoundStreamSetup(0, 1, this, 44100, beat.getBufferSize(), 4);
+
+	setupBtrack();
+	
+	//----
+
 	// Log level
 	setLogLevel(OF_LOG_NOTICE);
 	//setLogLevel(OF_LOG_VERBOSE);
@@ -70,9 +81,41 @@ void ofxAddonTemplate_ImGui::setup()
 	// startup
 	startup();
 }
-
 //--------------------------------------------------------------
-void ofxAddonTemplate_ImGui::setupParameters()
+void ofxSurfingBeatSync::setupBtrack()
+{
+	ofSetFrameRate(60);
+
+	//-
+
+	sampleRate = 44100;
+	bufferSize = 256;
+
+	// Setup frame size
+	btrack.setup(bufferSize);
+
+	// FIX: this is experimental implementation.
+	btrack.setConfidentThreshold(0.75);
+
+	// Beat circle
+	float _radius = 200;
+	ofSetCircleResolution(80);
+	circleBeat.setColor(ofColor(255, 225));
+	circleBeat.setSize(_radius);
+	circleBeat.setSpeed(0.2f);
+	glm::vec2 _pos = glm::vec2(ofGetWindowWidth() * 0.5f, ofGetWindowHeight() * 0.5f);
+	circleBeat.setPosition(_pos);
+
+	//-
+
+	// Setup Audio Input
+	audioDevices.setup(sampleRate, bufferSize);
+
+	// Or use your own sound manager
+	//ofSoundStreamSetup(0, 1, sampleRate, bufferSize, 4);
+}
+//--------------------------------------------------------------
+void ofxSurfingBeatSync::setupParameters()
 {
 	//--
 
@@ -86,7 +129,7 @@ void ofxAddonTemplate_ImGui::setupParameters()
 	params_Addon.add(Addon_Float);
 
 	// callback
-	ofAddListener(params_Addon.parameterChangedE(), this, &ofxAddonTemplate_ImGui::Changed_params_Addon);
+	ofAddListener(params_Addon.parameterChangedE(), this, &ofxSurfingBeatSync::Changed_params_Addon);
 
 	//-
 
@@ -153,7 +196,7 @@ void ofxAddonTemplate_ImGui::setupParameters()
 	//-
 
 	// callback
-	ofAddListener(params_Control.parameterChangedE(), this, &ofxAddonTemplate_ImGui::Changed_params_Control);
+	ofAddListener(params_Control.parameterChangedE(), this, &ofxSurfingBeatSync::Changed_params_Control);
 
 	//-
 
@@ -164,11 +207,11 @@ void ofxAddonTemplate_ImGui::setupParameters()
 	params.add(params_Control);
 
 	// callback
-	ofAddListener(params.parameterChangedE(), this, &ofxAddonTemplate_ImGui::Changed_params);
+	ofAddListener(params.parameterChangedE(), this, &ofxSurfingBeatSync::Changed_params);
 }
 
 //--------------------------------------------------------------
-void ofxAddonTemplate_ImGui::startup()
+void ofxSurfingBeatSync::startup()
 {
 	ofLogNotice(__FUNCTION__);
 	bCallbacksEnable = true; // -> Just now we enable the callbacks!. That's to avoid some possible crashes.
@@ -185,9 +228,9 @@ void ofxAddonTemplate_ImGui::startup()
 }
 
 //--------------------------------------------------------------
-void ofxAddonTemplate_ImGui::setupHelp()
+void ofxSurfingBeatSync::setupHelp()
 {
-	strHelpInfo = "ofxAddonTemplate_ImGui\n\n";
+	strHelpInfo = "ofxSurfingBeatSync\n\n";
 	strHelpInfo += "h : Help Info\n";
 	strHelpInfo += "g : Gui\n";
 	strHelpInfo += "G : Gui Advanced\n";
@@ -207,7 +250,7 @@ void ofxAddonTemplate_ImGui::setupHelp()
 // Gui
 
 //--------------------------------------------------------------
-void ofxAddonTemplate_ImGui::setupGui()
+void ofxSurfingBeatSync::setupGui()
 {
 	ofLogNotice(__FUNCTION__);
 
@@ -220,7 +263,7 @@ void ofxAddonTemplate_ImGui::setupGui()
 
 		//-
 
-		gui_Advanced.setup("ofxAddonTemplate_ImGui");
+		gui_Advanced.setup("ofxSurfingBeatSync");
 		gui_Advanced.add(params);//add control (internal) and addon params
 		gui_Advanced.setPosition(positionGuiAdvanced.get().x, positionGuiAdvanced.get().y);
 		//gui_Advanced.setPosition(ofGetWidth() - 210, 20);
@@ -254,7 +297,7 @@ void ofxAddonTemplate_ImGui::setupGui()
 // ImGui
 #ifdef USE_IM_GUI
 //--------------------------------------------------------------
-void ofxAddonTemplate_ImGui::setupImGui()
+void ofxSurfingBeatSync::setupImGui()
 {
 	ofLogNotice(__FUNCTION__);
 
@@ -262,7 +305,7 @@ void ofxAddonTemplate_ImGui::setupImGui()
 
 	//guiManager.setImGuiViewPort(true); // -> For floating windows
 
-	guiManager.setName("ofxAddonTemplate_ImGui");
+	guiManager.setName("ofxSurfingBeatSync");
 	// -> Customize the path for settings
 	// Useful for multiple instances not sharing settings.
 
@@ -296,7 +339,7 @@ void ofxAddonTemplate_ImGui::setupImGui()
 }
 
 //--------------------------------------------------------------
-void ofxAddonTemplate_ImGui::setupImGuiStyles()
+void ofxSurfingBeatSync::setupImGuiStyles()
 {
 	ofLogNotice(__FUNCTION__);
 
@@ -318,7 +361,7 @@ void ofxAddonTemplate_ImGui::setupImGuiStyles()
 	}
 }
 //--------------------------------------------------------------
-void ofxAddonTemplate_ImGui::drawImGui_User() { // user gui
+void ofxSurfingBeatSync::drawImGui_User() { // user gui
 	//return;
 
 	ImGui::Begin("A RAW ImGui Window out of the Layout Engine");
@@ -408,7 +451,7 @@ void ofxAddonTemplate_ImGui::drawImGui_User() { // user gui
 }
 
 //--------------------------------------------------------------
-void ofxAddonTemplate_ImGui::drawImGui() {
+void ofxSurfingBeatSync::drawImGui() {
 	if (!bGui_User) return;
 
 	//-
@@ -431,7 +474,7 @@ void ofxAddonTemplate_ImGui::drawImGui() {
 #endif
 
 //--------------------------------------------------------------
-void ofxAddonTemplate_ImGui::drawHelp()
+void ofxSurfingBeatSync::drawHelp()
 {
 	helpTextBoxWidget.setText(strHelpInfo);
 	helpTextBoxWidget.draw();
@@ -440,7 +483,7 @@ void ofxAddonTemplate_ImGui::drawHelp()
 //----
 
 //--------------------------------------------------------------
-void ofxAddonTemplate_ImGui::update(ofEventArgs & args) {
+void ofxSurfingBeatSync::update(ofEventArgs & args) {
 
 	// autosave
 	if (bAutoSave && ofGetElapsedTimeMillis() - timerLastAutosave > timeToAutosave)
@@ -455,8 +498,10 @@ void ofxAddonTemplate_ImGui::update(ofEventArgs & args) {
 }
 
 //--------------------------------------------------------------
-void ofxAddonTemplate_ImGui::draw(ofEventArgs & args)
+void ofxSurfingBeatSync::draw(ofEventArgs & args)
 {
+	beat.update(ofGetElapsedTimeMillis());
+
 	// Different app behaviors
 	// edit mode
 	if (appModeIndex == OF_APP_MODE_EDIT)
@@ -469,15 +514,144 @@ void ofxAddonTemplate_ImGui::draw(ofEventArgs & args)
 }
 
 //--------------------------------------------------------------
-void ofxAddonTemplate_ImGui::update() {
+void ofxSurfingBeatSync::update() {
 }
 
 //--------------------------------------------------------------
-void ofxAddonTemplate_ImGui::draw() {
+void ofxSurfingBeatSync::draw() {
+	//stringstream ss;
+	cout << beat.kick() << "," << beat.snare() << "," << beat.hihat() << endl;
+	//ofLogNotice() << ss;
+
+	drawBtrack();
 }
 
 //--------------------------------------------------------------
-void ofxAddonTemplate_ImGui::drawGui() {
+void ofxSurfingBeatSync::drawBtrack() {
+
+	// BPM
+	float bpm = btrack.getEstimatedBPM();
+	ofDrawBitmapStringHighlight("ESTIMATED BPM: " + ofToString(bpm, 1), 30, 300);
+	ofDrawBitmapStringHighlight("CONFIDENCE: " + ofToString(btrack.getConfidence(), 2), 30, 325);
+	// confidence is an experimental feature at this moment
+
+	// Beat callback
+	circleBeat.draw();
+	if (btrack.hasBeat())
+	{
+		circleBeat.bang();
+#ifdef INCLUDE_ofxTextFlow//LOG
+		logLine("BEAT! \t BPM: " + ofToString(bpm, 1));
+#endif
+	}
+
+	// Without circleBeat
+	//ofDrawBitmapString("BEAT", 85, 195);
+	//if (btrack.hasBeat()) {    //FIXME: calling this method resets hasBeat flag in ofxBTrack object
+	//	ofSetColor(ofColor::magenta);
+	//}
+	//else ofSetColor(ofColor::lightGray);
+	//ofDrawCircle(100, 150, 30);
+
+	//--
+
+	drawWaveform();
+
+	audioDevices.drawGui();
+}
+
+//--------------------------------------------------------------
+void ofxSurfingBeatSync::drawWaveform() {
+
+	ofPushStyle();
+	ofPushMatrix();
+
+	ofFill();
+	ofSetColor(0, 225);
+	ofSetLineWidth(3.0f);
+
+	//float _max = ofGetHeight() / 5.f;
+	float _max = 200;
+
+	ofTranslate(0, ofGetHeight() / 2.f);
+	ofDrawLine(0, 0, 1, waveformInput[1] * _max); //first line
+	for (int i = 1; i < (ofGetWidth() - 1); ++i) {
+		ofDrawLine(i, waveformInput[i] * _max, i + 1, waveformInput[i + 1] * _max);
+	}
+
+	ofPopMatrix();
+	ofPopStyle();
+}
+
+//
+//// Audio Callbacks
+////--------------------------------------------------------------
+//void ofxSurfingBeatSync::audioIn(float* input, int _bufferSize, int _nChannels) {
+//
+//	// feed audio frame into ofxBTrack object
+//	btrack.audioIn(input, _bufferSize, _nChannels);
+//
+//	/*
+//	{
+//		https://github.com/satoruhiga/ofxBTrack/blob/master/example-soundPlayer/src/ofxFmodSoundPlayer.cpp
+//
+//		// handle 512 sample each time /  called 23 time per sec
+//
+//		// pass the data along
+//		memcpy(outbuffer, inbuffer, sizeof(float) * length * outchannels);
+//
+//		void* userdata = NULL;
+//		FMOD_DSP_GetUserData(dsp_state->instance, &userdata);
+//		ofxFmodSoundPlayer* player = (ofxFmodSoundPlayer*)userdata;
+//
+//		// BPM analysis
+//		ofxBTrack* btrack = &(player->btrack);
+//		if (btrack) btrack->audioIn(inbuffer, length, inchannels);
+//
+//		return FMOD_OK;
+//	}
+//	*/
+//
+//	/*
+//	//TODO
+//	{
+//		// Fill the buffer, frame by frame
+//		for (int i = 0; i < buffer.getNumFrames(); i++) {
+//			// Read 1 sample from a file and put it in our buffer
+//			play(rBuffer.getSample(i, 0), lBuffer.getSample(i, 0));
+//		}
+//
+//		buffer.setChannel(rBuffer, 0);
+//		buffer.setChannel(lBuffer, 1);
+//
+//		//sampleRate = 44100;
+//		//bufferSize = 256;
+//		ofSoundBuffer buff(buffer, bufferSize, 2, sampleRate);
+//
+//		audioDevices.audioIn(&input);
+//	}
+//	*/
+//
+//	//--
+//
+//	// Draw Waveform
+//	std::size_t nChannels = _nChannels;
+//	for (size_t i = 0; i < _bufferSize; i++)
+//	{
+//		// Handle input here
+//		// Hold the values so the draw method can draw them
+//		waveformInput[waveInputIndex] = input[i * _nChannels];
+//		if (waveInputIndex < (ofGetWidth() - 1)) {
+//			++waveInputIndex;
+//		}
+//		else {
+//			waveInputIndex = 0;
+//		}
+//	}
+//}
+
+//--------------------------------------------------------------
+void ofxSurfingBeatSync::drawGui() {
 
 	// gui advanced
 	if (bGui_Advanced) gui_Advanced.draw();
@@ -492,7 +666,7 @@ void ofxAddonTemplate_ImGui::drawGui() {
 }
 
 //--------------------------------------------------------------
-void ofxAddonTemplate_ImGui::windowResized(int w, int h)
+void ofxSurfingBeatSync::windowResized(int w, int h)
 {
 	wWindow = w;
 	hWindow = h;
@@ -506,13 +680,13 @@ void ofxAddonTemplate_ImGui::windowResized(int w, int h)
 }
 
 //--------------------------------------------------------------
-void ofxAddonTemplate_ImGui::exit()
+void ofxSurfingBeatSync::exit()
 {
 	saveSettings();
 }
 
 //--------------------------------------------------------------
-void ofxAddonTemplate_ImGui::setActive(bool b)
+void ofxSurfingBeatSync::setActive(bool b)
 {
 	ofLogNotice(__FUNCTION__) << b;
 
@@ -532,14 +706,14 @@ void ofxAddonTemplate_ImGui::setActive(bool b)
 }
 
 //--------------------------------------------------------------
-void ofxAddonTemplate_ImGui::setGuiVisible(bool b)
+void ofxSurfingBeatSync::setGuiVisible(bool b)
 {
 	ofLogNotice(__FUNCTION__);
 	bGui = b;
 }
 
 //--------------------------------------------------------------
-void ofxAddonTemplate_ImGui::setGuiVisibleToggle()
+void ofxSurfingBeatSync::setGuiVisibleToggle()
 {
 	ofLogNotice(__FUNCTION__);
 	bGui = !bGui;
@@ -547,7 +721,7 @@ void ofxAddonTemplate_ImGui::setGuiVisibleToggle()
 
 // keys
 //--------------------------------------------------------------
-void ofxAddonTemplate_ImGui::keyPressed(ofKeyEventArgs &eventArgs)
+void ofxSurfingBeatSync::keyPressed(ofKeyEventArgs &eventArgs)
 {
 	const int &key = eventArgs.key;
 
@@ -643,10 +817,13 @@ void ofxAddonTemplate_ImGui::keyPressed(ofKeyEventArgs &eventArgs)
 	{
 		bDebug = !bDebug;
 	}
+
+	if (key == 'g') audioDevices.setVisibleToggle();
+
 }
 
 //--------------------------------------------------------------
-void ofxAddonTemplate_ImGui::keyReleased(ofKeyEventArgs &eventArgs)
+void ofxSurfingBeatSync::keyReleased(ofKeyEventArgs &eventArgs)
 {
 	const int &key = eventArgs.key;
 	ofLogNotice(__FUNCTION__) << (char)key << " [" << key << "]";
@@ -658,22 +835,22 @@ void ofxAddonTemplate_ImGui::keyReleased(ofKeyEventArgs &eventArgs)
 }
 
 //--------------------------------------------------------------
-void ofxAddonTemplate_ImGui::addKeysListeners()
+void ofxSurfingBeatSync::addKeysListeners()
 {
 	ofLogNotice(__FUNCTION__);
-	ofAddListener(ofEvents().keyPressed, this, &ofxAddonTemplate_ImGui::keyPressed);
+	ofAddListener(ofEvents().keyPressed, this, &ofxSurfingBeatSync::keyPressed);
 }
 
 //--------------------------------------------------------------
-void ofxAddonTemplate_ImGui::removeKeysListeners()
+void ofxSurfingBeatSync::removeKeysListeners()
 {
 	ofLogNotice(__FUNCTION__);
-	ofRemoveListener(ofEvents().keyPressed, this, &ofxAddonTemplate_ImGui::keyPressed);
+	ofRemoveListener(ofEvents().keyPressed, this, &ofxSurfingBeatSync::keyPressed);
 }
 
 // mouse
 //--------------------------------------------------------------
-void ofxAddonTemplate_ImGui::mouseDragged(ofMouseEventArgs &eventArgs)
+void ofxSurfingBeatSync::mouseDragged(ofMouseEventArgs &eventArgs)
 {
 	const int &x = eventArgs.x;
 	const int &y = eventArgs.y;
@@ -682,7 +859,7 @@ void ofxAddonTemplate_ImGui::mouseDragged(ofMouseEventArgs &eventArgs)
 }
 
 //--------------------------------------------------------------
-void ofxAddonTemplate_ImGui::mousePressed(ofMouseEventArgs &eventArgs)
+void ofxSurfingBeatSync::mousePressed(ofMouseEventArgs &eventArgs)
 {
 	const int &x = eventArgs.x;
 	const int &y = eventArgs.y;
@@ -691,7 +868,7 @@ void ofxAddonTemplate_ImGui::mousePressed(ofMouseEventArgs &eventArgs)
 }
 
 //--------------------------------------------------------------
-void ofxAddonTemplate_ImGui::mouseReleased(ofMouseEventArgs &eventArgs)
+void ofxSurfingBeatSync::mouseReleased(ofMouseEventArgs &eventArgs)
 {
 	const int &x = eventArgs.x;
 	const int &y = eventArgs.y;
@@ -700,17 +877,17 @@ void ofxAddonTemplate_ImGui::mouseReleased(ofMouseEventArgs &eventArgs)
 }
 
 //--------------------------------------------------------------
-void ofxAddonTemplate_ImGui::addMouseListeners()
+void ofxSurfingBeatSync::addMouseListeners()
 {
-	ofAddListener(ofEvents().mouseDragged, this, &ofxAddonTemplate_ImGui::mouseDragged);
-	ofAddListener(ofEvents().mousePressed, this, &ofxAddonTemplate_ImGui::mousePressed);
-	ofAddListener(ofEvents().mouseReleased, this, &ofxAddonTemplate_ImGui::mouseReleased);
+	ofAddListener(ofEvents().mouseDragged, this, &ofxSurfingBeatSync::mouseDragged);
+	ofAddListener(ofEvents().mousePressed, this, &ofxSurfingBeatSync::mousePressed);
+	ofAddListener(ofEvents().mouseReleased, this, &ofxSurfingBeatSync::mouseReleased);
 }
 
 //--------------------------------------------------------------
-void ofxAddonTemplate_ImGui::removeMouseListeners()
+void ofxSurfingBeatSync::removeMouseListeners()
 {
-	ofRemoveListener(ofEvents().keyPressed, this, &ofxAddonTemplate_ImGui::keyPressed);
+	ofRemoveListener(ofEvents().keyPressed, this, &ofxSurfingBeatSync::keyPressed);
 }
 
 //-
@@ -718,7 +895,7 @@ void ofxAddonTemplate_ImGui::removeMouseListeners()
 // Callbacks
 
 //--------------------------------------------------------------
-void ofxAddonTemplate_ImGui::Changed_params(ofAbstractParameter &e)
+void ofxSurfingBeatSync::Changed_params(ofAbstractParameter &e)
 {
 	if (!bCallbacksEnable) return;
 
@@ -730,7 +907,7 @@ void ofxAddonTemplate_ImGui::Changed_params(ofAbstractParameter &e)
 
 // addon engine params
 //--------------------------------------------------------------
-void ofxAddonTemplate_ImGui::Changed_params_Addon(ofAbstractParameter &e)
+void ofxSurfingBeatSync::Changed_params_Addon(ofAbstractParameter &e)
 {
 	if (!bCallbacksEnable) return;
 
@@ -766,7 +943,7 @@ void ofxAddonTemplate_ImGui::Changed_params_Addon(ofAbstractParameter &e)
 
 // addon control params
 //--------------------------------------------------------------
-void ofxAddonTemplate_ImGui::Changed_params_Control(ofAbstractParameter &e)
+void ofxSurfingBeatSync::Changed_params_Control(ofAbstractParameter &e)
 {
 	if (!bCallbacksEnable) return;
 
@@ -838,20 +1015,20 @@ void ofxAddonTemplate_ImGui::Changed_params_Control(ofAbstractParameter &e)
 //--
 
 //--------------------------------------------------------------
-void ofxAddonTemplate_ImGui::setKeyAppMode(int k)
+void ofxSurfingBeatSync::setKeyAppMode(int k)
 {
 	keyAppMode = k;
 }
 
 //--------------------------------------------------------------
-void ofxAddonTemplate_ImGui::setLogLevel(ofLogLevel logLevel)
+void ofxSurfingBeatSync::setLogLevel(ofLogLevel logLevel)
 {
 	ofLogWarning(__FUNCTION__) << ofLogLevel(logLevel);
-	ofSetLogLevel("ofxAddonTemplate_ImGui", logLevel);
+	ofSetLogLevel("ofxSurfingBeatSync", logLevel);
 }
 
 //--------------------------------------------------------------
-void ofxAddonTemplate_ImGui::dragEvent(ofDragInfo info) {
+void ofxSurfingBeatSync::dragEvent(ofDragInfo info) {
 }
 
 //-
@@ -859,7 +1036,7 @@ void ofxAddonTemplate_ImGui::dragEvent(ofDragInfo info) {
 // Settings
 
 //--------------------------------------------------------------
-void ofxAddonTemplate_ImGui::setPathGlobal(string s)//must call before setup. disabled by default
+void ofxSurfingBeatSync::setPathGlobal(string s)//must call before setup. disabled by default
 {
 	path_Global = s;
 
@@ -867,7 +1044,7 @@ void ofxAddonTemplate_ImGui::setPathGlobal(string s)//must call before setup. di
 }
 
 //--------------------------------------------------------------
-void ofxAddonTemplate_ImGui::saveSettings() {
+void ofxSurfingBeatSync::saveSettings() {
 	ofLogVerbose(__FUNCTION__);
 
 	// get gui position before save
@@ -878,7 +1055,7 @@ void ofxAddonTemplate_ImGui::saveSettings() {
 }
 
 //--------------------------------------------------------------
-void ofxAddonTemplate_ImGui::loadSettings() {
+void ofxSurfingBeatSync::loadSettings() {
 	ofLogVerbose(__FUNCTION__);
 
 	ofxSurfingHelpers::CheckFolder(path_Global);
