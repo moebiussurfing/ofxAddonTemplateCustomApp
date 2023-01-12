@@ -1,0 +1,3 @@
+ofxAddonTemplateCustomApp
+ofxGui
+ofxSurfingHelpers

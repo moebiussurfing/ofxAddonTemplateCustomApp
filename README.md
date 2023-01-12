@@ -1,21 +1,21 @@
-ofxSurfingBeatSync
+ofxAddonTemplateCustomApp
 =============================
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 ![Stage: beta](https://img.shields.io/badge/-alpha-red)
 
 # Overview
-**ofxSurfingBeatSync** is a **PERSONAL** template addon for **openFrameworks** to make other **addons** or **oF-Apps** for **MYSELF**.
+**ofxAddonTemplateCustomApp** is a **PERSONAL** template addon for **openFrameworks** to make other **addons** or **oF-Apps** for **MYSELF**.
 
 ## Included classes:
 - **myClassBasic** (.h/.cpp)  
 A very simple template class with common oF methods: _setup/update/draw/_ ...etc.  
 
-- **ofxSurfingBeatSync** (.h/.cpp)  
+- **ofxAddonTemplateCustomApp** (.h/.cpp)  
 A bigger template with more functions.  
 
 - **ofxAddonTemplate_ImGui** (.h/.cpp)  
 Added ImGui stuff but requires my **ofxSurfingImGui** addon.  
-This file is also more up-to-date than **ofxSurfingBeatSync**.  
+This file is also more up-to-date than **ofxAddonTemplateCustomApp**.  
 
 ## Screenshot
 ![image](docs/readme_images/Capture1.PNG?raw=true "image")
@@ -36,26 +36,26 @@ This file is also more up-to-date than **ofxSurfingBeatSync**.
 _[ EXAMPLE FOR OTHER ADDONS ]_  
 ### ofApp.h
 ```.cpp
-#include "ofxSurfingBeatSync.h"
+#include "ofxAddonTemplateCustomApp.h"
 
-ofxSurfingBeatSync myAddon;
+ofxAddonTemplateCustomApp myAddon;
 ``` 
 ### ofApp.cpp
 ```.cpp
 ofApp::setup()
 {
-	ofxSurfingBeatSync.setup();
+	ofxAddonTemplateCustomApp.setup();
 }
 
 ofApp::update()
 {
-	//ofxSurfingBeatSync.update();
+	//ofxAddonTemplateCustomApp.update();
 }
 
 ofApp::draw()
 {
-	//ofxSurfingBeatSync.draw();
-	ofxSurfingBeatSync.drawGui();
+	//ofxAddonTemplateCustomApp.draw();
+	ofxAddonTemplateCustomApp.drawGui();
 }
 ```
 
@@ -73,7 +73,7 @@ _[ EXAMPLE FOR OTHER ADDONS ]_
 
 The below add-ons are already packed into **OF_ADDON/libs/**.  
 No need to add them manually with the **OF PROJECT GENERATOR**:  
-* [ofxSurfingBeatSync](https://github.com/moebiussurfing/ofxSurfingBeatSync)  
+* [ofxAddonTemplateCustomApp](https://github.com/moebiussurfing/ofxAddonTemplateCustomApp)  
 
 *Thanks a lot to all these ofxAddons coders. Look into each folder for authoring credits, original forks, and license info.*  
  </p>
