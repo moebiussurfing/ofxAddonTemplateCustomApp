@@ -35,11 +35,11 @@ find "$folder_path" -type d | while read folder; do
 done
 
 
-# # Removing .obj
-# echo "Removing /obj..."
-# if ! find "$folder_path" \( -name "obj" \) -type d -exec rm -r "{}" \; ; then
-#     echo "Error: Could not find /obj directory."
-# fi
+# Removing .obj
+echo "Removing /obj..."
+if ! find "$folder_path" \( -name "obj" \) -type d -exec rm -r "{}" \; ; then
+    echo "Error: Could not find /obj directory."
+fi
 
 
 # # Remove .sln, .vcxproj, .filters, .user
