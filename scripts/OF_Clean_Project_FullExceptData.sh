@@ -25,7 +25,7 @@ echo -e "\n"
 # Assign the value of SCRIPT_DIR to folder_path
 folder_path="$CALLING_DIR"
 
-eacho "Working on path: &folder_path"
+echo "WORKING ON PATH: &folder_path"
 echo -e "\n"
 
 
@@ -39,6 +39,13 @@ done
 echo "Removing /.vs and /obj..."
 if ! find "$folder_path" \( -name ".vs" -o -name "obj" \) -type d -exec rm -r "{}" \; ; then
     echo "Error: Could not find .vs or obj directory."
+fi
+
+
+# Removing addons/
+echo "Removing /addons..."
+if ! find "$folder_path" \( -name "addons" \) -type d -exec rm -r "{}" \; ; then
+    echo "Error: Could not find addons directory."
 fi
 
 
@@ -58,14 +65,14 @@ rm -rf !(data)
 echo "Deleted all files and directories in `bin/` except `bin/data`"
 
 
-# Clean /bin/data
-echo "Clean `/data`. Remove all except `/bin/data/assets/`"
-# Go to the bin/data directory
-cd "$folder_path/bin/data"
-# Delete all files and directories except the assets directory
-shopt -s extglob
-rm -rf !(assets)
-echo "Deleted all files and directories in `bin/data` except `data/assets.`"
+# # Clean /bin/data
+# echo "Clean `/data`. Remove all except `/bin/data/assets/`"
+# # Go to the bin/data directory
+# cd "$folder_path/bin/data"
+# # Delete all files and directories except the assets directory
+# shopt -s extglob
+# rm -rf !(assets)
+# echo "Deleted all files and directories in `bin/data` except `data/assets.`"
 
 
 # back
