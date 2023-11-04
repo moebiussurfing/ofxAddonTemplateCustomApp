@@ -1,21 +1,33 @@
 ## Overview
-**ofxAddonTemplateCustomApp** is an addon template for openFrameworks to make other addons.
+**ofxAddonTemplateCustomApp** is an addon template for **openFrameworks** to make other addons.
 
 ## Screenshot
-![Screenshot](docs/readme_images/Capture1.PNG?raw=true "Screenshot")
+
+![](Example/Capture.PNG)
 
 ## Features
 - Can have some app modes  (2 by default). So it can have multiple behaviour modes. (Edit/Use).
 
-## Usage
-- Copy the folder ```/ofxFboMixerBlend```.
+## Requeriments
+- Copy the folder `/ofxAddonTemplateCustomApp`.
 - Rename the folder to the name of your addon.
 
-## Code Example
+## Usage
+
 #### ofApp.h
 ```.cpp
-#include "ofxSurfingUndoHelper.h"
-ofParameterGroup params {"Params"};
+#pragma once
+#include "ofMain.h"
+
+#include "ofxAddonTemplateCustomApp.h"
+
+class ofApp : public ofBaseApp {
+public:
+	void setup();
+	void draw();
+	void keyPressed(int key);
+	void exit();
+};
 ```
 
 #### ofApp.cpp
@@ -34,6 +46,10 @@ void ofApp::keyPressed(int key)
     {
     }
 }
+
+void ofApp::exit()
+{
+}
 ```
 
 ## Dependencies
@@ -41,8 +57,8 @@ void ofApp::keyPressed(int key)
 * [ofxScaleDragRect](https://github.com/moebiussurfing/ofxScaleDragRect)
 
 ## Tested Systems
-* **Windows 10** / **VS 2017** / **OF ~0.11**
-* **macOS**. **High Sierra** / **Xcode9** & **Xcode10** / **OF ~0.11**
+* **Windows 11** / **VS 2022** / **OF ~0.12**
+* **macOS**. **High Sierra** / **Xcode9** & **Xcode10** / **OF ~0.12**
 
 ## License
 **MIT License**

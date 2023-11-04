@@ -4,7 +4,7 @@ ofxAddonTemplateCustomApp
 ![Stage: beta](https://img.shields.io/badge/-alpha-red)
 
 # Overview
-**ofxAddonTemplateCustomApp** is a **PERSONAL** template addon for **openFrameworks** to make other **addons** or **oF-Apps** for **MYSELF**.
+**ofxAddonTemplateCustomApp** is a **PERSONAL** TEMPLATE addon for **openFrameworks** to make other **addons** or **oF-Apps** for **MYSELF**.
 
 ## Included classes:
 - **myClassBasic** (.h/.cpp)  
@@ -14,7 +14,7 @@ A very simple template class with common oF methods: _setup/update/draw/_ ...etc
 A bigger template with more functions.  
 
 - **ofxAddonTemplate_ImGui** (.h/.cpp)  
-Added ImGui stuff but requires my **ofxSurfingImGui** addon.  
+Added ImGui stuff but requires my [ofxSurfingImGui](https://github.com/moebiussurfing/ofxSurfingImGui) addon.  
 This file is also more up-to-date than **ofxAddonTemplateCustomApp**.  
 
 ## Screenshot
@@ -22,40 +22,53 @@ This file is also more up-to-date than **ofxAddonTemplateCustomApp**.
 
 ## Features
 - Common ofParameters and groups.
-- ofxGui and ImGui GUI with customized themes.
-- ImGui initiation with a Layout Presets Engine.
-- Auto Store/Recall app session settings.
-- Callbacks methods for filtering ofParams.
+  - ofxGui and ImGui GUI with customized themes.
+  - ImGui initiation with a Layout Presets Engine.
+    - Auto Store/Recall app session settings.
+    - Callbacks methods for filtering ofParams.
 - Callbacks for auto call update/draw.
 - Key commands with modificators and snippets.
-- Readme files, Git ignore, some scripts and /doc/readme-images/ folders for screenshots.
-- Different app modes.
+  - Readme files, Git ignore, some scripts and /doc/readme-images/ folders for screenshots.
+    - Different app modes.
 - Draggable floating help box.
 
 ## Usage
-_[ EXAMPLE FOR OTHER ADDONS ]_  
-### ofApp.h
+
+#### ofApp.h
 ```.cpp
+#pragma once
+#include "ofMain.h"
+
 #include "ofxAddonTemplateCustomApp.h"
 
-ofxAddonTemplateCustomApp myAddon;
-``` 
-### ofApp.cpp
+class ofApp : public ofBaseApp {
+public:
+	void setup();
+	void draw();
+	void keyPressed(int key);
+	void exit();
+};
+```
+
+#### ofApp.cpp
 ```.cpp
-ofApp::setup()
+void ofApp::setup()
 {
-	ofxAddonTemplateCustomApp.setup();
 }
 
-ofApp::update()
+void ofApp::draw()
 {
-	//ofxAddonTemplateCustomApp.update();
 }
 
-ofApp::draw()
+void ofApp::keyPressed(int key)
 {
-	//ofxAddonTemplateCustomApp.draw();
-	ofxAddonTemplateCustomApp.drawGui();
+    if (key == 's')
+    {
+    }
+}
+
+void ofApp::exit()
+{
 }
 ```
 
@@ -65,9 +78,9 @@ ofApp::draw()
 
 Clone these add-ons and include into the **OF Project Generator** to allow compile your projects or the examples:
 * [ofxSurfingHelpers](https://github.com/moebiussurfing/ofxSurfingHelpers)  
-* [ofxSurfingImGui](https://github.com/moebiussurfing/ofxSurfingImGui)  
-* [ofxImGui](https://github.com/Daandelange/ofxImGui/) [_Fork_]  
-* ofxGui [_Core_]  
+* [ofxSurfingImGui](https://github.com/moebiussurfing/ofxSurfingImGui) / Only for the example.  
+* [ofxImGui](https://github.com/Daandelange/ofxImGui/) / Fork  
+* ofxGui / OF core  
 
 _[ EXAMPLE FOR OTHER ADDONS ]_  
 
@@ -75,7 +88,7 @@ The below add-ons are already packed into **OF_ADDON/libs/**.
 No need to add them manually with the **OF PROJECT GENERATOR**:  
 * [ofxAddonTemplateCustomApp](https://github.com/moebiussurfing/ofxAddonTemplateCustomApp)  
 
-*Thanks a lot to all these ofxAddons coders. Look into each folder for authoring credits, original forks, and license info.*  
+*Thanks a to all these ofxAddons coders. Look into each folder for authoring credits, original forks, and license info.*  
  </p>
 </details>
 
@@ -83,8 +96,8 @@ No need to add them manually with the **OF PROJECT GENERATOR**:
   <summary>Tested Systems</summary>
   <p>
 
-  - **Windows 10** / **VS 2017** / **OF ~0.11**
-  - **macOS**. **High Sierra** / **Xcode9** & **Xcode10** / **OF ~0.11**
+* **Windows 11** / **VS 2022** / **OF ~0.12**
+* **macOS**. **High Sierra** / **Xcode9** & **Xcode10** / **OF ~0.12**
   </p>
 </details>
 
@@ -93,13 +106,13 @@ No need to add them manually with the **OF PROJECT GENERATOR**:
   <p>
 
 * Hit me up if you have any suggestions or feature requests.
-* 
+ 
   </p>
 </details>
 
 ## Author
-An add-on by **@moebiusSurfing**  
-*( ManuMolina ) 2019-2021*  
+An addon by **@moebiusSurfing**  
+*( ManuMolina ) 2019-2023*  
 
 ### Contact / Follow
 <p>
