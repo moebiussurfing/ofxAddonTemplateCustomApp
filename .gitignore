@@ -2,8 +2,12 @@
 # CURRENT PROJECT
 #########################
 
-# *.jpg
+# HOW TO REFRESH .gitignore !
+# git rm -r --cached .
+# git add .
+# git commit -m "Refresh .gitignore and reset tracked files"
 
+# *.jpg
 
 #########################
 # general patterns
@@ -180,6 +184,8 @@ Desktop.ini
 
 
 ##-------------------------------
+
+## EXTRA PATTERNS
 
 ## more c++ patterns
 ## https://github.com/github/gitignore/blob/master/C%2B%2B.gitignore
