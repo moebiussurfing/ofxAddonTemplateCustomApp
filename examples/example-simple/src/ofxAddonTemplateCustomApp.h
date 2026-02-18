@@ -2,16 +2,15 @@
 
 #include "ofMain.h"
 
-#include "ofxAddonTemplate_ImGui.h"
+#include "ofxAddonTemplateCustomApp.h"
 
-class ofApp : public ofBaseApp{
+class ofxAddonTemplateCustomApp{
 
 	public:
 		void setup();
-		void update();
+		// void update();
 		void draw();
 
-		void keyPressed(int key);
 		void keyReleased(int key);
 		void mouseMoved(int x, int y );
 		void mouseDragged(int x, int y, int button);
@@ -19,10 +18,16 @@ class ofApp : public ofBaseApp{
 		void mouseReleased(int x, int y, int button);
 		void mouseEntered(int x, int y);
 		void mouseExited(int x, int y);
-		void windowResized(int w, int h);
 		void gotMessage(ofMessage msg);
-		
-		ofxAddonTemplate_ImGui classObject;
+
+	private:
+		void update(ofEventArgs & args);
+		void windowResized(ofResizeEventArgs & args);
+		void keyPressed(int key);
+
+	public:
+
+		ofxAddonTemplateCustomApp classObject;
 
 		void dragEvent(ofDragInfo dragInfo);
 };
