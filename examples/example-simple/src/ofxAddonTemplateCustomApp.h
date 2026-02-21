@@ -23,6 +23,7 @@ class ofxAddonTemplateCustomApp{
 		void update(ofEventArgs & args);
 		void windowResized(ofResizeEventArgs & args);
 		void keyPressed(ofEventArgs & args);
+		void keyReleased(ofEventArgs & args);
 
 	public:
 

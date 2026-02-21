@@ -5,6 +5,7 @@ void ofxAddonTemplateCustomApp::ofxAddonTemplateCustomApp()
 {
 	ofAddListener(ofEvents().update, this, &ofxAddonTemplateCustomApp::update);
 	ofAddListener(ofEvents().keyPressed, this, &ofxAddonTemplateCustomApp::keyPressed);
+	ofAddListener(ofEvents().keyReleased, this, &ofxAddonTemplateCustomApp::keyReleased);
 	ofAddListener(ofEvents().windowResized, this, &ofxAddonTemplateCustomApp::windowResized);
 }
 //--------------------------------------------------------------
@@ -12,6 +13,7 @@ void ofxAddonTemplateCustomApp::ofxAddonTemplateCustomApp()
 {
 	ofRemoveListener(ofEvents().update, this, &ofxAddonTemplateCustomApp::update);
 	ofRemoveListener(ofEvents().keyPressed, this, &ofxAddonTemplateCustomApp::keyPressed);
+	ofRemoveListener(ofEvents().keyReleased, this, &ofxAddonTemplateCustomApp::keyReleased);
 	ofRemoveListener(ofEvents().windowResized, this, &ofxAddonTemplateCustomApp::windowResized);
 }
 
