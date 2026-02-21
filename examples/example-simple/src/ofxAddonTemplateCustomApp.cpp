@@ -21,7 +21,7 @@ void ofxAddonTemplateCustomApp::setup(){
 }
 
 //--------------------------------------------------------------
-void ofxAddonTemplateCustomApp::update(){
+void ofxAddonTemplateCustomApp::update(ofEventArgs & args){
 
 }
 
@@ -30,13 +30,19 @@ void ofxAddonTemplateCustomApp::draw(){
 }
 
 //--------------------------------------------------------------
-void ofxAddonTemplateCustomApp::keyPressed(int key){
-
+void ofxAddonTemplateCustomApp::keyPressed(ofKeyEventArgs & args) {
+	const int key = args.key;
 }
 
 //--------------------------------------------------------------
-void ofxAddonTemplateCustomApp::keyReleased(int key){
+void ofxAddonTemplateCustomApp::keyReleased(ofKeyEventArgs & args) {
+	const int key = args.key;
+}
 
+//--------------------------------------------------------------
+void ofxSurfingFxPro::windowResized(ofResizeEventArgs & args) {
+	int w = args.width;
+	int h = args.height;
 }
 
 //--------------------------------------------------------------
